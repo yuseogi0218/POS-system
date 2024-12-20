@@ -39,6 +39,12 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 
+	// webflux
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
+	// thymeleaf
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
 	// test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
