@@ -7,6 +7,8 @@ plugins {
 group = 'com.yuseogi'
 version = '0.0.1-SNAPSHOT'
 
+jar.enabled = false
+
 java {
 	toolchain {
 		languageVersion = JavaLanguageVersion.of(21)
@@ -24,13 +26,26 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	// spring web
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	compileOnly 'org.projectlombok:lombok'
+
+	// spring Data JPA
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+	// mysql
 	runtimeOnly 'com.mysql:mysql-connector-j'
+
+	// lombok
+	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
+
+	// test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    // h2, lombok for test
+    testImplementation 'com.h2database:h2'
+	testCompileOnly 'org.projectlombok:lombok'
+	testAnnotationProcessor 'org.projectlombok:lombok'
 }
 
 tasks.named('test') {
