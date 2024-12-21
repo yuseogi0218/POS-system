@@ -16,7 +16,7 @@ public class TradeDeviceJdbcTemplateRepositoryImpl implements TradeDeviceJdbcTem
 
     @Override
     public void saveAll(List<TradeDeviceEntity> tradeDeviceList) {
-        String sql = "INSERT INTO TradeDevice (storeId) VALUES (?)";
+        String sql = "INSERT INTO trade_device (store_id) VALUES (?)";
 
         jdbcTemplate.batchUpdate(
             sql,

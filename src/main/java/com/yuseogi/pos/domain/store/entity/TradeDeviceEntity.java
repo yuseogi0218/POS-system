@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "TradeDevice")
+@Table(name = "trade_device")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class TradeDeviceEntity {
@@ -18,7 +18,7 @@ public class TradeDeviceEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "storeId", nullable = false, updatable = false)
+    @JoinColumn(name = "store_id", nullable = false, updatable = false)
     private StoreEntity store;
 
     @Builder

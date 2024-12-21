@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 @Entity
-@Table(name = "UserTable")
+@Table(name = "user_table")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class UserEntity implements UserDetails {

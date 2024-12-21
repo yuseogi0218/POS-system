@@ -30,11 +30,11 @@ public class UserAccountServiceImpl implements UserAccountService {
     public void signUpKakao(String kakaoAccessToken, SignUpKakaoRequestDto request) {
         KakaoAccountResponseDto kakaoAccountResponse = userAuthService.getKakaoAccount(kakaoAccessToken);
 
-        UserEntity userEntity = kakaoAccountResponse.toUserEntity();
+        UserEntity user = kakaoAccountResponse.toUserEntity();
 
-        checkUsedEmail(userEntity.getEmail());
+        checkUsedEmail(user.getEmail());
 
-        UserEntity savedUserEntity = userRepository.save(userEntity);
+        UserEntity savedUserEntity = userRepository.save(user);
 
         storeService.createStore(CreateStoreRequestDto.from(savedUserEntity, request));
     }

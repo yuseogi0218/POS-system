@@ -9,7 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "Store")
+@Table(name = "store")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class StoreEntity {
@@ -20,14 +20,14 @@ public class StoreEntity {
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ownerUserId")
+    @JoinColumn(name = "owner_user_id")
     private UserEntity ownerUser;
 
     @Column(name = "name", nullable = false)
     private String name;
 
     @Enumerated(value = EnumType.STRING)
-    @Column(name = "posGrade", nullable = false)
+    @Column(name = "pos_grade", nullable = false)
     private PosGrade posGrade;
 
     @Builder
