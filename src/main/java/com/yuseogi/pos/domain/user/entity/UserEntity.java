@@ -2,6 +2,7 @@ package com.yuseogi.pos.domain.user.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -30,6 +31,13 @@ public class UserEntity implements UserDetails {
 
     @Column(name = "phone", nullable = false, length = 11)
     private String phone;
+
+    @Builder
+    public UserEntity(String email, String name, String phone) {
+        this.email = email;
+        this.name = name;
+        this.phone = phone;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

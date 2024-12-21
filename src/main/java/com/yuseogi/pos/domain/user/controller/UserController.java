@@ -1,8 +1,8 @@
 package com.yuseogi.pos.domain.user.controller;
 
 import com.yuseogi.pos.common.security.dto.TokenInfoResponseDto;
-import com.yuseogi.pos.domain.user.controller.dto.request.SignUpKakaoRequestDto;
-import com.yuseogi.pos.domain.user.controller.dto.response.LoginKakaoResponseDto;
+import com.yuseogi.pos.domain.user.dto.request.SignUpKakaoRequestDto;
+import com.yuseogi.pos.domain.user.service.UserAccountService;
 import com.yuseogi.pos.domain.user.service.UserAuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -13,8 +13,9 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/user")
 @RestController
-public class UserAuthController {
+public class UserController {
 
+    private final UserAccountService userAccountService;
     private final UserAuthService userAuthService;
 
     /**
@@ -24,7 +25,7 @@ public class UserAuthController {
     public ResponseEntity<?> loginKakao(@RequestParam(name = "token") String token) {
         Authentication authentication = userAuthService.authenticateKakao(token);
         TokenInfoResponseDto tokenInfoResponse = userAuthService.login(authentication);
-        return ResponseEntity.ok(LoginKakaoResponseDto.fromTokenInfoResponse(tokenInfoResponse));
+        return ResponseEntity.ok(tokenInfoResponse);
     }
 
     /**
@@ -35,6 +36,7 @@ public class UserAuthController {
         @RequestParam(name = "token") String token,
         @RequestBody @Valid SignUpKakaoRequestDto request
     ) {
+        userAccountService.signUpKakao(token, request);
         return ResponseEntity.ok().build();
     }
 }

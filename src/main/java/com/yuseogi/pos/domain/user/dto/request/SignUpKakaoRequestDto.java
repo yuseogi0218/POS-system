@@ -1,4 +1,4 @@
-package com.yuseogi.pos.domain.user.controller.dto.request;
+package com.yuseogi.pos.domain.user.dto.request;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;

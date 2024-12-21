@@ -5,7 +5,6 @@ import com.yuseogi.pos.common.exception.CustomException;
 import com.yuseogi.pos.common.security.dto.TokenInfoResponseDto;
 import com.yuseogi.pos.common.security.jwt.component.JwtProvider;
 import com.yuseogi.pos.domain.user.service.dto.response.KakaoAccountResponseDto;
-import com.yuseogi.pos.domain.user.controller.dto.response.LoginKakaoResponseDto;
 import com.yuseogi.pos.domain.user.service.UserAuthService;
 import io.netty.handler.codec.http.HttpHeaderValues;
 import org.springframework.beans.factory.annotation.Value;

@@ -1,5 +1,6 @@
 package com.yuseogi.pos.domain.user.service.dto.response;
 
+import com.yuseogi.pos.domain.user.entity.UserEntity;
 import lombok.Builder;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
@@ -27,5 +28,15 @@ public record KakaoAccountResponseDto (
 
     public UsernamePasswordAuthenticationToken toAuthentication() {
         return new UsernamePasswordAuthenticationToken(kakao_account.email, null);
+    }
+
+    public UserEntity toUserEntity() {
+        return UserEntity.builder()
+            .email(this.kakao_account.email)
+            .name("이유석")
+            .phone("01012345678")
+//            .name(this.kakao_account.name)
+//            .phone(this.kakao_account.phone_number)
+            .build();
     }
 }
