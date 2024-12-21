@@ -42,7 +42,7 @@ public class UserEntity implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<SimpleGrantedAuthority> response = new ArrayList<>();
-        response.add(new SimpleGrantedAuthority(email));
+        response.add(new SimpleGrantedAuthority("ROLE_STORE_OWNER"));
 
         return response;
     }

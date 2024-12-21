@@ -1,7 +1,7 @@
 package com.yuseogi.pos.domain.store.repository.implementation;
 
 import com.yuseogi.pos.domain.store.entity.TradeDeviceEntity;
-import com.yuseogi.pos.domain.store.repository.TradeDeviceRepository;
+import com.yuseogi.pos.domain.store.repository.TradeDeviceJdbcTemplateRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -10,8 +10,7 @@ import java.sql.PreparedStatement;
 import java.util.List;
 
 @RequiredArgsConstructor
-@Repository
-public class TradeDeviceRepositoryImpl implements TradeDeviceRepository {
+public class TradeDeviceJdbcTemplateRepositoryImpl implements TradeDeviceJdbcTemplateRepository {
 
     private final JdbcTemplate jdbcTemplate;
 

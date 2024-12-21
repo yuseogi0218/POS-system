@@ -50,11 +50,11 @@ public class WebSecurityConfig {
         httpSecurity.sessionManagement((sessionManagement) -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         httpSecurity.authorizeHttpRequests((authorizeRequests) ->
-                authorizeRequests
-                        .requestMatchers("/image/**").permitAll()
-                        .requestMatchers("/page/**").permitAll()
-                        .requestMatchers("/user/**").permitAll()
-                        .anyRequest().authenticated()
+            authorizeRequests
+                .requestMatchers("/image/**").permitAll()
+                .requestMatchers("/page/**").permitAll()
+                .requestMatchers("/user/**").permitAll()
+                .anyRequest().authenticated()
         );
 
         httpSecurity.addFilterBefore(new JwtAuthFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class);
