@@ -6,6 +6,7 @@ import com.yuseogi.pos.common.cache.redis.repository.InvalidAccessTokenRedisRepo
 import com.yuseogi.pos.common.cache.redis.repository.RefreshTokenRedisRepository;
 import com.yuseogi.pos.common.exception.CommonErrorCode;
 import com.yuseogi.pos.common.exception.CustomException;
+import com.yuseogi.pos.common.security.ExpireTime;
 import com.yuseogi.pos.common.security.dto.TokenInfoResponseDto;
 import com.yuseogi.pos.common.security.jwt.component.JwtProvider;
 import com.yuseogi.pos.common.util.NetworkUtil;
@@ -92,6 +93,7 @@ public class UserAuthServiceImpl implements UserAuthService {
             .ip(NetworkUtil.getClientIp(httpServletRequest))
             .authorityList(tokenInfoResponse.authorityList())
             .refreshToken(tokenInfoResponse.refreshToken())
+            .expireIn(ExpireTime.REFRESH_TOKEN.getSecond())
             .build());
 
         return tokenInfoResponse;
@@ -117,6 +119,7 @@ public class UserAuthServiceImpl implements UserAuthService {
                         .ip(currentIpAddress)
                         .authorityList(response.authorityList())
                         .refreshToken(response.refreshToken())
+                        .expireIn(ExpireTime.REFRESH_TOKEN.getSecond())
                         .build());
 
                     return response;
