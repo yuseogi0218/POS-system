@@ -1,0 +1,1 @@
+INSERT INTO user_table(id, email, name, phone) VALUES(1, 'user@domain.com', 'username', '01012345678');

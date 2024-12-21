@@ -5,7 +5,7 @@ spring:
 
   datasource:
     driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem://localhost/~/testdb;MODE=MySQL;
+    url: jdbc:h2:mem://localhost/~/testdb;MODE=MySQL
     username: SA
     password:
 
@@ -13,6 +13,11 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
-      naming:
-        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
-        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:database/schema.sql
+      data-locations: classpath:database/data.sql
