@@ -6,13 +6,13 @@ import lombok.Builder;
 import java.util.List;
 
 @Builder
-public record LoginKakaoResponseDto(
-        List<String> authorityList,
-        String grantType,
-        String accessToken,
-        Long accessTokenExpireIn,
-        String refreshToken,
-        Long refreshTokenExpireIn
+public record LoginKakaoResponseDto (
+    List<String> authorityList,
+    String grantType,
+    String accessToken,
+    Long accessTokenExpireIn,
+    String refreshToken,
+    Long refreshTokenExpireIn
 ) {
 
     public static LoginKakaoResponseDto fromTokenInfoResponse(TokenInfoResponseDto tokenInfoResponseDto) {
