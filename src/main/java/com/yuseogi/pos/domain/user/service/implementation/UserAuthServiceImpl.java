@@ -4,8 +4,8 @@ import com.yuseogi.pos.common.exception.CommonErrorCode;
 import com.yuseogi.pos.common.exception.CustomException;
 import com.yuseogi.pos.common.security.dto.TokenInfoResponseDto;
 import com.yuseogi.pos.common.security.jwt.component.JwtProvider;
-import com.yuseogi.pos.domain.user.dto.response.KakaoAccountResponseDto;
-import com.yuseogi.pos.domain.user.dto.response.LoginResponseDto;
+import com.yuseogi.pos.domain.user.service.dto.response.KakaoAccountResponseDto;
+import com.yuseogi.pos.domain.user.controller.dto.response.LoginKakaoResponseDto;
 import com.yuseogi.pos.domain.user.service.UserAuthService;
 import io.netty.handler.codec.http.HttpHeaderValues;
 import org.springframework.beans.factory.annotation.Value;
@@ -62,7 +62,7 @@ public class UserAuthServiceImpl implements UserAuthService {
     }
 
     @Override
-    public LoginResponseDto login(Authentication authentication) {
+    public TokenInfoResponseDto login(Authentication authentication) {
         // 인증 정보를 기반으로 JWT 토큰 생성
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         List<String> authorityList = authorities.stream()
@@ -70,6 +70,6 @@ public class UserAuthServiceImpl implements UserAuthService {
                 .collect(Collectors.toList());
 
         TokenInfoResponseDto tokenInfoResponse = jwtProvider.generateToken(authentication.getName(), authorityList);
-        return LoginResponseDto.fromTokenInfoResponse(tokenInfoResponse);
+        return tokenInfoResponse;
     }
 }

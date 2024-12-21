@@ -1,4 +1,4 @@
-package com.yuseogi.pos.domain.user.dto.response;
+package com.yuseogi.pos.domain.user.controller.dto.response;
 
 import com.yuseogi.pos.common.security.dto.TokenInfoResponseDto;
 import lombok.Builder;
@@ -6,7 +6,7 @@ import lombok.Builder;
 import java.util.List;
 
 @Builder
-public record LoginResponseDto(
+public record LoginKakaoResponseDto(
         List<String> authorityList,
         String grantType,
         String accessToken,
@@ -15,8 +15,8 @@ public record LoginResponseDto(
         Long refreshTokenExpireIn
 ) {
 
-    public static LoginResponseDto fromTokenInfoResponse(TokenInfoResponseDto tokenInfoResponseDto) {
-        return LoginResponseDto.builder()
+    public static LoginKakaoResponseDto fromTokenInfoResponse(TokenInfoResponseDto tokenInfoResponseDto) {
+        return LoginKakaoResponseDto.builder()
                 .authorityList(tokenInfoResponseDto.authorityList())
                 .grantType(tokenInfoResponseDto.grantType())
                 .accessToken(tokenInfoResponseDto.accessToken())

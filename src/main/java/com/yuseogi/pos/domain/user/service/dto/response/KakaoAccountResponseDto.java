@@ -1,4 +1,4 @@
-package com.yuseogi.pos.domain.user.dto.response;
+package com.yuseogi.pos.domain.user.service.dto.response;
 
 import lombok.Builder;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

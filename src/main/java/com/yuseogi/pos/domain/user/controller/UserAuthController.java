@@ -1,5 +1,7 @@
 package com.yuseogi.pos.domain.user.controller;
 
+import com.yuseogi.pos.common.security.dto.TokenInfoResponseDto;
+import com.yuseogi.pos.domain.user.controller.dto.response.LoginKakaoResponseDto;
 import com.yuseogi.pos.domain.user.service.UserAuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +24,7 @@ public class UserAuthController {
     @PostMapping("/login/kakao")
     public ResponseEntity<?> loginKakao(@RequestParam(name = "token") String token) {
         Authentication authentication = userAuthService.authenticateKakao(token);
-        return ResponseEntity.ok(userAuthService.login(authentication));
+        TokenInfoResponseDto tokenInfoResponse = userAuthService.login(authentication);
+        return ResponseEntity.ok(LoginKakaoResponseDto.fromTokenInfoResponse(tokenInfoResponse));
     }
 }
