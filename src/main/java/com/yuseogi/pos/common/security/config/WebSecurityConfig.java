@@ -1,5 +1,6 @@
 package com.yuseogi.pos.common.security.config;
 
+import com.yuseogi.pos.common.security.component.CustomAuthenticationProvider;
 import com.yuseogi.pos.common.security.jwt.component.JwtProvider;
 import com.yuseogi.pos.common.security.jwt.filter.JwtAuthFilter;
 import com.yuseogi.pos.common.security.jwt.filter.JwtExceptionFilter;
@@ -7,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -23,7 +24,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 
-import static org.springframework.security.config.Customizer.*;
+import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
@@ -35,8 +36,10 @@ public class WebSecurityConfig {
     private final AccessDeniedHandler accessDeniedHandler;
 
     @Bean
-    AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
+    AuthenticationManager authenticationManager(HttpSecurity httpSecurity, CustomAuthenticationProvider customAuthenticationProvider) throws Exception {
+        return httpSecurity.getSharedObject(AuthenticationManagerBuilder.class)
+                .authenticationProvider(customAuthenticationProvider)
+                .build();
     }
 
     @Bean
@@ -49,6 +52,7 @@ public class WebSecurityConfig {
 
         httpSecurity.authorizeHttpRequests((authorizeRequests) ->
                 authorizeRequests
+                        .requestMatchers("/image/**").permitAll()
                         .requestMatchers("/page/**").permitAll()
                         .requestMatchers("/user/**").permitAll()
                         .anyRequest().authenticated()
