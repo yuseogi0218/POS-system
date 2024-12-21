@@ -128,6 +128,22 @@ public class JwtProvider {
     }
 
     /**
+     * JWT 타입 검증
+     */
+    public void validateTokenType(String token, String tokenType) {
+        if (!getType(token).equals(tokenType)) {
+            throw new CustomException(CommonErrorCode.INVALID_TOKEN_TYPE);
+        }
+    }
+
+    /**
+     * JWT 타입 추출
+     */
+    public String getType(String token) {
+        return (String) parseClaims(token).get(TYPE_KEY);
+    }
+
+    /**
      * Request Header 에서 토큰 정보 추출
      */
     public String resolveToken(HttpServletRequest request) {

@@ -4,6 +4,7 @@ import com.yuseogi.pos.common.security.dto.TokenInfoResponseDto;
 import com.yuseogi.pos.domain.user.dto.request.SignUpKakaoRequestDto;
 import com.yuseogi.pos.domain.user.service.UserAccountService;
 import com.yuseogi.pos.domain.user.service.UserAuthService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -22,9 +23,12 @@ public class UserController {
      * 카카오 로그인
      */
     @PostMapping("/login/kakao")
-    public ResponseEntity<?> loginKakao(@RequestParam(name = "token") String token) {
+    public ResponseEntity<?> loginKakao(
+        HttpServletRequest httpServletRequest,
+        @RequestParam(name = "token") String token
+    ) {
         Authentication authentication = userAuthService.authenticateKakao(token);
-        TokenInfoResponseDto tokenInfoResponse = userAuthService.login(authentication);
+        TokenInfoResponseDto tokenInfoResponse = userAuthService.login(httpServletRequest, authentication);
         return ResponseEntity.ok(tokenInfoResponse);
     }
 
@@ -38,5 +42,16 @@ public class UserController {
     ) {
         userAccountService.signUpKakao(token, request);
         return ResponseEntity.ok().build();
+    }
+
+    /**
+     * AccessToken 재 발급 (Re-Issue)
+     */
+    @PostMapping("/re-issue")
+    public ResponseEntity<?> reIssue(
+        HttpServletRequest httpServletRequest,
+        @CookieValue(value = "refreshToken") String refreshToken
+    ) {
+        return ResponseEntity.ok(userAuthService.reIssue(httpServletRequest, refreshToken));
     }
 }

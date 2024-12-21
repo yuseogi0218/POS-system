@@ -1,5 +1,6 @@
 package com.yuseogi.pos.common.security.dto;
 
+import com.yuseogi.pos.common.cache.redis.dao.RefreshToken;
 import lombok.Builder;
 
 import java.util.List;

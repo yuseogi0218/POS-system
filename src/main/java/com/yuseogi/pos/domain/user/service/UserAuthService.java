@@ -2,6 +2,7 @@ package com.yuseogi.pos.domain.user.service;
 
 import com.yuseogi.pos.common.security.dto.TokenInfoResponseDto;
 import com.yuseogi.pos.domain.user.service.dto.response.KakaoAccountResponseDto;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.core.Authentication;
 
 public interface UserAuthService {
@@ -10,5 +11,7 @@ public interface UserAuthService {
 
     KakaoAccountResponseDto getKakaoAccount(String kakaoAccessToken);
 
-    TokenInfoResponseDto login(Authentication authentication);
+    TokenInfoResponseDto login(HttpServletRequest httpServletRequest, Authentication authentication);
+
+    TokenInfoResponseDto reIssue(HttpServletRequest httpServletRequest, String refreshToken);
 }
