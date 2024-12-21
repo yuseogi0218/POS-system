@@ -4,6 +4,7 @@ import com.yuseogi.pos.domain.store.entity.type.PosGrade;
 import com.yuseogi.pos.domain.user.entity.UserEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -28,4 +29,11 @@ public class StoreEntity {
     @Enumerated(value = EnumType.STRING)
     @Column(name = "posGrade", nullable = false)
     private PosGrade posGrade;
+
+    @Builder
+    public StoreEntity(UserEntity ownerUser, String name, PosGrade posGrade) {
+        this.ownerUser = ownerUser;
+        this.name = name;
+        this.posGrade = posGrade;
+    }
 }

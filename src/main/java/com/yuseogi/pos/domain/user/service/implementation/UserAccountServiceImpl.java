@@ -1,6 +1,8 @@
 package com.yuseogi.pos.domain.user.service.implementation;
 
 import com.yuseogi.pos.common.exception.CustomException;
+import com.yuseogi.pos.domain.store.dto.request.CreateStoreRequestDto;
+import com.yuseogi.pos.domain.store.service.StoreService;
 import com.yuseogi.pos.domain.user.dto.request.SignUpKakaoRequestDto;
 import com.yuseogi.pos.domain.user.entity.UserEntity;
 import com.yuseogi.pos.domain.user.exception.UserErrorCode;
@@ -18,6 +20,7 @@ import java.util.Optional;
 @Service
 public class UserAccountServiceImpl implements UserAccountService {
 
+    private final StoreService storeService;
     private final UserRepository userRepository;
 
     private final UserAuthService userAuthService;
@@ -31,7 +34,9 @@ public class UserAccountServiceImpl implements UserAccountService {
 
         checkUsedEmail(userEntity.getEmail());
 
-        userRepository.save(userEntity);
+        UserEntity savedUserEntity = userRepository.save(userEntity);
+
+        storeService.createStore(CreateStoreRequestDto.from(savedUserEntity, request));
     }
 
     @Override
