@@ -1,6 +1,8 @@
 package com.yuseogi.pos.domain.user.service.implementation;
 
+import com.yuseogi.pos.common.cache.redis.dao.InvalidAccessToken;
 import com.yuseogi.pos.common.cache.redis.dao.RefreshToken;
+import com.yuseogi.pos.common.cache.redis.repository.InvalidAccessTokenRedisRepository;
 import com.yuseogi.pos.common.cache.redis.repository.RefreshTokenRedisRepository;
 import com.yuseogi.pos.common.exception.CommonErrorCode;
 import com.yuseogi.pos.common.exception.CustomException;
@@ -17,6 +19,7 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -34,6 +37,7 @@ public class UserAuthServiceImpl implements UserAuthService {
     private final JwtProvider jwtProvider;
 
     private final RefreshTokenRedisRepository refreshTokenRedisRepository;
+    private final InvalidAccessTokenRedisRepository invalidAccessTokenRedisRepository;
 
     private final String KAKAO_ACCOUNT_URI;
 
@@ -41,11 +45,13 @@ public class UserAuthServiceImpl implements UserAuthService {
         AuthenticationManager authenticationManager,
         JwtProvider jwtProvider,
         RefreshTokenRedisRepository refreshTokenRedisRepository,
+        InvalidAccessTokenRedisRepository invalidAccessTokenRedisRepository,
         @Value("${kakao.account-uri}") String KAKAO_ACCOUNT_URI
     ) {
         this.authenticationManager = authenticationManager;
         this.jwtProvider = jwtProvider;
         this.refreshTokenRedisRepository = refreshTokenRedisRepository;
+        this.invalidAccessTokenRedisRepository = invalidAccessTokenRedisRepository;
         this.KAKAO_ACCOUNT_URI = KAKAO_ACCOUNT_URI;
     }
 
@@ -119,5 +125,22 @@ public class UserAuthServiceImpl implements UserAuthService {
         }
 
         throw new CustomException(CommonErrorCode.INVALID_REFRESH_TOKEN);
+    }
+
+    @Override
+    public void logout(HttpServletRequest httpServletRequest) {
+        String resolvedToken = (String)httpServletRequest.getAttribute("resolvedAccessToken");
+
+        // 1. Access Token 에서 User email 을 가져옵니다.
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        // 2. Redis 에서 해당 User email 로 저장된 Refresh Token 이 있는지 여부를 확인 후 있을 경우 삭제합니다.
+        refreshTokenRedisRepository.deleteById(authentication.getName());
+        // 3. Redis 에서 해당 Access Token 을 Black List 로 저장합니다.
+        invalidAccessTokenRedisRepository.save(InvalidAccessToken.builder()
+            .id(authentication.getName())
+            .accessToken(resolvedToken)
+            .expireIn(jwtProvider.getExpireIn(resolvedToken))
+            .build());
     }
 }

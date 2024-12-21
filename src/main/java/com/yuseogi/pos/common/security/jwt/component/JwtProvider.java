@@ -1,5 +1,6 @@
 package com.yuseogi.pos.common.security.jwt.component;
 
+import com.yuseogi.pos.common.cache.redis.repository.InvalidAccessTokenRedisRepository;
 import com.yuseogi.pos.common.exception.CommonErrorCode;
 import com.yuseogi.pos.common.exception.CustomException;
 import com.yuseogi.pos.common.security.ExpireTime;
@@ -40,8 +41,14 @@ public class JwtProvider {
 
     private final SecretKey secretKey;
 
-    public JwtProvider(@Value("${jwt.secret.key}") String secretKey) {
+    private final InvalidAccessTokenRedisRepository invalidAccessTokenRedisRepository;
+
+    public JwtProvider(
+        @Value("${jwt.secret.key}") String secretKey,
+        InvalidAccessTokenRedisRepository invalidAccessTokenRedisRepository
+    ) {
         this.secretKey = Keys.hmacShaKeyFor(Decoders.BASE64URL.decode(secretKey));
+        this.invalidAccessTokenRedisRepository = invalidAccessTokenRedisRepository;
     }
 
     /**
@@ -117,6 +124,11 @@ public class JwtProvider {
                 throw new CustomException(CommonErrorCode.UNAUTHORIZED_JWT);
             }
 
+            // access token 이 유효하지 않은지 확인
+            if (getType(token).equals(TYPE_ACCESS) && invalidAccessTokenRedisRepository.findByAccessToken(token).isPresent()) {
+                throw new CustomException(CommonErrorCode.INVALID_ACCESS_TOKEN);
+            }
+
             return true;
         } catch (ExpiredJwtException e) {
             throw new CustomException(CommonErrorCode.EXPIRED_JWT);
@@ -141,6 +153,16 @@ public class JwtProvider {
      */
     public String getType(String token) {
         return (String) parseClaims(token).get(TYPE_KEY);
+    }
+
+    /**
+     * JWT 잔여 유효시간 (milli 초)
+     */
+    public Long getExpireIn(String token) {
+        Date expiration = parseClaims(token).getExpiration();
+        // 현재 시간
+        Long now = new Date().getTime();
+        return (expiration.getTime() - now);
     }
 
     /**

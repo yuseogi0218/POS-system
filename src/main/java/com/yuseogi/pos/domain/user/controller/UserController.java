@@ -54,4 +54,14 @@ public class UserController {
     ) {
         return ResponseEntity.ok(userAuthService.reIssue(httpServletRequest, refreshToken));
     }
+
+    /**
+     * 로그아웃
+     */
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(HttpServletRequest httpServletRequest) {
+        userAuthService.logout(httpServletRequest);
+
+        return ResponseEntity.ok().build();
+    }
 }
