@@ -32,4 +32,16 @@ public class RefreshTokenRedisRepositoryUnitTest extends RedisRepositoryUnitTest
             actualRefreshToken -> RefreshTokenBuilder.assertRefreshToken(actualRefreshToken, expectedRefreshToken)
         );
     }
+
+    @Test
+    void findByAccessToken_존재_X() {
+        // given
+        String unknownRefreshToken = "unknown-refresh-token";
+
+        // when
+        Optional<RefreshToken> optionalRefreshToken = refreshTokenRedisRepository.findByRefreshToken(unknownRefreshToken);
+
+        // then
+        Assertions.assertThat(optionalRefreshToken.isEmpty()).isTrue();
+    }
 }
