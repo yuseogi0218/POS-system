@@ -30,6 +30,11 @@ public class WebSecurityConfig {
     private final JwtProvider jwtProvider;
 
     @Bean
+    AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
+    }
+
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 
         httpSecurity.cors(withDefaults());
