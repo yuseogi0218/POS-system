@@ -48,13 +48,13 @@ public class UserEntity implements UserDetails {
     }
 
     @Override
-    public String getPassword() {
-        return "";
+    public String getUsername() {
+        return email;
     }
 
     @Override
-    public String getUsername() {
-        return email;
+    public String getPassword() {
+        return "";
     }
 
     @Override

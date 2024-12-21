@@ -20,7 +20,7 @@ public class UserController {
     private final UserAuthService userAuthService;
 
     /**
-     * 카카오 로그인
+     * 소셜(카카오) 로그인
      */
     @PostMapping("/login/kakao")
     public ResponseEntity<?> loginKakao(
@@ -33,7 +33,7 @@ public class UserController {
     }
 
     /**
-     * 카카오 회원가입
+     * 소셜(카카오) 회원가입
      */
     @PostMapping("/kakao")
     public ResponseEntity<?> signUpKakao(
@@ -45,7 +45,7 @@ public class UserController {
     }
 
     /**
-     * AccessToken 재 발급 (Re-Issue)
+     * Refresh Token 을 이용한 Access Token 재 발급 (Re-Issue)
      */
     @PostMapping("/re-issue")
     public ResponseEntity<?> reIssue(
