@@ -67,6 +67,9 @@ dependencies {
 	testCompileOnly 'org.projectlombok:lombok'
 	testAnnotationProcessor 'org.projectlombok:lombok'
 
+	// test-containers
+	testImplementation group: 'org.testcontainers', name: 'testcontainers', version: '1.20.4'
+
 	// netty-resolver-dns-native-macos
 	implementation 'io.netty:netty-resolver-dns-native-macos:4.1.116.Final:osx-aarch_64'
 
