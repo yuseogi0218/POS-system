@@ -1,5 +1,7 @@
 package com.yuseogi.pos.common.security.jwt.component;
 
+import com.yuseogi.pos.common.exception.CommonErrorCode;
+import com.yuseogi.pos.common.exception.CustomException;
 import com.yuseogi.pos.common.security.ExpireTime;
 import com.yuseogi.pos.common.security.dto.TokenInfoResponseDto;
 import io.jsonwebtoken.Claims;
@@ -109,12 +111,19 @@ public class JwtProvider {
      */
     public boolean validateToken(String token) {
         try {
-            // 복호화 시도
-            parseClaims(token);
+            Claims claims = parseClaims(token);
+            List<String> authorityList = claims.get(AUTHORITY_KEY, List.class);
+            if (authorityList.isEmpty()) {
+                throw new CustomException(CommonErrorCode.UNAUTHORIZED_JWT);
+            }
 
             return true;
-        } catch (ExpiredJwtException | UnsupportedJwtException e) {
-            throw e;
+        } catch (ExpiredJwtException e) {
+            throw new CustomException(CommonErrorCode.EXPIRED_JWT);
+        } catch (UnsupportedJwtException e) {
+            throw new CustomException(CommonErrorCode.UNSUPPORTED_JWT);
+        } catch (Exception e) {
+            throw new CustomException(CommonErrorCode.INVALID_JWT);
         }
     }
 
