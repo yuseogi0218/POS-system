@@ -1,4 +1,4 @@
-package com.yuseogi.pos.domain.user.service.dto.response;
+package com.yuseogi.pos.common.client.dto.response;
 
 import com.yuseogi.pos.domain.user.entity.UserEntity;
 import lombok.Builder;

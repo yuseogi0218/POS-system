@@ -6,5 +6,4 @@ public interface UserAccountService {
 
     void signUpKakao(String kakaoAccessToken, SignUpKakaoRequestDto request);
 
-    void checkUsedEmail(String email);
 }

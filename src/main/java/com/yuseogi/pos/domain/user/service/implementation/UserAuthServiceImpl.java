@@ -4,77 +4,47 @@ import com.yuseogi.pos.common.cache.redis.dao.InvalidAccessToken;
 import com.yuseogi.pos.common.cache.redis.dao.RefreshToken;
 import com.yuseogi.pos.common.cache.redis.repository.InvalidAccessTokenRedisRepository;
 import com.yuseogi.pos.common.cache.redis.repository.RefreshTokenRedisRepository;
+import com.yuseogi.pos.common.client.KakaoWebClient;
 import com.yuseogi.pos.common.exception.CommonErrorCode;
 import com.yuseogi.pos.common.exception.CustomException;
 import com.yuseogi.pos.common.security.ExpireTime;
 import com.yuseogi.pos.common.security.dto.TokenInfoResponseDto;
 import com.yuseogi.pos.common.security.jwt.component.JwtProvider;
 import com.yuseogi.pos.common.util.NetworkUtil;
-import com.yuseogi.pos.domain.user.service.dto.response.KakaoAccountResponseDto;
+import com.yuseogi.pos.common.client.dto.response.KakaoAccountResponseDto;
 import com.yuseogi.pos.domain.user.service.UserAuthService;
-import io.netty.handler.codec.http.HttpHeaderValues;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatusCode;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 @Service
 public class UserAuthServiceImpl implements UserAuthService {
 
     private final AuthenticationManager authenticationManager;
     private final JwtProvider jwtProvider;
+    private final KakaoWebClient kakaoWebClient;
 
     private final RefreshTokenRedisRepository refreshTokenRedisRepository;
     private final InvalidAccessTokenRedisRepository invalidAccessTokenRedisRepository;
 
-    private final String KAKAO_ACCOUNT_URI;
-
-    public UserAuthServiceImpl(
-        AuthenticationManager authenticationManager,
-        JwtProvider jwtProvider,
-        RefreshTokenRedisRepository refreshTokenRedisRepository,
-        InvalidAccessTokenRedisRepository invalidAccessTokenRedisRepository,
-        @Value("${kakao.account-uri}") String KAKAO_ACCOUNT_URI
-    ) {
-        this.authenticationManager = authenticationManager;
-        this.jwtProvider = jwtProvider;
-        this.refreshTokenRedisRepository = refreshTokenRedisRepository;
-        this.invalidAccessTokenRedisRepository = invalidAccessTokenRedisRepository;
-        this.KAKAO_ACCOUNT_URI = KAKAO_ACCOUNT_URI;
-    }
-
     @Override
     public Authentication authenticateKakao(String kakaoAccessToken) {
-        KakaoAccountResponseDto kakaoAccountResponse = getKakaoAccount(kakaoAccessToken);
+        KakaoAccountResponseDto kakaoAccountResponse = kakaoWebClient.getAccount(kakaoAccessToken);
 
         Authentication authentication = authenticationManager.authenticate(kakaoAccountResponse.toAuthentication());
 
         return authentication;
-    }
-
-    @Override
-    public KakaoAccountResponseDto getKakaoAccount(String kakaoAccessToken) {
-        return WebClient.create(KAKAO_ACCOUNT_URI)
-                .get()
-                .header(HttpHeaders.AUTHORIZATION, "Bearer " + kakaoAccessToken) // access token 인가
-                .header(HttpHeaders.CONTENT_TYPE, HttpHeaderValues.APPLICATION_X_WWW_FORM_URLENCODED.toString())
-                .retrieve()
-                .onStatus(HttpStatusCode::isError, clientResponse -> Mono.error(new CustomException(CommonErrorCode.INTERNAL_SERVER_ERROR)))
-                .bodyToMono(KakaoAccountResponseDto.class)
-                .block();
     }
 
     @Override

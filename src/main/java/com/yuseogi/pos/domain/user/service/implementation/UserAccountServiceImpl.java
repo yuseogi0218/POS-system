@@ -1,5 +1,6 @@
 package com.yuseogi.pos.domain.user.service.implementation;
 
+import com.yuseogi.pos.common.client.KakaoWebClient;
 import com.yuseogi.pos.common.exception.CustomException;
 import com.yuseogi.pos.domain.store.dto.request.CreateStoreRequestDto;
 import com.yuseogi.pos.domain.store.service.StoreService;
@@ -8,8 +9,7 @@ import com.yuseogi.pos.domain.user.entity.UserEntity;
 import com.yuseogi.pos.domain.user.exception.UserErrorCode;
 import com.yuseogi.pos.domain.user.repository.UserRepository;
 import com.yuseogi.pos.domain.user.service.UserAccountService;
-import com.yuseogi.pos.domain.user.service.UserAuthService;
-import com.yuseogi.pos.domain.user.service.dto.response.KakaoAccountResponseDto;
+import com.yuseogi.pos.common.client.dto.response.KakaoAccountResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,15 +20,16 @@ import java.util.Optional;
 @Service
 public class UserAccountServiceImpl implements UserAccountService {
 
-    private final StoreService storeService;
+    private final KakaoWebClient kakaoWebClient;
+
     private final UserRepository userRepository;
 
-    private final UserAuthService userAuthService;
+    private final StoreService storeService;
 
     @Transactional
     @Override
     public void signUpKakao(String kakaoAccessToken, SignUpKakaoRequestDto request) {
-        KakaoAccountResponseDto kakaoAccountResponse = userAuthService.getKakaoAccount(kakaoAccessToken);
+        KakaoAccountResponseDto kakaoAccountResponse = kakaoWebClient.getAccount(kakaoAccessToken);
 
         UserEntity user = kakaoAccountResponse.toUserEntity();
 
@@ -39,8 +40,7 @@ public class UserAccountServiceImpl implements UserAccountService {
         storeService.createStore(CreateStoreRequestDto.from(savedUserEntity, request));
     }
 
-    @Override
-    public void checkUsedEmail(String email) {
+    private void checkUsedEmail(String email) {
         Optional<UserEntity> userEntityOptional = userRepository.findFirstByEmail(email);
 
         if (userEntityOptional.isPresent()) {
