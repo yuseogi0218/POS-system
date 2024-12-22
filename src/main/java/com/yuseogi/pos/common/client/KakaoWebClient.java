@@ -1,8 +1,8 @@
 package com.yuseogi.pos.common.client;
 
+import com.yuseogi.pos.common.client.dto.response.KakaoAccountResponseDto;
 import com.yuseogi.pos.common.exception.CommonErrorCode;
 import com.yuseogi.pos.common.exception.CustomException;
-import com.yuseogi.pos.common.client.dto.response.KakaoAccountResponseDto;
 import io.netty.handler.codec.http.HttpHeaderValues;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;

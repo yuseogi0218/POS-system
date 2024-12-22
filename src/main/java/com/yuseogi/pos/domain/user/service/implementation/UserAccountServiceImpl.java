@@ -1,6 +1,7 @@
 package com.yuseogi.pos.domain.user.service.implementation;
 
 import com.yuseogi.pos.common.client.KakaoWebClient;
+import com.yuseogi.pos.common.client.dto.response.KakaoAccountResponseDto;
 import com.yuseogi.pos.common.exception.CustomException;
 import com.yuseogi.pos.domain.store.dto.request.CreateStoreRequestDto;
 import com.yuseogi.pos.domain.store.service.StoreService;
@@ -9,7 +10,6 @@ import com.yuseogi.pos.domain.user.entity.UserEntity;
 import com.yuseogi.pos.domain.user.exception.UserErrorCode;
 import com.yuseogi.pos.domain.user.repository.UserRepository;
 import com.yuseogi.pos.domain.user.service.UserAccountService;
-import com.yuseogi.pos.common.client.dto.response.KakaoAccountResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
