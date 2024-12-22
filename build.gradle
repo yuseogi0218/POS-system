@@ -62,12 +62,10 @@ dependencies {
 	// test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-    // h2, lombok, mockWebServer for test
+    // h2, lombok for test
     testImplementation 'com.h2database:h2'
 	testCompileOnly 'org.projectlombok:lombok'
 	testAnnotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'com.squareup.okhttp3:mockwebserver:4.12.0'
-
 
 	// test-containers
 	testImplementation group: 'org.testcontainers', name: 'testcontainers', version: '1.20.4'
