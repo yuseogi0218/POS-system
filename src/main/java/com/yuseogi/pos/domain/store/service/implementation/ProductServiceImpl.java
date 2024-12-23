@@ -35,7 +35,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<GetProductResponseDto> getProductList(StoreEntity store) {
-        return productRepository.getProductListByStore(store);
+        return productRepository.getProductListByStoreId(store.getId());
     }
 
     @Transactional
@@ -61,6 +61,6 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     @Override
     public void reStock(StoreEntity store) {
-        productRepository.resetStockToBaseStockByStore(store);
+        productRepository.resetStockToBaseStockByStoreId(store.getId());
     }
 }

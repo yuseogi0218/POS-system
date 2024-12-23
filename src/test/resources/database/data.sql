@@ -28,7 +28,7 @@ INSERT INTO trade_device(id, store_id) VALUES
                                            (20, 2);
 
 INSERT INTO product(id, store_id, name, category, price, stock, base_stock, is_deleted) VALUES
-                                                                                            (1, 1, '상품 이름 1', 'MAIN_MENU', 1000, 10, 20, 'N'),
+                                                                                            (1, 1, '상품 이름 1', 'MAIN_MENU', 1000, 20, 20, 'N'),
                                                                                             (2, 1, '상품 이름 2', 'SUB_MENU', 500, 20, 40, 'N'),
                                                                                             (3, 1, '상품 이름 3', 'SUB_MENU', 700, 20, 20, 'Y'),
                                                                                             (4, 1, '상품 이름 4', 'DRINK', 300, 30, 50, 'N'),

@@ -31,6 +31,6 @@ public class TradeDeviceServiceImpl implements TradeDeviceService {
 
     @Override
     public List<Long> getTradeDeviceList(StoreEntity store) {
-        return tradeDeviceRepository.findAllIdByStore(store);
+        return tradeDeviceRepository.findAllIdByStoreId(store.getId());
     }
 }
