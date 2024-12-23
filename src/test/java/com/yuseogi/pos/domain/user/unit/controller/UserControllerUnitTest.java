@@ -266,6 +266,21 @@ public class UserControllerUnitTest extends ControllerUnitTest {
     }
 
     /**
+     * Refresh Token 을 이용한 Access Token 재 발급 (Re-Issue) 성공
+     * - 실패 사유 : 요청 시, Cookie 에 Authorization 정보(Refresh Token)을 추가하지 않음
+     */
+    @Test
+    void Access_Token_재발급_실패_Cookie_존재() throws Exception {
+        // given
+
+        // when
+        ResultActions resultActions = requestReIssueWithOutCookie();
+
+        // then
+        assertErrorWithMessage(CommonErrorCode.REQUIRED_COOKIE, resultActions, "refreshToken");
+    }
+
+    /**
      * Refresh Token 을 이용한 Access Token 재 발급 (Re-Issue) 실패
      * - 실패 사유 : 유효하지 않은 Refresh Token 을 사용한
      */
@@ -315,7 +330,7 @@ public class UserControllerUnitTest extends ControllerUnitTest {
         ResultActions resultActions = requestLogout(accessToken);
 
         // then
-        assertError(CommonErrorCode.MISSING_JWT, resultActions);
+        assertError(CommonErrorCode.INSUFFICIENT_AUTHENTICATION, resultActions);
     }
 
     private ResultActions requestLoginKakao(String token) throws Exception {
@@ -335,6 +350,11 @@ public class UserControllerUnitTest extends ControllerUnitTest {
     private ResultActions requestReIssue(String refreshToken) throws Exception {
         return mvc.perform(post("/user/re-issue")
                 .cookie(new MockCookie("refreshToken", refreshToken)))
+            .andDo(print());
+    }
+
+    private ResultActions requestReIssueWithOutCookie() throws Exception {
+        return mvc.perform(post("/user/re-issue"))
             .andDo(print());
     }
 

@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus;
 public enum CommonErrorCode implements ErrorCode {
     // 400 BAD_REQUEST 잘못된 요청
     BAD_REQUEST("COMMON_400_01", HttpStatus.BAD_REQUEST, "잘못된 요청입니다."),
-    MISSING_JWT("COMMON_400_02", HttpStatus.BAD_REQUEST, "JWT 정보가 요청에 포함되지 않았습니다."),
+    INSUFFICIENT_AUTHENTICATION("COMMON_400_02", HttpStatus.BAD_REQUEST, "인증정보가 충분하지 않습니다."),
 
     MISMATCH_PARAMETER_TYPE("COMMON_400_03", HttpStatus.BAD_REQUEST, "%s 파라미터의 타입이 올바르지 않습니다."),
     REQUIRED_PARAMETER("COMMON_400_04", HttpStatus.BAD_REQUEST, "%s 파라미터는 필수 입력값입니다."),
@@ -17,6 +17,8 @@ public enum CommonErrorCode implements ErrorCode {
 
     INVALID_REQUEST_BODY_FIELDS("COMMON_400_06", HttpStatus.BAD_REQUEST, "%s"),
     REQUIRED_REQUEST_BODY("COMMON_400_07", HttpStatus.BAD_REQUEST, "Request Body 가 필요한 요청 입니다."),
+
+    REQUIRED_COOKIE("COMMON_400_08", HttpStatus.BAD_REQUEST, "%s 쿠키값이 존재하지 않습니다."),
 
     // 401 UNAUTHORIZED 인증 자격 정보가 유효하지 않음
     INVALID_JWT("COMMON_401_01", HttpStatus.UNAUTHORIZED, "JWT 정보가 유효하지 않습니다."),

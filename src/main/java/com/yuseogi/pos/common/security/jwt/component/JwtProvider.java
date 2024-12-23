@@ -77,7 +77,7 @@ public class JwtProvider {
     /**
      * JWT 생성
      */
-    private String generateJWT(String subject, List<String> authorityList, String type, Date issuedAt, long expireTime) {
+    public String generateJWT(String subject, List<String> authorityList, String type, Date issuedAt, long expireTime) {
         return Jwts.builder()
                 .subject(subject)
                 .claim(AUTHORITY_KEY, authorityList)
@@ -134,6 +134,8 @@ public class JwtProvider {
             throw new CustomException(CommonErrorCode.EXPIRED_JWT);
         } catch (UnsupportedJwtException e) {
             throw new CustomException(CommonErrorCode.UNSUPPORTED_JWT);
+        } catch (CustomException e) {
+            throw e;
         } catch (Exception e) {
             throw new CustomException(CommonErrorCode.INVALID_JWT);
         }

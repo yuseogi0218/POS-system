@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingRequestCookieException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -34,8 +35,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(InsufficientAuthenticationException.class)
-    public ResponseEntity<?> handleAuthenticationException(InsufficientAuthenticationException e) {
-        CustomException exception = new CustomException(CommonErrorCode.MISSING_JWT);
+    public ResponseEntity<?> handleInsufficientAuthenticationException(InsufficientAuthenticationException e) {
+        CustomException exception = new CustomException(CommonErrorCode.INSUFFICIENT_AUTHENTICATION);
         return exception.toErrorResponse();
     }
 
@@ -92,6 +93,12 @@ public class GlobalExceptionHandler {
 
         CustomException exception = new CustomException(CommonErrorCode.INVALID_REQUEST_BODY_FIELDS, sb.toString());
 
+        return exception.toErrorResponse();
+    }
+
+    @ExceptionHandler(MissingRequestCookieException.class)
+    public ResponseEntity<?> handleMissingRequestCookieException(MissingRequestCookieException e) {
+        CustomException exception = new CustomException(CommonErrorCode.REQUIRED_COOKIE, e.getCookieName());
         return exception.toErrorResponse();
     }
 
