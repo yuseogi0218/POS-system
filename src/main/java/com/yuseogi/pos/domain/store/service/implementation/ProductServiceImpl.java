@@ -58,4 +58,9 @@ public class ProductServiceImpl implements ProductService {
         product.softDelete();
     }
 
+    @Transactional
+    @Override
+    public void reStock(StoreEntity store) {
+        productRepository.resetStockToBaseStockByStore(store);
+    }
 }

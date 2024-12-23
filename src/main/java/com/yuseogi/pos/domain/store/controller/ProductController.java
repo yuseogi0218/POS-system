@@ -82,4 +82,15 @@ public class ProductController {
 
         return ResponseEntity.ok().build();
     }
+
+    @PatchMapping("/re-stock")
+    public ResponseEntity<?> reStock() {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        StoreEntity store = storeService.getStore(user.getUsername());
+
+        productService.reStock(store);
+
+        return ResponseEntity.ok().build();
+    }
 }

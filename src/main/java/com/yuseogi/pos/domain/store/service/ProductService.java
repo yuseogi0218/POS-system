@@ -18,4 +18,6 @@ public interface ProductService {
     void updateProduct(StoreEntity store, Long productId, UpdateProductRequestDto request);
 
     void softDeleteProduct(StoreEntity store, Long productId);
+
+    void reStock(StoreEntity store);
 }
