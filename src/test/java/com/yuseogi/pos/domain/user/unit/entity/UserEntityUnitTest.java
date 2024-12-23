@@ -9,7 +9,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 public class UserEntityUnitTest {
 
     @Test
-    public void extendsUserDetails() {
+    void extendsUserDetails() {
         // given
         UserEntity user = UserEntityBuilder.build();
 
