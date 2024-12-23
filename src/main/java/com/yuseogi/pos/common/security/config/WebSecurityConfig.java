@@ -7,6 +7,7 @@ import com.yuseogi.pos.common.security.jwt.filter.JwtExceptionFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -55,6 +56,8 @@ public class WebSecurityConfig {
                 .requestMatchers("/page/**").permitAll()
                 .requestMatchers("/user/logout").authenticated()
                 .requestMatchers("/user/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/store/product").permitAll()
+                .requestMatchers("/store/**").authenticated()
                 .anyRequest().authenticated()
         );
 
