@@ -24,10 +24,9 @@ public enum CommonErrorCode implements ErrorCode {
     UNSUPPORTED_JWT("COMMON_401_03", HttpStatus.UNAUTHORIZED, "지원되지 않는 JWT 입니다."),
     UNAUTHORIZED_JWT("COMMON_401_04", HttpStatus.UNAUTHORIZED, "JWT 에 권한정보가 존재하지 않습니다."),
 
-    INVALID_TOKEN_TYPE("USER_401_05", HttpStatus.UNAUTHORIZED, "잘못된 Token Type 입니다."),
+    INVALID_TOKEN_TYPE("COMMON_401_05", HttpStatus.UNAUTHORIZED, "잘못된 Token Type 입니다."),
 
-    INVALID_ACCESS_TOKEN("USER_401_06", HttpStatus.UNAUTHORIZED, "Access Token 정보가 유효하지 않습니다."),
-    INVALID_REFRESH_TOKEN("USER_401_07", HttpStatus.UNAUTHORIZED, "Refresh Token 정보가 유효하지 않습니다."),
+    INVALID_ACCESS_TOKEN("COMMON_401_06", HttpStatus.UNAUTHORIZED, "Access Token 정보가 유효하지 않습니다."),
 
     // 405 METHOD_NOT_ALLOWED 허용하지 않은 Http Method
     METHOD_NOT_ALLOWED("COMMON_405_01", HttpStatus.METHOD_NOT_ALLOWED, "해당 요청에는 지원하지 않은 HTTP 메서드 입니다."),

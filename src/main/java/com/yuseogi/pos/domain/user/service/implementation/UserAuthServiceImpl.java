@@ -12,6 +12,7 @@ import com.yuseogi.pos.common.security.ExpireTime;
 import com.yuseogi.pos.common.security.dto.TokenInfoResponseDto;
 import com.yuseogi.pos.common.security.jwt.component.JwtProvider;
 import com.yuseogi.pos.common.util.NetworkUtil;
+import com.yuseogi.pos.domain.user.exception.UserErrorCode;
 import com.yuseogi.pos.domain.user.service.UserAuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -97,7 +98,7 @@ public class UserAuthServiceImpl implements UserAuthService {
             }
         }
 
-        throw new CustomException(CommonErrorCode.INVALID_REFRESH_TOKEN);
+        throw new CustomException(UserErrorCode.INVALID_REFRESH_TOKEN);
     }
 
     @Override

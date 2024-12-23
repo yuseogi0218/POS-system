@@ -11,6 +11,7 @@ import com.yuseogi.pos.common.exception.CustomException;
 import com.yuseogi.pos.common.security.dto.TokenInfoResponseDto;
 import com.yuseogi.pos.common.security.jwt.component.JwtProvider;
 import com.yuseogi.pos.common.util.NetworkUtil;
+import com.yuseogi.pos.domain.user.exception.UserErrorCode;
 import com.yuseogi.pos.domain.user.service.implementation.UserAuthServiceImpl;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -139,7 +140,7 @@ public class UserAuthServiceUnitTest extends ServiceUnitTest {
         // when & then
         Assertions.assertThatThrownBy(() -> userAuthService.reIssue(httpServletRequest, emptyRefreshTokenValue))
             .isInstanceOf(CustomException.class)
-            .hasMessage(CommonErrorCode.INVALID_REFRESH_TOKEN.getMessage());
+            .hasMessage(UserErrorCode.INVALID_REFRESH_TOKEN.getMessage());
     }
 
     /**
@@ -157,7 +158,7 @@ public class UserAuthServiceUnitTest extends ServiceUnitTest {
         // when & then
         Assertions.assertThatThrownBy(() -> userAuthService.reIssue(httpServletRequest, invalidRefreshTokenValue))
             .isInstanceOf(CustomException.class)
-            .hasMessage(CommonErrorCode.INVALID_REFRESH_TOKEN.getMessage());
+            .hasMessage(UserErrorCode.INVALID_REFRESH_TOKEN.getMessage());
     }
 
     /**
@@ -176,7 +177,7 @@ public class UserAuthServiceUnitTest extends ServiceUnitTest {
         // when & then
         Assertions.assertThatThrownBy(() -> userAuthService.reIssue(httpServletRequest, unknownRefreshTokenValue))
             .isInstanceOf(CustomException.class)
-            .hasMessage(CommonErrorCode.INVALID_REFRESH_TOKEN.getMessage());
+            .hasMessage(UserErrorCode.INVALID_REFRESH_TOKEN.getMessage());
     }
 
     /**
@@ -198,7 +199,7 @@ public class UserAuthServiceUnitTest extends ServiceUnitTest {
         // when & then
         Assertions.assertThatThrownBy(() -> userAuthService.reIssue(httpServletRequest, refreshTokenValue))
             .isInstanceOf(CustomException.class)
-            .hasMessage(CommonErrorCode.INVALID_REFRESH_TOKEN.getMessage());
+            .hasMessage(UserErrorCode.INVALID_REFRESH_TOKEN.getMessage());
     }
 
     /**

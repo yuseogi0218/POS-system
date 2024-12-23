@@ -62,10 +62,11 @@ dependencies {
 	// test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
-    // h2, lombok for test
+    // h2, lombok, spring security for test
     testImplementation 'com.h2database:h2'
 	testCompileOnly 'org.projectlombok:lombok'
 	testAnnotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.security:spring-security-test'
 
 	// test-containers
 	testImplementation group: 'org.testcontainers', name: 'testcontainers', version: '1.20.4'

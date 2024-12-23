@@ -6,11 +6,14 @@ import com.yuseogi.pos.domain.user.service.UserAccountService;
 import com.yuseogi.pos.domain.user.service.UserAuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+@Validated
 @RequiredArgsConstructor
 @RequestMapping("/user")
 @RestController
@@ -25,6 +28,7 @@ public class UserController {
     @PostMapping("/login/kakao")
     public ResponseEntity<?> loginKakao(
         HttpServletRequest httpServletRequest,
+        @NotEmpty(message = "token은 필수 입력값입니다.")
         @RequestParam(name = "token") String token
     ) {
         Authentication authentication = userAuthService.authenticateKakao(token);
@@ -37,6 +41,7 @@ public class UserController {
      */
     @PostMapping("/kakao")
     public ResponseEntity<?> signUpKakao(
+        @NotEmpty(message = "token은 필수 입력값입니다.")
         @RequestParam(name = "token") String token,
         @RequestBody @Valid SignUpKakaoRequestDto request
     ) {

@@ -12,6 +12,9 @@ public enum UserErrorCode implements ErrorCode {
     // 400 BAD_REQUEST 잘못된 요청
     EMAIL_ALREADY_USED("USER_400_01", HttpStatus.BAD_REQUEST, "이미 사용 중인 이메일 입니다."),
 
+    // 401 UNAUTHORIZED 인증 자격 정보가 유효하지 않음
+    INVALID_REFRESH_TOKEN("USER_401_07", HttpStatus.UNAUTHORIZED, "Refresh Token 정보가 유효하지 않습니다."),
+
     // 403 FORBIDDEN 인증 필요
     DENIED_ACCESS("USER_403_01", HttpStatus.FORBIDDEN, "해당 요청에 대한 접근 권한이 없습니다."),
 

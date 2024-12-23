@@ -1,16 +1,14 @@
 package com.yuseogi.pos.common.security.config;
 
 import com.yuseogi.pos.common.security.component.CustomAuthenticationProvider;
-import com.yuseogi.pos.common.security.jwt.component.JwtProvider;
 import com.yuseogi.pos.common.security.jwt.filter.JwtAuthFilter;
 import com.yuseogi.pos.common.security.jwt.filter.JwtExceptionFilter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -25,21 +23,12 @@ import java.util.List;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
-@Configuration
-@EnableWebSecurity
+@TestConfiguration
 @RequiredArgsConstructor
-public class WebSecurityConfig {
+public class TestWebSecurityConfig {
 
-    private final JwtProvider jwtProvider;
     private final AuthenticationEntryPoint authenticationEntryPoint;
     private final AccessDeniedHandler accessDeniedHandler;
-
-    @Bean
-    AuthenticationManager authenticationManager(HttpSecurity httpSecurity, CustomAuthenticationProvider customAuthenticationProvider) throws Exception {
-        return httpSecurity.getSharedObject(AuthenticationManagerBuilder.class)
-                .authenticationProvider(customAuthenticationProvider)
-                .build();
-    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -57,9 +46,6 @@ public class WebSecurityConfig {
                 .requestMatchers("/user/**").permitAll()
                 .anyRequest().authenticated()
         );
-
-        httpSecurity.addFilterBefore(new JwtAuthFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class);
-        httpSecurity.addFilterBefore(new JwtExceptionFilter(), JwtAuthFilter.class);
 
         httpSecurity.exceptionHandling(handler -> handler.authenticationEntryPoint(authenticationEntryPoint)); // 커스텀 인증 에러 처리 설정
         httpSecurity.exceptionHandling(handler -> handler.accessDeniedHandler(accessDeniedHandler)); // 커스텀 인가 에러 처리 설정
