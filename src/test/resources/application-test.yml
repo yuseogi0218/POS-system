@@ -21,3 +21,12 @@ spring:
       mode: always
       schema-locations: classpath:database/schema.sql
       data-locations: classpath:database/data.sql
+
+jwt:
+  secret:
+    key: fake-jwt-secret-key-fake-jwt-secret-key-fake-jwt-secret-key-fake-jwt-secret-key
+
+kakao:
+  client-id: kakao-client-id
+  account-uri: https://kapi.kakao.com/v2/user/me
+  redirect-uri: http://localhost:8080/page/signup?oauth=kakao
