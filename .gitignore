@@ -9,6 +9,9 @@ out
 # yml
 application-dev.yml
 
+# data.sql
+src/main/resources/database/data.sql
+
 ### MAC ###
 .DS_Store
 db

@@ -10,5 +10,7 @@ public interface StoreService {
 
     StoreEntity getStore(String ownerUserEmail);
 
+    StoreEntity getStore(Long tradeDeviceId);
+
     List<Long> getTradeDeviceList(String ownerUserEmail);
 }

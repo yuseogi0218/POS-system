@@ -33,5 +33,6 @@ CREATE TABLE `product` (
                         `price`      INT NOT NULL,
                         `stock`      INT NOT NULL,
                         `base_stock` INT NOT NULL,
+                        `is_deleted` VARCHAR(1) NOT NULL,
                         FOREIGN KEY (`store_id`) REFERENCES store(`id`)
 );

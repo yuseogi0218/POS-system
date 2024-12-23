@@ -1,5 +1,8 @@
 package com.yuseogi.pos.domain.store.dto.request;
 
+import com.yuseogi.pos.domain.store.entity.ProductEntity;
+import com.yuseogi.pos.domain.store.entity.StoreEntity;
+import com.yuseogi.pos.domain.store.entity.type.MenuCategory;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
@@ -21,4 +24,14 @@ public record CreateProductRequestDto(
     @Min(value = 0, message = "상품 기초 재고는 0 이상 10,000,000 이하의 정수 입니다.")
     @Max(value = 10000000, message = "상품 기초 재고는 0 이상 10,000,000 이하의 정수 입니다.")
     Integer baseStock
-) { }
+) {
+    public ProductEntity toProductEntity(StoreEntity store) {
+        return ProductEntity.builder()
+            .store(store)
+            .name(name)
+            .category(MenuCategory.ofRequest(category))
+            .price(price)
+            .baseStock(baseStock)
+            .build();
+    }
+}

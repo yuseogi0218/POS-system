@@ -44,6 +44,11 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
+    public StoreEntity getStore(Long tradeDeviceId) {
+        return storeRepository.findFirstByTradeDeviceId(tradeDeviceId);
+    }
+
+    @Override
     public List<Long> getTradeDeviceList(String ownerUserEmail) {
         StoreEntity store = getStore(ownerUserEmail);
         return tradeDeviceRepository.findAllIdByStore(store);
