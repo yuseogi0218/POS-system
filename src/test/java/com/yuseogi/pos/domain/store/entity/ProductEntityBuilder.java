@@ -1,6 +1,6 @@
 package com.yuseogi.pos.domain.store.entity;
 
-import com.yuseogi.pos.domain.store.entity.type.MenuCategory;
+import com.yuseogi.pos.domain.store.entity.type.ProductCategory;
 import org.assertj.core.api.Assertions;
 
 public class ProductEntityBuilder {
@@ -10,7 +10,7 @@ public class ProductEntityBuilder {
         return ProductEntity.builder()
             .store(store)
             .name("상품 이름 1")
-            .category(MenuCategory.MAIN_MENU)
+            .category(ProductCategory.MAIN_MENU)
             .price(1000)
             .baseStock(20)
             .build();

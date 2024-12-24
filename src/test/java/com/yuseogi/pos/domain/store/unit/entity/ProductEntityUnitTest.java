@@ -4,7 +4,7 @@ import com.yuseogi.pos.common.exception.CustomException;
 import com.yuseogi.pos.domain.store.dto.request.UpdateProductRequestDto;
 import com.yuseogi.pos.domain.store.entity.ProductEntity;
 import com.yuseogi.pos.domain.store.entity.StoreEntity;
-import com.yuseogi.pos.domain.store.entity.type.MenuCategory;
+import com.yuseogi.pos.domain.store.entity.type.ProductCategory;
 import com.yuseogi.pos.domain.store.exception.StoreErrorCode;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -19,7 +19,7 @@ public class ProductEntityUnitTest {
         // given
         StoreEntity expectedStore = mock(StoreEntity.class);
         String expectedName = "상품 이름";
-        MenuCategory expectedCategory = MenuCategory.MAIN_MENU;
+        ProductCategory expectedCategory = ProductCategory.MAIN_MENU;
         Integer expectedPrice = 1000;
         Integer expectedBaseStock = 10;
 

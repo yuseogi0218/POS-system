@@ -20,7 +20,7 @@ public class StoreEntity {
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "owner_user_id")
+    @JoinColumn(name = "owner_user_id", nullable = false, updatable = false)
     private UserEntity ownerUser;
 
     @Column(name = "name", nullable = false)

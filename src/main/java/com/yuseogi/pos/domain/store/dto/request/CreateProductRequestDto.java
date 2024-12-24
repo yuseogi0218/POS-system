@@ -3,7 +3,7 @@ package com.yuseogi.pos.domain.store.dto.request;
 import com.yuseogi.pos.common.validation.constraints.ValidEnum;
 import com.yuseogi.pos.domain.store.entity.ProductEntity;
 import com.yuseogi.pos.domain.store.entity.StoreEntity;
-import com.yuseogi.pos.domain.store.entity.type.MenuCategory;
+import com.yuseogi.pos.domain.store.entity.type.ProductCategory;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
@@ -13,7 +13,7 @@ public record CreateProductRequestDto(
     @NotEmpty(message = "상품 이름은 필수 입력값입니다.")
     String name,
 
-    @ValidEnum(enumClass = MenuCategory.class, message = "상품 카테고리는 MAIN_MENU, SUB_MENU, DRINK 중 하나 이어야 합니다.")
+    @ValidEnum(enumClass = ProductCategory.class, message = "상품 카테고리는 MAIN_MENU, SUB_MENU, DRINK 중 하나 이어야 합니다.")
     String category,
 
     @NotNull(message = "상품 판매 단가는 필수 입력값입니다.")
@@ -30,7 +30,7 @@ public record CreateProductRequestDto(
         return ProductEntity.builder()
             .store(store)
             .name(name)
-            .category(MenuCategory.valueOf(category))
+            .category(ProductCategory.valueOf(category))
             .price(price)
             .baseStock(baseStock)
             .build();

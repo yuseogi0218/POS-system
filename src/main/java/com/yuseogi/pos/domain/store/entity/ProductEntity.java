@@ -3,16 +3,17 @@ package com.yuseogi.pos.domain.store.entity;
 import com.yuseogi.pos.common.exception.CustomException;
 import com.yuseogi.pos.common.util.BooleanAttributeConverter;
 import com.yuseogi.pos.domain.store.dto.request.UpdateProductRequestDto;
-import com.yuseogi.pos.domain.store.entity.type.MenuCategory;
+import com.yuseogi.pos.domain.store.entity.type.ProductCategory;
 import com.yuseogi.pos.domain.store.exception.StoreErrorCode;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "product")
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class ProductEntity {
 
@@ -30,7 +31,7 @@ public class ProductEntity {
 
     @Enumerated(value = EnumType.STRING)
     @Column(name = "category", nullable = false, updatable = false)
-    private MenuCategory category;
+    private ProductCategory category;
 
     @Column(name = "price", nullable = false)
     private Integer price;
@@ -46,7 +47,7 @@ public class ProductEntity {
     private Boolean isDeleted = Boolean.FALSE;
 
     @Builder
-    public ProductEntity(StoreEntity store, String name, MenuCategory category, Integer price, Integer baseStock) {
+    public ProductEntity(StoreEntity store, String name, ProductCategory category, Integer price, Integer baseStock) {
         this.store = store;
         this.name = name;
         this.category = category;
