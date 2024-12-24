@@ -222,7 +222,7 @@ public class UserControllerUnitTest extends ControllerUnitTest {
         ResultActions resultActions = requestSignUpKakao(kakaoAccessToken, nullPosGradeRequest);
 
         // then
-        assertErrorWithMessage(CommonErrorCode.INVALID_REQUEST_BODY_FIELDS, resultActions, "POS 시스템 사용 등급은 필수 입력값입니다.");
+        assertErrorWithMessage(CommonErrorCode.INVALID_REQUEST_BODY_FIELDS, resultActions, "POS 시스템 사용 등급은 BRONZE, SILVER, GOLD 중 하나 이어야 합니다.");
     }
 
     /**
@@ -239,7 +239,24 @@ public class UserControllerUnitTest extends ControllerUnitTest {
         ResultActions resultActions = requestSignUpKakao(kakaoAccessToken, emptyPosGradeRequest);
 
         // then
-        assertErrorWithMessage(CommonErrorCode.INVALID_REQUEST_BODY_FIELDS, resultActions, "POS 시스템 사용 등급은 필수 입력값입니다.");
+        assertErrorWithMessage(CommonErrorCode.INVALID_REQUEST_BODY_FIELDS, resultActions, "POS 시스템 사용 등급은 BRONZE, SILVER, GOLD 중 하나 이어야 합니다.");
+    }
+
+    /**
+     * 소셜(카카오) 회원가입 실패
+     * - 실패 사유 : RequestBody - posGrade 필드 유효성
+     */
+    @Test
+    void 소셜_카카오_회원가입_실패_RequestBody_posGrade_필드_유효성() throws Exception {
+        // given
+        String kakaoAccessToken = "kakaoAccessToken";
+        SignUpKakaoRequestDto invalidPosGradeRequest = SignUpKakaoRequestDtoBuilder.invalidPosGradeBuild();
+
+        // when
+        ResultActions resultActions = requestSignUpKakao(kakaoAccessToken, invalidPosGradeRequest);
+
+        // then
+        assertErrorWithMessage(CommonErrorCode.INVALID_REQUEST_BODY_FIELDS, resultActions, "POS 시스템 사용 등급은 BRONZE, SILVER, GOLD 중 하나 이어야 합니다.");
     }
 
     /**

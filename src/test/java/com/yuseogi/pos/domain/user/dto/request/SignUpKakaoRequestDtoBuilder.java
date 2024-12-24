@@ -24,4 +24,8 @@ public class SignUpKakaoRequestDtoBuilder {
     public static SignUpKakaoRequestDto emptyPosGradeBuild() {
         return new SignUpKakaoRequestDto("상점 이름", "");
     }
+
+    public static SignUpKakaoRequestDto invalidPosGradeBuild() {
+        return new SignUpKakaoRequestDto("상점 이름", "INVALID_POS_GRADE");
+    }
 }

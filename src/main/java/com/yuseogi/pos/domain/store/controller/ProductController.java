@@ -56,9 +56,9 @@ public class ProductController {
         return ResponseEntity.ok(productService.getProductList(store));
     }
 
-    @PatchMapping("/{productId}")
+    @PatchMapping("/{product-id}")
     public ResponseEntity<?> updateProduct(
-        @PathVariable("productId") Long productId,
+        @PathVariable("product-id") Long productId,
         @RequestBody @Valid UpdateProductRequestDto request
     ) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -70,9 +70,9 @@ public class ProductController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/{productId}")
+    @DeleteMapping("/{product-id}")
     public ResponseEntity<?> softDeleteProduct(
-        @PathVariable("productId") Long productId
+        @PathVariable("product-id") Long productId
     ) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 

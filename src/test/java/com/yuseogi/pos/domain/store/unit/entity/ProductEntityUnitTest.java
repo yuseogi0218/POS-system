@@ -126,9 +126,6 @@ public class ProductEntityUnitTest {
         Assertions.assertThat(product.getIsDeleted()).isTrue();
 
         // when & then
-        product.softDelete();
-
-        // then
         Assertions.assertThatThrownBy(() -> product.softDelete())
             .isInstanceOf(CustomException.class)
             .hasMessage(StoreErrorCode.UNABLE_DELETE_DELETED_PRODUCT.getMessage());
