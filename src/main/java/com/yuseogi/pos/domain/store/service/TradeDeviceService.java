@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface TradeDeviceService {
 
-    void createTradeDevice(StoreEntity savedStore);
+    void createTradeDevice(StoreEntity store);
 
     List<Long> getTradeDeviceList(StoreEntity store);
 

@@ -18,11 +18,11 @@ public class TradeDeviceServiceImpl implements TradeDeviceService {
     private final TradeDeviceRepository tradeDeviceRepository;
 
     @Override
-    public void createTradeDevice(StoreEntity savedStore) {
-        int tradeDeviceCount = savedStore.getPosGrade().getTradeDeviceCount();
+    public void createTradeDevice(StoreEntity store) {
+        int tradeDeviceCount = store.getPosGrade().getTradeDeviceCount();
         List<TradeDeviceEntity> tradeDeviceList = IntStream.range(0, tradeDeviceCount)
             .mapToObj(i -> TradeDeviceEntity.builder()
-                .store(savedStore)
+                .store(store)
                 .build())
             .collect(Collectors.toList());
 

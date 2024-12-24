@@ -46,15 +46,30 @@ public class StoreRepositoryUnitTest extends RepositoryUnitTest {
     }
 
     @Test
-    void findFirstByTradeDeviceId() {
+    void findFirstByTradeDeviceId_존재_O() {
         // given
         Long tradeDeviceId = 1L;
         StoreEntity expectedStore = StoreEntityBuilder.build();
 
         // when
-        StoreEntity actualStore = storeRepository.findFirstByTradeDeviceId(tradeDeviceId);
+        Optional<StoreEntity> optionalStore = storeRepository.findFirstByTradeDeviceId(tradeDeviceId);
 
         // then
-        StoreEntityBuilder.assertStore(actualStore, expectedStore);
+        Assertions.assertThat(optionalStore.isPresent()).isTrue();
+        optionalStore.ifPresent(
+            actualStore -> StoreEntityBuilder.assertStore(actualStore, expectedStore)
+        );
+    }
+
+    @Test
+    void findFirstByTradeDeviceId_존재_X() {
+        // given
+        Long unknownTradeDeviceId = 0L;
+
+        // when
+        Optional<StoreEntity> optionalStore = storeRepository.findFirstByTradeDeviceId(unknownTradeDeviceId);
+
+        // then
+        Assertions.assertThat(optionalStore.isEmpty()).isTrue();
     }
 }

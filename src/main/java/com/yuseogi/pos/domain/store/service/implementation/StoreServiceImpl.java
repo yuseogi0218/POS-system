@@ -42,6 +42,6 @@ public class StoreServiceImpl implements StoreService {
 
     @Override
     public StoreEntity getStore(Long tradeDeviceId) {
-        return storeRepository.findFirstByTradeDeviceId(tradeDeviceId);
+        return storeRepository.findFirstByTradeDeviceId(tradeDeviceId).orElseThrow(() -> new CustomException(StoreErrorCode.NOT_FOUND_STORE));
     }
 }

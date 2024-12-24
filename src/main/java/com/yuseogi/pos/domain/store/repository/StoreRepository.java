@@ -15,5 +15,5 @@ public interface StoreRepository extends CrudRepository<StoreEntity, Long> {
         JOIN TradeDeviceEntity td ON td.store.id = s.id
         WHERE td.id = :tradeDeviceId
     """)
-    StoreEntity findFirstByTradeDeviceId(Long tradeDeviceId);
+    Optional<StoreEntity> findFirstByTradeDeviceId(Long tradeDeviceId);
 }
