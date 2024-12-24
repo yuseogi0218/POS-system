@@ -8,11 +8,4 @@ public enum MenuCategory {
     SUB_MENU,
     DRINK;
 
-    public static MenuCategory ofRequest(String request) {
-        try {
-            return MenuCategory.valueOf(request);
-        } catch (IllegalArgumentException e) {
-            throw new CustomException(CommonErrorCode.INVALID_PARAMETER, "category 파라미터가 올바르지 않습니다.");
-        }
-    }
 }

@@ -6,25 +6,20 @@ import com.yuseogi.pos.domain.user.dto.request.SignUpKakaoRequestDto;
 import com.yuseogi.pos.domain.user.entity.UserEntity;
 import lombok.Builder;
 
-@Builder
 public record CreateStoreRequestDto(
     UserEntity user,
     String storeName,
     String posGrade
 ) {
     public static CreateStoreRequestDto from(UserEntity userEntity, SignUpKakaoRequestDto request) {
-        return CreateStoreRequestDto.builder()
-            .user(userEntity)
-            .storeName(request.storeName())
-            .posGrade(request.posGrade())
-            .build();
+        return new CreateStoreRequestDto(userEntity, request.storeName(), request.posGrade());
     }
 
     public StoreEntity toStoreEntity() {
         return StoreEntity.builder()
             .ownerUser(user)
             .name(storeName)
-            .posGrade(PosGrade.ofRequest(posGrade))
+            .posGrade(PosGrade.valueOf(posGrade))
             .build();
     }
 }

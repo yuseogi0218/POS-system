@@ -129,6 +129,26 @@ public class ProductServiceUnitTest extends ServiceUnitTest {
     }
 
     /**
+     * 상품 정보 수정 실패
+     * - 실패 사유 : 존재하지 않는 상품
+     */
+    @Test
+    void updateProduct_실패_NOT_FOUND_PRODUCT() {
+        // given
+        StoreEntity store = mock(StoreEntity.class);
+        Long unknownProductId = 0L;
+        UpdateProductRequestDto request = mock(UpdateProductRequestDto.class);
+
+        // stub
+        when(productRepository.findFirstById(unknownProductId)).thenReturn(Optional.empty());
+
+        // when & then
+        Assertions.assertThatThrownBy(() -> productService.updateProduct(store, unknownProductId, request))
+            .isInstanceOf(CustomException.class)
+            .hasMessage(StoreErrorCode.NOT_FOUND_PRODUCT.getMessage());
+    }
+
+    /**
      * 상품 정보 삭제 처리 성공
      */
     @Test
@@ -147,6 +167,25 @@ public class ProductServiceUnitTest extends ServiceUnitTest {
         // then
         verify(product, times(1)).checkAuthority(store);
         verify(product, times(1)).softDelete();
+    }
+
+    /**
+     * 상품 정보 삭제 처리 실패
+     * - 실패 사유 : 존재하지 않는 상품
+     */
+    @Test
+    void softDeleteProduct_실패_NOT_FOUND_PRODUCT() {
+        // given
+        StoreEntity store = mock(StoreEntity.class);
+        Long unknownProductId = 0L;
+
+        // stub
+        when(productRepository.findFirstById(unknownProductId)).thenReturn(Optional.empty());
+
+        // when & then
+        Assertions.assertThatThrownBy(() -> productService.softDeleteProduct(store, unknownProductId))
+            .isInstanceOf(CustomException.class)
+            .hasMessage(StoreErrorCode.NOT_FOUND_PRODUCT.getMessage());
     }
 
     /**

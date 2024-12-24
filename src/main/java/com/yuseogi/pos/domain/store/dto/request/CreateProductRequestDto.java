@@ -30,7 +30,7 @@ public record CreateProductRequestDto(
         return ProductEntity.builder()
             .store(store)
             .name(name)
-            .category(MenuCategory.ofRequest(category))
+            .category(MenuCategory.valueOf(category))
             .price(price)
             .baseStock(baseStock)
             .build();

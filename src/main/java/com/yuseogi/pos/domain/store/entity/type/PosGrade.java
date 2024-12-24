@@ -16,11 +16,4 @@ public enum PosGrade {
 
     private final Integer tradeDeviceCount;
 
-    public static PosGrade ofRequest(String request) {
-        try {
-            return PosGrade.valueOf(request);
-        } catch (IllegalArgumentException e) {
-            throw new CustomException(CommonErrorCode.INVALID_PARAMETER, "posGrade 파라미터가 올바르지 않습니다.");
-        }
-    }
 }
