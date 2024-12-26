@@ -4,15 +4,18 @@ import com.yuseogi.pos.domain.trade.entity.type.CardCompany;
 import com.yuseogi.pos.domain.trade.entity.type.PaymentMethod;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "payment")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EntityListeners(AuditingEntityListener.class)
 @Getter
 public class PaymentEntity {
 
@@ -36,4 +39,17 @@ public class PaymentEntity {
     @CreatedDate
     @Column(name = "payment_at", nullable = false, updatable = false)
     private LocalDateTime paymentAt;
+
+    @Builder(builderMethodName = "builderAsCashPay", buildMethodName = "buildAsCashPay")
+    public PaymentEntity(TradeEntity trade) {
+        this.trade = trade;
+        this.method = PaymentMethod.CASH;
+    }
+
+    @Builder(builderMethodName = "builderAsCardPay", buildMethodName = "buildAsCardPay")
+    public PaymentEntity(TradeEntity trade, CardCompany cardCompany) {
+        this.trade = trade;
+        this.method = PaymentMethod.CARD;
+        this.cardCompany = cardCompany;
+    }
 }

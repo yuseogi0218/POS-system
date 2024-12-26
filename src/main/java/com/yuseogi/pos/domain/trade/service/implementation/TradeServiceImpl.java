@@ -3,9 +3,13 @@ package com.yuseogi.pos.domain.trade.service.implementation;
 import com.yuseogi.pos.common.exception.CustomException;
 import com.yuseogi.pos.domain.store.entity.TradeDeviceEntity;
 import com.yuseogi.pos.domain.store.service.TradeDeviceService;
+import com.yuseogi.pos.domain.trade.dto.request.PayWithCardRequestDto;
 import com.yuseogi.pos.domain.trade.dto.response.GetTradeIsNotCompletedResponseDto;
+import com.yuseogi.pos.domain.trade.entity.PaymentEntity;
 import com.yuseogi.pos.domain.trade.entity.TradeEntity;
+import com.yuseogi.pos.domain.trade.entity.type.CardCompany;
 import com.yuseogi.pos.domain.trade.exception.TradeErrorCode;
+import com.yuseogi.pos.domain.trade.repository.PaymentRepository;
 import com.yuseogi.pos.domain.trade.repository.TradeRepository;
 import com.yuseogi.pos.domain.trade.repository.dto.mapper.GetTradeIsNotCompletedDtoMapper;
 import com.yuseogi.pos.domain.trade.service.TradeService;
@@ -19,6 +23,7 @@ import java.util.Optional;
 @Service
 public class TradeServiceImpl implements TradeService {
 
+    private final PaymentRepository paymentRepository;
     private final TradeRepository tradeRepository;
 
     private final TradeDeviceService tradeDeviceService;
@@ -53,5 +58,34 @@ public class TradeServiceImpl implements TradeService {
             .build();
 
         return tradeRepository.save(trade);
+    }
+
+    @Transactional
+    @Override
+    public void payWithCash(Long tradeDeviceId) {
+        TradeEntity trade = getTradeIsNotCompleted(tradeDeviceId)
+            .orElseThrow(() -> new CustomException(TradeErrorCode.NOT_FOUND_TRADE_IS_NOT_COMPLETED));
+        trade.complete();
+
+        PaymentEntity payment = PaymentEntity.builderAsCashPay()
+            .trade(trade)
+            .buildAsCashPay();
+
+        paymentRepository.save(payment);
+    }
+
+    @Transactional
+    @Override
+    public void payWithCard(Long tradeDeviceId, PayWithCardRequestDto request) {
+        TradeEntity trade = getTradeIsNotCompleted(tradeDeviceId)
+            .orElseThrow(() -> new CustomException(TradeErrorCode.NOT_FOUND_TRADE_IS_NOT_COMPLETED));
+        trade.complete();
+
+        PaymentEntity payment = PaymentEntity.builderAsCardPay()
+            .trade(trade)
+            .cardCompany(CardCompany.valueOf(request.cardCompany()))
+            .buildAsCardPay();
+
+        paymentRepository.save(payment);
     }
 }

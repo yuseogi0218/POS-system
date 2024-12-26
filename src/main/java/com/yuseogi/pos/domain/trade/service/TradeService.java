@@ -1,5 +1,6 @@
 package com.yuseogi.pos.domain.trade.service;
 
+import com.yuseogi.pos.domain.trade.dto.request.PayWithCardRequestDto;
 import com.yuseogi.pos.domain.trade.dto.response.GetTradeIsNotCompletedResponseDto;
 import com.yuseogi.pos.domain.trade.entity.TradeEntity;
 
@@ -14,4 +15,8 @@ public interface TradeService {
     GetTradeIsNotCompletedResponseDto getTradeInfoIsNotCompleted(Long tradeDeviceId);
 
     TradeEntity createTrade(Long tradeDeviceId);
+
+    void payWithCash(Long tradeDeviceId);
+
+    void payWithCard(Long tradeDeviceId, PayWithCardRequestDto request);
 }

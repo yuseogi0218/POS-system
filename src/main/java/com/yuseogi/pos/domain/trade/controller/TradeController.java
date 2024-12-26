@@ -32,6 +32,10 @@ public class TradeController {
 
     @PostMapping("/pay/cash/{trade-device-id}")
     public ResponseEntity<?> payWithCash(@PathVariable("trade-device-id") Long tradeDeviceId) {
+        tradeDeviceService.checkExistTradeDevice(tradeDeviceId);
+
+        tradeService.payWithCash(tradeDeviceId);
+
         return ResponseEntity.ok().build();
     }
 
@@ -40,6 +44,10 @@ public class TradeController {
         @PathVariable("trade-device-id") Long tradeDeviceId,
         @RequestBody @Valid PayWithCardRequestDto request
     ) {
+        tradeDeviceService.checkExistTradeDevice(tradeDeviceId);
+
+        tradeService.payWithCard(tradeDeviceId, request);
+
         return ResponseEntity.ok().build();
     }
 

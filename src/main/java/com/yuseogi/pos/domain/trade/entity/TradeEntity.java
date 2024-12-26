@@ -53,4 +53,8 @@ public class TradeEntity {
     public void increaseTradeAmount(Integer orderAmount) {
         this.tradeAmount += orderAmount;
     }
+
+    public void complete() {
+        this.isCompleted = Boolean.TRUE;
+    }
 }
