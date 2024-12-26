@@ -3,6 +3,7 @@ package com.yuseogi.pos.domain.store.unit.entity;
 import com.yuseogi.pos.common.exception.CustomException;
 import com.yuseogi.pos.domain.store.dto.request.UpdateProductRequestDto;
 import com.yuseogi.pos.domain.store.entity.ProductEntity;
+import com.yuseogi.pos.domain.store.entity.ProductEntityBuilder;
 import com.yuseogi.pos.domain.store.entity.StoreEntity;
 import com.yuseogi.pos.domain.store.entity.type.ProductCategory;
 import com.yuseogi.pos.domain.store.exception.StoreErrorCode;
@@ -103,6 +104,32 @@ public class ProductEntityUnitTest {
         Assertions.assertThatThrownBy(() -> product.updateProperties(request))
             .isInstanceOf(CustomException.class)
             .hasMessage(StoreErrorCode.UNABLE_UPDATE_DELETED_PRODUCT.getMessage());
+    }
+
+    @Test
+    void decreaseStock_성공() {
+        // given
+        ProductEntity product = ProductEntityBuilder.build();
+        Integer decreasingStock = 10;
+        Integer expectedStock = product.getStock() - decreasingStock;
+
+        // when
+        product.decreaseStock(decreasingStock);
+
+        // then
+        Assertions.assertThat(product.getStock()).isEqualTo(expectedStock);
+    }
+
+    @Test
+    void decreaseStock_실패_OUT_OF_STOCK() {
+        // given
+        ProductEntity product = ProductEntityBuilder.build();
+        Integer decreasingStock = 21;
+
+        // when & then
+        Assertions.assertThatThrownBy(() -> product.decreaseStock(decreasingStock))
+            .isInstanceOf(CustomException.class)
+            .hasMessage(StoreErrorCode.OUT_OF_STOCK.getMessage());
     }
 
     @Test

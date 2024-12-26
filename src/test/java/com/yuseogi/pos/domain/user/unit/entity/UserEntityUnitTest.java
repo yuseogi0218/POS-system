@@ -1,7 +1,6 @@
 package com.yuseogi.pos.domain.user.unit.entity;
 
 import com.yuseogi.pos.domain.user.entity.UserEntity;
-import com.yuseogi.pos.domain.user.entity.UserEntityBuilder;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,7 +10,7 @@ public class UserEntityUnitTest {
     @Test
     void extendsUserDetails() {
         // given
-        UserEntity user = UserEntityBuilder.build();
+        UserEntity user = UserEntity.builder().build();
 
         // when & then
         Assertions.assertThat(user.getAuthorities().size()).isEqualTo(1);
