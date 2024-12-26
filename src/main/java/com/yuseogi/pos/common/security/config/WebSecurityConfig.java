@@ -58,7 +58,8 @@ public class WebSecurityConfig {
                 .requestMatchers("/user/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/store/product").permitAll()
                 .requestMatchers("/store/**").authenticated()
-                .requestMatchers("/trade/order").permitAll()
+                .requestMatchers("/trade/order", "/trade").permitAll()
+                .requestMatchers("/trade/**").authenticated()
                 .anyRequest().authenticated()
         );
 

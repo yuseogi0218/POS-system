@@ -9,14 +9,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
-@RequestMapping("/trade/order")
+@RequestMapping("/trade")
 @RestController
 public class OrderController {
 
     private final TradeDeviceService tradeDeviceService;
     private final OrderService orderService;
 
-    @PostMapping("")
+    @PostMapping("/order")
     public ResponseEntity<?> createOrder(
         @CookieValue(value = "tradeDeviceId") Long tradeDeviceId,
         @RequestBody @Valid CreateOrderRequestDto request
@@ -24,6 +24,16 @@ public class OrderController {
         tradeDeviceService.checkExistTradeDevice(tradeDeviceId);
         orderService.createOrder(tradeDeviceId, request);
 
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/{trade-device-id}")
+    public ResponseEntity<?> getIsNotCompletedTradeByStoreOwner(@PathVariable("trade-device-id") Long tradeDeviceId) {
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("")
+    public ResponseEntity<?> getIsNotCompletedTradeByTradeDevice(@CookieValue(value = "tradeDeviceId") Long tradeDeviceId) {
         return ResponseEntity.ok().build();
     }
 }
