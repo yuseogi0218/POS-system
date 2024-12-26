@@ -70,6 +70,13 @@ public class ProductEntity {
         this.baseStock = request.baseStock();
     }
 
+    public void decreaseStock(Integer decreasingStock) {
+        if (this.stock < decreasingStock) {
+            throw new CustomException(StoreErrorCode.OUT_OF_STOCK);
+        }
+        this.stock -= decreasingStock;
+    }
+
     public void softDelete() {
         if (this.isDeleted) {
             throw new CustomException(StoreErrorCode.UNABLE_DELETE_DELETED_PRODUCT);

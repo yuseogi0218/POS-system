@@ -5,8 +5,10 @@ import com.yuseogi.pos.common.exception.CustomException;
 import com.yuseogi.pos.domain.store.dto.request.CreateProductRequestDto;
 import com.yuseogi.pos.domain.store.dto.request.UpdateProductRequestDto;
 import com.yuseogi.pos.domain.store.entity.StoreEntity;
+import com.yuseogi.pos.domain.store.entity.TradeDeviceEntity;
 import com.yuseogi.pos.domain.store.service.ProductService;
 import com.yuseogi.pos.domain.store.service.StoreService;
+import com.yuseogi.pos.domain.store.service.TradeDeviceService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,7 @@ public class ProductController {
 
     private final StoreService storeService;
     private final ProductService productService;
+    private final TradeDeviceService tradeDeviceService;
 
     @PostMapping("")
     public ResponseEntity<?> createProduct(@RequestBody @Valid CreateProductRequestDto request) {
@@ -45,8 +48,9 @@ public class ProductController {
             if (tradeDeviceId == null) {
                 throw new CustomException(CommonErrorCode.INSUFFICIENT_AUTHENTICATION);
             }
+            TradeDeviceEntity tradeDevice = tradeDeviceService.getTradeDevice(tradeDeviceId);
 
-            store = storeService.getStore(tradeDeviceId);
+            store = tradeDevice.getStore();
         } else {
             User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 

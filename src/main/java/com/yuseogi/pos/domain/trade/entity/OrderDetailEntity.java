@@ -1,8 +1,10 @@
 package com.yuseogi.pos.domain.trade.entity;
 
+import com.yuseogi.pos.domain.store.entity.ProductEntity;
 import com.yuseogi.pos.domain.store.entity.type.ProductCategory;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -12,7 +14,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @EntityListeners(AuditingEntityListener.class)
 @Getter
-public class OrderDetail {
+public class OrderDetailEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,4 +40,14 @@ public class OrderDetail {
 
     @Column(name = "total_amount", nullable = false, updatable = false)
     private Integer totalAmount;
+
+    @Builder
+    public OrderDetailEntity(OrderEntity order, ProductEntity product, Integer count) {
+        this.order = order;
+        this.productName = product.getName();
+        this.productCategory = product.getCategory();
+        this.productPrice = product.getPrice();
+        this.count = count;
+        this.totalAmount = product.getPrice() * count;
+    }
 }

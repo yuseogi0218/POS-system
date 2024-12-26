@@ -5,6 +5,7 @@ import com.yuseogi.pos.domain.store.entity.StoreEntity;
 import com.yuseogi.pos.domain.store.entity.TradeDeviceEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
@@ -33,7 +34,7 @@ public class TradeEntity {
     private TradeDeviceEntity tradeDevice;
 
     @Column(name = "trade_amount", nullable = false)
-    private Integer tradeAmount;
+    private Integer tradeAmount = 0;
 
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
@@ -43,4 +44,13 @@ public class TradeEntity {
     @Convert(converter = BooleanAttributeConverter.class)
     private Boolean isCompleted = Boolean.FALSE;
 
+    @Builder
+    public TradeEntity(StoreEntity store, TradeDeviceEntity tradeDevice) {
+        this.store = store;
+        this.tradeDevice = tradeDevice;
+    }
+
+    public void increaseTradeAmount(Integer orderAmount) {
+        this.tradeAmount += orderAmount;
+    }
 }

@@ -10,8 +10,10 @@ import com.yuseogi.pos.domain.store.dto.request.UpdateProductRequestDto;
 import com.yuseogi.pos.domain.store.dto.request.UpdateProductRequestDtoBuilder;
 import com.yuseogi.pos.domain.store.dto.response.GetProductResponseDto;
 import com.yuseogi.pos.domain.store.entity.StoreEntity;
+import com.yuseogi.pos.domain.store.entity.TradeDeviceEntity;
 import com.yuseogi.pos.domain.store.service.ProductService;
 import com.yuseogi.pos.domain.store.service.StoreService;
+import com.yuseogi.pos.domain.store.service.TradeDeviceService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +44,9 @@ public class ProductControllerUnitTest extends ControllerUnitTest {
 
     @MockitoBean
     private ProductService productService;
+
+    @MockitoBean
+    private TradeDeviceService tradeDeviceService;
 
     @BeforeEach
     public void setUp() {
@@ -256,7 +261,7 @@ public class ProductControllerUnitTest extends ControllerUnitTest {
             .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
 
         objectMapper.readValue(responseString, new TypeReference<List<GetProductResponseDto>>() {});
-        verify(storeService, never()).getStore(anyLong());
+        verify(tradeDeviceService, never()).getTradeDevice(any());
     }
 
     /**
@@ -266,10 +271,12 @@ public class ProductControllerUnitTest extends ControllerUnitTest {
     void 상품_목록_조회_성공_With_tradeDeviceId() throws Exception {
         // given
         Long tradeDeviceId = 1L;
+        TradeDeviceEntity tradeDevice = mock(TradeDeviceEntity.class);
         StoreEntity store = mock(StoreEntity.class);
 
         // stub
-        when(storeService.getStore(tradeDeviceId)).thenReturn(store);
+        when(tradeDeviceService.getTradeDevice(tradeDeviceId)).thenReturn(tradeDevice);
+        when(tradeDevice.getStore()).thenReturn(store);
 
         // when
         ResultActions resultActions = requestGetProductListWithTradeDeviceId(String.valueOf(tradeDeviceId));

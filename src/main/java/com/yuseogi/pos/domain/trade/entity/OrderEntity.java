@@ -2,6 +2,7 @@ package com.yuseogi.pos.domain.trade.entity;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
@@ -25,10 +26,19 @@ public class OrderEntity {
     @JoinColumn(name = "trade_id", nullable = false, updatable = false)
     private TradeEntity trade;
 
-    @Column(name = "order_amount", nullable = false, updatable = false)
-    private Integer orderAmount;
+    @Column(name = "order_amount", nullable = false)
+    private Integer orderAmount = 0;
 
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
+
+    @Builder
+    public OrderEntity(TradeEntity trade) {
+        this.trade = trade;
+    }
+
+    public void updateOrderAmount(Integer orderAmount) {
+        this.orderAmount = orderAmount;
+    }
 }

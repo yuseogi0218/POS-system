@@ -1,7 +1,9 @@
 package com.yuseogi.pos.domain.store.service.implementation;
 
+import com.yuseogi.pos.common.exception.CustomException;
 import com.yuseogi.pos.domain.store.entity.StoreEntity;
 import com.yuseogi.pos.domain.store.entity.TradeDeviceEntity;
+import com.yuseogi.pos.domain.store.exception.StoreErrorCode;
 import com.yuseogi.pos.domain.store.repository.TradeDeviceRepository;
 import com.yuseogi.pos.domain.store.service.TradeDeviceService;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +18,18 @@ import java.util.stream.IntStream;
 public class TradeDeviceServiceImpl implements TradeDeviceService {
 
     private final TradeDeviceRepository tradeDeviceRepository;
+
+    @Override
+    public TradeDeviceEntity getTradeDevice(Long tradeDeviceId) {
+        return tradeDeviceRepository.findFirstById(tradeDeviceId).orElseThrow(() -> new CustomException(StoreErrorCode.NOT_FOUND_TRADE_DEVICE));
+    }
+
+    @Override
+    public void checkExistTradeDevice(Long tradeDeviceId) {
+        if (!tradeDeviceRepository.existsById(tradeDeviceId)) {
+            throw new CustomException(StoreErrorCode.NOT_FOUND_TRADE_DEVICE);
+        }
+    }
 
     @Override
     public void createTradeDevice(StoreEntity store) {

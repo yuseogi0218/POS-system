@@ -31,7 +31,10 @@ public class ProductRepositoryUnitTest extends RepositoryUnitTest {
         // then
         Assertions.assertThat(optionalProduct.isPresent()).isTrue();
         optionalProduct.ifPresent(
-            actualProduct -> ProductEntityBuilder.assertProduct(actualProduct, expectedProduct)
+            actualProduct -> {
+                Assertions.assertThat(actualProduct.getId()).isEqualTo(productId);
+                ProductEntityBuilder.assertProduct(actualProduct, expectedProduct);
+            }
         );
     }
 

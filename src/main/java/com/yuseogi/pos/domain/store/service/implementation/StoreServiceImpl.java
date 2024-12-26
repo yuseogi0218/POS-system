@@ -40,8 +40,4 @@ public class StoreServiceImpl implements StoreService {
         return storeRepository.findFirstByOwnerUserEmail(ownerUserEmail).orElseThrow(() -> new CustomException(StoreErrorCode.NOT_FOUND_STORE));
     }
 
-    @Override
-    public StoreEntity getStore(Long tradeDeviceId) {
-        return storeRepository.findFirstByTradeDeviceId(tradeDeviceId).orElseThrow(() -> new CustomException(StoreErrorCode.NOT_FOUND_STORE));
-    }
 }

@@ -9,6 +9,4 @@ public interface StoreService {
     void createStore(CreateStoreRequestDto request);
 
     StoreEntity getStore(String ownerUserEmail);
-
-    StoreEntity getStore(Long tradeDeviceId);
 }
