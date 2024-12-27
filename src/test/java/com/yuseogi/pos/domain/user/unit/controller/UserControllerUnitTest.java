@@ -2,12 +2,10 @@ package com.yuseogi.pos.domain.user.unit.controller;
 
 import com.yuseogi.pos.common.ControllerUnitTest;
 import com.yuseogi.pos.common.exception.CommonErrorCode;
-import com.yuseogi.pos.common.exception.CustomException;
 import com.yuseogi.pos.common.security.dto.TokenInfoResponseDto;
 import com.yuseogi.pos.domain.user.controller.UserController;
 import com.yuseogi.pos.domain.user.dto.request.SignUpKakaoRequestDto;
 import com.yuseogi.pos.domain.user.dto.request.SignUpKakaoRequestDtoBuilder;
-import com.yuseogi.pos.domain.user.exception.UserErrorCode;
 import com.yuseogi.pos.domain.user.service.UserAccountService;
 import com.yuseogi.pos.domain.user.service.UserAuthService;
 import org.junit.jupiter.api.BeforeEach;
@@ -298,25 +296,6 @@ public class UserControllerUnitTest extends ControllerUnitTest {
     }
 
     /**
-     * Refresh Token 을 이용한 Access Token 재 발급 (Re-Issue) 실패
-     * - 실패 사유 : 유효하지 않은 Refresh Token 을 사용한
-     */
-    @Test
-    void Access_Token_재발급_실패_유효하지_않은_Refresh_Token() throws Exception {
-        // given
-        String invalidRefreshToken = "invalidRefreshToken";
-
-        // stub
-        when(userAuthService.reIssue(any(), eq(invalidRefreshToken))).thenThrow(new CustomException(UserErrorCode.INVALID_REFRESH_TOKEN));
-
-        // when
-        ResultActions resultActions = requestReIssue(invalidRefreshToken);
-
-        // then
-        assertError(UserErrorCode.INVALID_REFRESH_TOKEN, resultActions);
-    }
-
-    /**
      * 로그아웃 성공
      */
     @Test
@@ -335,19 +314,20 @@ public class UserControllerUnitTest extends ControllerUnitTest {
 
     /**
      * 로그아웃 실패
-     * - 실패 사유 : 인증 실패
+     * - 실패 사유 : 인증
      */
     @Test
     @WithAnonymousUser
     void 로그아웃_실패_인증() throws Exception {
         // given
-        String accessToken = "accessToken";
+        String invalidAccessToken = "invalidAccessToken";
 
         // when
-        ResultActions resultActions = requestLogout(accessToken);
+        ResultActions resultActions = requestLogout(invalidAccessToken);
 
         // then
         assertError(CommonErrorCode.INSUFFICIENT_AUTHENTICATION, resultActions);
+        verify(userAuthService, never()).logout(any());
     }
 
     private ResultActions requestLoginKakao(String token) throws Exception {

@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockCookie;
+import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.ResultActions;
@@ -74,6 +75,26 @@ public class ProductControllerUnitTest extends ControllerUnitTest {
         // then
         resultActions.andExpect(status().isOk());
         verify(productService, times(1)).createProduct(store, request);
+    }
+
+    /**
+     * 상품 정보 등록 실패
+     * - 실패 사유 : 인증
+     */
+    @Test
+    @WithAnonymousUser
+    void 상품_정보_등록_실패_인증() throws Exception {
+        // given
+        String invalidAccessToken = "invalidAccessToken";
+        CreateProductRequestDto request = CreateProductRequestDtoBuilder.build();
+
+
+        // when
+        ResultActions resultActions = requestCreateProduct(invalidAccessToken, request);
+
+        // then
+        assertError(CommonErrorCode.INSUFFICIENT_AUTHENTICATION, resultActions);
+        verify(productService, never()).createProduct(any(StoreEntity.class), eq(request));
     }
 
     /**
@@ -239,44 +260,23 @@ public class ProductControllerUnitTest extends ControllerUnitTest {
     }
 
     /**
-     * 상품 목록 조회 성공 - With AccessToken
-     */
-    @Test
-    @WithMockUser(username = "username")
-    void 상품_목록_조회_성공_With_AccessToken() throws Exception {
-        // given
-        String accessToken = "accessToken";
-        String username = "username";
-        StoreEntity store = mock(StoreEntity.class);
-
-        // stub
-        when(storeService.getStore(username)).thenReturn(store);
-
-        // when
-        ResultActions resultActions = requestGetProductListWithAccessToken(accessToken);
-
-        // then
-        String responseString = resultActions
-            .andExpect(status().isOk())
-            .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
-
-        objectMapper.readValue(responseString, new TypeReference<List<GetProductResponseDto>>() {});
-        verify(tradeDeviceService, never()).getTradeDevice(any());
-    }
-
-    /**
      * 상품 목록 조회 성공 - With tradeDeviceId
      */
     @Test
+    @WithAnonymousUser
     void 상품_목록_조회_성공_With_tradeDeviceId() throws Exception {
         // given
         Long tradeDeviceId = 1L;
         TradeDeviceEntity tradeDevice = mock(TradeDeviceEntity.class);
         StoreEntity store = mock(StoreEntity.class);
 
+        GetProductResponseDto expectedGetProductResponse = mock(GetProductResponseDto.class);
+        List<GetProductResponseDto> expectedResponse = List.of(expectedGetProductResponse);
+
         // stub
         when(tradeDeviceService.getTradeDevice(tradeDeviceId)).thenReturn(tradeDevice);
         when(tradeDevice.getStore()).thenReturn(store);
+        when(productService.getProductList(store)).thenReturn(expectedResponse);
 
         // when
         ResultActions resultActions = requestGetProductListWithTradeDeviceId(String.valueOf(tradeDeviceId));
@@ -291,11 +291,42 @@ public class ProductControllerUnitTest extends ControllerUnitTest {
     }
 
     /**
-     * 상품 목록 조회 실패
-     * - 실패 사유 : 충분하지 않은 인증정보
+     * 상품 목록 조회 성공 - With AccessToken
      */
     @Test
-    void 상품_목록_조회_실패_충분하지_않은_인증정보() throws Exception {
+    @WithMockUser(username = "username")
+    void 상품_목록_조회_성공_With_AccessToken() throws Exception {
+        // given
+        String accessToken = "accessToken";
+        String username = "username";
+        StoreEntity store = mock(StoreEntity.class);
+
+        GetProductResponseDto expectedGetProductResponse = mock(GetProductResponseDto.class);
+        List<GetProductResponseDto> expectedResponse = List.of(expectedGetProductResponse);
+
+        // stub
+        when(storeService.getStore(username)).thenReturn(store);
+        when(productService.getProductList(store)).thenReturn(expectedResponse);
+
+        // when
+        ResultActions resultActions = requestGetProductListWithAccessToken(accessToken);
+
+        // then
+        String responseString = resultActions
+            .andExpect(status().isOk())
+            .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
+
+        objectMapper.readValue(responseString, new TypeReference<List<GetProductResponseDto>>() {});
+        verify(tradeDeviceService, never()).getTradeDevice(any());
+    }
+
+    /**
+     * 상품 목록 조회 실패
+     * - 실패 사유 : 인증
+     */
+    @Test
+    @WithAnonymousUser
+    void 상품_목록_조회_실패_인증() throws Exception {
         // given
 
         // when
@@ -327,6 +358,26 @@ public class ProductControllerUnitTest extends ControllerUnitTest {
         // then
         resultActions.andExpect(status().isOk());
         verify(productService, times(1)).updateProduct(store, Long.valueOf(productId), request);
+    }
+
+    /**
+     * 상품 정보 수정 실패
+     * - 실패 사유 : 인증
+     */
+    @Test
+    @WithAnonymousUser
+    void 상품_정보_수정_실패_인증() throws Exception {
+        // given
+        String invalidAccessToken = "invalidAccessToken";
+        String productId = "1";
+        UpdateProductRequestDto request = UpdateProductRequestDtoBuilder.build();
+
+        // when
+        ResultActions resultActions = requestUpdateProduct(invalidAccessToken, productId, request);
+
+        // then
+        assertError(CommonErrorCode.INSUFFICIENT_AUTHENTICATION, resultActions);
+        verify(productService, never()).updateProduct(any(StoreEntity.class), eq(Long.valueOf(productId)), eq(request));
     }
 
     /**
@@ -449,6 +500,25 @@ public class ProductControllerUnitTest extends ControllerUnitTest {
 
     /**
      * 상품 정보 삭제 처리 실패
+     * - 실패 사유 : 인증
+     */
+    @Test
+    @WithAnonymousUser
+    void 상품_정보_삭제_처리_실패_인증() throws Exception {
+        // given
+        String invalidAccessToken = "invalidAccessToken";
+        String productId = "1";
+
+        // when
+        ResultActions resultActions = requestDeleteProduct(invalidAccessToken, productId);
+
+        // then
+        assertError(CommonErrorCode.INSUFFICIENT_AUTHENTICATION, resultActions);
+        verify(productService, never()).softDeleteProduct(any(StoreEntity.class), eq(Long.valueOf(productId)));
+    }
+
+    /**
+     * 상품 정보 삭제 처리 실패
      * - 실패 사유 : PathVariable - product-id 타입
      */
     @Test
@@ -485,6 +555,24 @@ public class ProductControllerUnitTest extends ControllerUnitTest {
         // then
         resultActions.andExpect(status().isOk());
         verify(productService, times(1)).reStock(store);
+    }
+
+    /**
+     * 상품 현재 재고 초기화 실패
+     * - 실패 사유 : 인증
+     */
+    @Test
+    @WithAnonymousUser
+    void 상품_현재_재고_초기화_실패_인증() throws Exception {
+        // given
+        String invalidAccessToken = "invalidAccessToken";
+
+        // when
+        ResultActions resultActions = requestReStock(invalidAccessToken);
+
+        // then
+        assertError(CommonErrorCode.INSUFFICIENT_AUTHENTICATION, resultActions);
+        verify(productService, never()).reStock(any(StoreEntity.class));
     }
 
     private ResultActions requestCreateProduct(String accessToken, CreateProductRequestDto request) throws Exception {

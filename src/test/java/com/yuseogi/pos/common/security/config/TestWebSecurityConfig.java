@@ -47,6 +47,8 @@ public class TestWebSecurityConfig {
                 .requestMatchers("/user/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/store/product").permitAll()
                 .requestMatchers("/store/**").authenticated()
+                .requestMatchers("/trade/order", "/trade").permitAll()
+                .requestMatchers("/trade/**").authenticated()
                 .anyRequest().authenticated()
         );
 

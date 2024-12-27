@@ -2,6 +2,7 @@ package com.yuseogi.pos.domain.store.unit.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.yuseogi.pos.common.ControllerUnitTest;
+import com.yuseogi.pos.common.exception.CommonErrorCode;
 import com.yuseogi.pos.domain.store.controller.TradeDeviceController;
 import com.yuseogi.pos.domain.store.entity.StoreEntity;
 import com.yuseogi.pos.domain.store.service.StoreService;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.ResultActions;
@@ -67,6 +69,23 @@ public class TradeDeviceControllerUnitTest extends ControllerUnitTest {
             .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
 
         objectMapper.readValue(responseString, new TypeReference<List<Long>>() {});
+    }
+
+    /**
+     * 주문용 태블릿 기기 목록 조회 실패
+     * - 실패 사유 : 인증
+     */
+    @Test
+    @WithAnonymousUser
+    void 주문용_태블릿_기기_목록_조회_실패_인증() throws Exception {
+        // given
+        String invalidAccessToken = "invalidAccessToken";
+
+        // when
+        ResultActions resultActions = requestGetTradeDeviceList(invalidAccessToken);
+
+        // then
+        assertError(CommonErrorCode.INSUFFICIENT_AUTHENTICATION, resultActions);
     }
 
     private ResultActions requestGetTradeDeviceList(String accessToken) throws Exception {

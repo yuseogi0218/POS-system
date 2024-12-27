@@ -4,6 +4,7 @@ import com.yuseogi.pos.domain.store.entity.ProductEntity;
 import com.yuseogi.pos.domain.trade.entity.OrderDetailEntity;
 import com.yuseogi.pos.domain.trade.entity.OrderEntity;
 import com.yuseogi.pos.domain.trade.entity.TradeEntity;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -11,6 +12,7 @@ import jakarta.validation.constraints.NotNull;
 import java.util.List;
 
 public record CreateOrderRequestDto(
+    @Valid
     List<Product> productList
 ) {
    public record Product(
