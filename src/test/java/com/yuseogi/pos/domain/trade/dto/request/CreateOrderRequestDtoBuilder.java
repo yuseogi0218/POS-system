@@ -29,4 +29,10 @@ public class CreateOrderRequestDtoBuilder {
 
         return new CreateOrderRequestDto(List.of(product));
     }
+
+    public static CreateOrderRequestDto overProductCountbuild() {
+        Product product = new Product(1L, 40);
+
+        return new CreateOrderRequestDto(List.of(product));
+    }
 }
