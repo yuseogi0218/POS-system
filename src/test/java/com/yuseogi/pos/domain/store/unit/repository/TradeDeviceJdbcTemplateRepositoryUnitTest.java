@@ -2,7 +2,6 @@ package com.yuseogi.pos.domain.store.unit.repository;
 
 import com.yuseogi.pos.domain.store.entity.StoreEntity;
 import com.yuseogi.pos.domain.store.entity.TradeDeviceEntity;
-import com.yuseogi.pos.domain.store.repository.TradeDeviceJdbcTemplateRepository;
 import com.yuseogi.pos.domain.store.repository.implementation.TradeDeviceJdbcTemplateRepositoryImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,7 +17,7 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.times;
 
-public class TradeDeviceJdbTemplateRepositoryUnitTest {
+public class TradeDeviceJdbcTemplateRepositoryUnitTest {
 
     @Mock
     private JdbcTemplate jdbcTemplate;

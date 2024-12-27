@@ -13,9 +13,6 @@ public class GetTradeIsNotCompletedDtoMapper {
     }
 
     public static GetTradeIsNotCompletedResponseDto mapToResponseDto(List<GetTradeIsNotCompletedDto> dtoList) {
-        if (dtoList == null || dtoList.isEmpty()) {
-            return null; // 데이터가 없는 경우 null 반환
-        }
 
         // Grouping by tradeId to construct the response DTO
         Map<Long, List<GetTradeIsNotCompletedDto>> groupedByTrade = dtoList.stream()
