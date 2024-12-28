@@ -26,10 +26,7 @@ repositories {
 	mavenCentral()
 }
 
-dependencies {
-	// spring security
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-}
+dependencies {}
 
 tasks.named('test') {
 	useJUnitPlatform()
