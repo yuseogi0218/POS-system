@@ -1,7 +1,5 @@
 package com.yuseogi.pos.domain.store.entity.type;
 
-import com.yuseogi.pos.common.exception.CommonErrorCode;
-import com.yuseogi.pos.common.exception.CustomException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

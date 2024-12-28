@@ -1,6 +1,6 @@
 package com.yuseogi.pos.domain.trade.entity;
 
-import com.yuseogi.pos.common.util.BooleanAttributeConverter;
+import com.yuseogi.common.util.BooleanAttributeConverter;
 import com.yuseogi.pos.domain.store.entity.StoreEntity;
 import com.yuseogi.pos.domain.store.entity.TradeDeviceEntity;
 import jakarta.persistence.*;

@@ -1,10 +1,10 @@
 package com.yuseogi.pos.domain.store.unit.repository;
 
-import com.yuseogi.pos.common.RepositoryUnitTest;
 import com.yuseogi.pos.domain.store.dto.response.GetProductResponseDto;
 import com.yuseogi.pos.domain.store.entity.ProductEntity;
 import com.yuseogi.pos.domain.store.entity.ProductEntityBuilder;
 import com.yuseogi.pos.domain.store.repository.ProductRepository;
+import com.yuseogi.pos.gateway.RepositoryUnitTest;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

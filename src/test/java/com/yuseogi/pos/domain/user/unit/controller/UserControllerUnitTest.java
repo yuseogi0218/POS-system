@@ -1,8 +1,8 @@
 package com.yuseogi.pos.domain.user.unit.controller;
 
-import com.yuseogi.pos.common.ControllerUnitTest;
-import com.yuseogi.pos.common.exception.CommonErrorCode;
-import com.yuseogi.pos.common.security.dto.TokenInfoResponseDto;
+import com.yuseogi.pos.gateway.ControllerUnitTest;
+import com.yuseogi.common.exception.CommonErrorCode;
+import com.yuseogi.pos.gateway.security.dto.TokenInfoResponseDto;
 import com.yuseogi.pos.domain.user.controller.UserController;
 import com.yuseogi.pos.domain.user.dto.request.SignUpKakaoRequestDto;
 import com.yuseogi.pos.domain.user.dto.request.SignUpKakaoRequestDtoBuilder;

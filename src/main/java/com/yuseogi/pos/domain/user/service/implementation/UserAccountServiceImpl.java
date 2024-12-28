@@ -1,8 +1,8 @@
 package com.yuseogi.pos.domain.user.service.implementation;
 
-import com.yuseogi.pos.common.client.KakaoWebClient;
-import com.yuseogi.pos.common.client.dto.response.KakaoAccountResponseDto;
-import com.yuseogi.pos.common.exception.CustomException;
+import com.yuseogi.pos.gateway.client.KakaoWebClient;
+import com.yuseogi.pos.gateway.client.dto.response.KakaoAccountResponseDto;
+import com.yuseogi.common.exception.CustomException;
 import com.yuseogi.pos.domain.store.dto.request.CreateStoreRequestDto;
 import com.yuseogi.pos.domain.store.service.StoreService;
 import com.yuseogi.pos.domain.user.dto.request.SignUpKakaoRequestDto;

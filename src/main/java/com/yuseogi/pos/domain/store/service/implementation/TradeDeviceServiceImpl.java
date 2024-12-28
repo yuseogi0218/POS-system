@@ -1,6 +1,6 @@
 package com.yuseogi.pos.domain.store.service.implementation;
 
-import com.yuseogi.pos.common.exception.CustomException;
+import com.yuseogi.common.exception.CustomException;
 import com.yuseogi.pos.domain.store.entity.StoreEntity;
 import com.yuseogi.pos.domain.store.entity.TradeDeviceEntity;
 import com.yuseogi.pos.domain.store.exception.StoreErrorCode;

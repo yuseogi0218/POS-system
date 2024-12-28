@@ -1,6 +1,6 @@
 package com.yuseogi.pos.domain.trade.unit.repository;
 
-import com.yuseogi.pos.common.RepositoryUnitTest;
+import com.yuseogi.pos.gateway.RepositoryUnitTest;
 import com.yuseogi.pos.domain.trade.dto.response.GetTradeIsNotCompletedResponseDto;
 import com.yuseogi.pos.domain.trade.dto.response.GetTradeIsNotCompletedResponseDtoBuilder;
 import com.yuseogi.pos.domain.trade.entity.TradeEntity;

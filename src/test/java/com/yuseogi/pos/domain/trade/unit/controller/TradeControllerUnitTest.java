@@ -1,7 +1,7 @@
 package com.yuseogi.pos.domain.trade.unit.controller;
 
-import com.yuseogi.pos.common.ControllerUnitTest;
-import com.yuseogi.pos.common.exception.CommonErrorCode;
+import com.yuseogi.pos.gateway.ControllerUnitTest;
+import com.yuseogi.common.exception.CommonErrorCode;
 import com.yuseogi.pos.domain.store.service.TradeDeviceService;
 import com.yuseogi.pos.domain.trade.controller.TradeController;
 import com.yuseogi.pos.domain.trade.dto.request.PayWithCardRequestDto;

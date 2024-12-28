@@ -1,7 +1,7 @@
 package com.yuseogi.pos.domain.store.controller;
 
-import com.yuseogi.pos.common.exception.CommonErrorCode;
-import com.yuseogi.pos.common.exception.CustomException;
+import com.yuseogi.common.exception.CommonErrorCode;
+import com.yuseogi.common.exception.CustomException;
 import com.yuseogi.pos.domain.store.dto.request.CreateProductRequestDto;
 import com.yuseogi.pos.domain.store.dto.request.UpdateProductRequestDto;
 import com.yuseogi.pos.domain.store.entity.StoreEntity;

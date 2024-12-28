@@ -2,6 +2,8 @@ spring:
   config:
     activate:
       on-profile: prod
+  application:
+    name: ${SPRING_APPLICATION_NAME}
   datasource:
     url: ${SPRING_DATASOURCE_URL}
     username: ${SPRING_DATASOURCE_USERNAME}

@@ -1,7 +1,7 @@
 package com.yuseogi.pos.domain.store.unit.service;
 
-import com.yuseogi.pos.common.ServiceUnitTest;
-import com.yuseogi.pos.common.exception.CustomException;
+import com.yuseogi.pos.gateway.ServiceUnitTest;
+import com.yuseogi.common.exception.CustomException;
 import com.yuseogi.pos.domain.store.entity.StoreEntity;
 import com.yuseogi.pos.domain.store.entity.TradeDeviceEntity;
 import com.yuseogi.pos.domain.store.entity.type.PosGrade;
@@ -12,7 +12,6 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 
 import java.util.List;
 import java.util.Optional;

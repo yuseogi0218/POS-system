@@ -1,6 +1,6 @@
 package com.yuseogi.pos.domain.store.unit.repository;
 
-import com.yuseogi.pos.common.RepositoryUnitTest;
+import com.yuseogi.pos.gateway.RepositoryUnitTest;
 import com.yuseogi.pos.domain.store.entity.TradeDeviceEntity;
 import com.yuseogi.pos.domain.store.entity.TradeDeviceEntityBuilder;
 import com.yuseogi.pos.domain.store.repository.TradeDeviceRepository;

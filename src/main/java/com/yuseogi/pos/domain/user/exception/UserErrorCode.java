@@ -1,6 +1,6 @@
 package com.yuseogi.pos.domain.user.exception;
 
-import com.yuseogi.pos.common.exception.ErrorCode;
+import com.yuseogi.common.exception.ErrorCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
@@ -14,9 +14,6 @@ public enum UserErrorCode implements ErrorCode {
 
     // 401 UNAUTHORIZED 인증 자격 정보가 유효하지 않음
     INVALID_REFRESH_TOKEN("USER_401_07", HttpStatus.UNAUTHORIZED, "Refresh Token 정보가 유효하지 않습니다."),
-
-    // 403 FORBIDDEN 인증 필요
-    DENIED_ACCESS("USER_403_01", HttpStatus.FORBIDDEN, "해당 요청에 대한 접근 권한이 없습니다."),
 
     // 404 NOT_FOUND 리소스가 존재하지 않음
     NOT_FOUND_USER("USER_404_01", HttpStatus.NOT_FOUND, "존재하지 않는 사용자 입니다.");

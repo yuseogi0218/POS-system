@@ -1,12 +1,12 @@
 package com.yuseogi.pos.domain.user.integration;
 
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.yuseogi.pos.common.IntegrationTest;
-import com.yuseogi.pos.common.client.dto.response.KakaoAccountResponseDto;
-import com.yuseogi.pos.common.client.dto.response.KakaoAccountResponseDtoBuilder;
-import com.yuseogi.pos.common.exception.CommonErrorCode;
-import com.yuseogi.pos.common.security.component.JwtBuilder;
-import com.yuseogi.pos.common.security.dto.TokenInfoResponseDto;
+import com.yuseogi.pos.gateway.IntegrationTest;
+import com.yuseogi.pos.gateway.client.dto.response.KakaoAccountResponseDto;
+import com.yuseogi.pos.gateway.client.dto.response.KakaoAccountResponseDtoBuilder;
+import com.yuseogi.common.exception.CommonErrorCode;
+import com.yuseogi.pos.gateway.security.component.JwtBuilder;
+import com.yuseogi.pos.gateway.security.dto.TokenInfoResponseDto;
 import com.yuseogi.pos.domain.user.dto.request.SignUpKakaoRequestDto;
 import com.yuseogi.pos.domain.user.dto.request.SignUpKakaoRequestDtoBuilder;
 import com.yuseogi.pos.domain.user.exception.UserErrorCode;

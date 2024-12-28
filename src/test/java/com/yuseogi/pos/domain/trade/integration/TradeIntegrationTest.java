@@ -1,8 +1,8 @@
 package com.yuseogi.pos.domain.trade.integration;
 
-import com.yuseogi.pos.common.IntegrationTest;
-import com.yuseogi.pos.common.exception.CommonErrorCode;
-import com.yuseogi.pos.common.security.component.JwtBuilder;
+import com.yuseogi.pos.gateway.IntegrationTest;
+import com.yuseogi.common.exception.CommonErrorCode;
+import com.yuseogi.pos.gateway.security.component.JwtBuilder;
 import com.yuseogi.pos.domain.trade.dto.request.PayWithCardRequestDto;
 import com.yuseogi.pos.domain.trade.dto.request.PayWithCardRequestDtoBuilder;
 import com.yuseogi.pos.domain.trade.dto.response.GetTradeIsNotCompletedResponseDto;

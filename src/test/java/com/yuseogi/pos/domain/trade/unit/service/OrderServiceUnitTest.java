@@ -1,6 +1,6 @@
 package com.yuseogi.pos.domain.trade.unit.service;
 
-import com.yuseogi.pos.common.ServiceUnitTest;
+import com.yuseogi.pos.gateway.ServiceUnitTest;
 import com.yuseogi.pos.domain.store.entity.ProductEntity;
 import com.yuseogi.pos.domain.store.entity.StoreEntity;
 import com.yuseogi.pos.domain.store.service.ProductService;

@@ -1,6 +1,6 @@
 package com.yuseogi.pos.domain.store.dto.request;
 
-import com.yuseogi.pos.common.validation.constraints.ValidEnum;
+import com.yuseogi.common.validation.constraints.ValidEnum;
 import com.yuseogi.pos.domain.store.entity.ProductEntity;
 import com.yuseogi.pos.domain.store.entity.StoreEntity;
 import com.yuseogi.pos.domain.store.entity.type.ProductCategory;

@@ -1,8 +1,8 @@
 package com.yuseogi.pos.domain.store.unit.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.yuseogi.pos.common.ControllerUnitTest;
-import com.yuseogi.pos.common.exception.CommonErrorCode;
+import com.yuseogi.pos.gateway.ControllerUnitTest;
+import com.yuseogi.common.exception.CommonErrorCode;
 import com.yuseogi.pos.domain.store.controller.ProductController;
 import com.yuseogi.pos.domain.store.dto.request.CreateProductRequestDto;
 import com.yuseogi.pos.domain.store.dto.request.CreateProductRequestDtoBuilder;

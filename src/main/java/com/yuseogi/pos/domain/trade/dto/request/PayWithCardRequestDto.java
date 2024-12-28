@@ -1,6 +1,6 @@
 package com.yuseogi.pos.domain.trade.dto.request;
 
-import com.yuseogi.pos.common.validation.constraints.ValidEnum;
+import com.yuseogi.common.validation.constraints.ValidEnum;
 import com.yuseogi.pos.domain.trade.entity.type.CardCompany;
 
 public record PayWithCardRequestDto(

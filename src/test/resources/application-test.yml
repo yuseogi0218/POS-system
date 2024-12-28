@@ -2,6 +2,8 @@ spring:
   config:
     activate:
       on-profile: test
+  application:
+    name: pos
 
   datasource:
     driver-class-name: org.h2.Driver

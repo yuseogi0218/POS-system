@@ -1,6 +1,6 @@
 package com.yuseogi.pos.domain.trade.exception;
 
-import com.yuseogi.pos.common.exception.ErrorCode;
+import com.yuseogi.common.exception.ErrorCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;

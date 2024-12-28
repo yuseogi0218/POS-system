@@ -1,6 +1,6 @@
 package com.yuseogi.pos.domain.user.dto.request;
 
-import com.yuseogi.pos.common.validation.constraints.ValidEnum;
+import com.yuseogi.common.validation.constraints.ValidEnum;
 import com.yuseogi.pos.domain.store.entity.type.PosGrade;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;

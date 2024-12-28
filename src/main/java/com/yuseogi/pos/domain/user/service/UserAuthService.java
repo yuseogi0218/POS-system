@@ -1,7 +1,6 @@
 package com.yuseogi.pos.domain.user.service;
 
-import com.yuseogi.pos.common.security.dto.TokenInfoResponseDto;
-import com.yuseogi.pos.common.client.dto.response.KakaoAccountResponseDto;
+import com.yuseogi.pos.gateway.security.dto.TokenInfoResponseDto;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.core.Authentication;
 

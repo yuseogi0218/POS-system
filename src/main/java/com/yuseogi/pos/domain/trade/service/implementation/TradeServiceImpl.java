@@ -1,6 +1,6 @@
 package com.yuseogi.pos.domain.trade.service.implementation;
 
-import com.yuseogi.pos.common.exception.CustomException;
+import com.yuseogi.common.exception.CustomException;
 import com.yuseogi.pos.domain.store.entity.TradeDeviceEntity;
 import com.yuseogi.pos.domain.store.service.TradeDeviceService;
 import com.yuseogi.pos.domain.trade.dto.request.PayWithCardRequestDto;

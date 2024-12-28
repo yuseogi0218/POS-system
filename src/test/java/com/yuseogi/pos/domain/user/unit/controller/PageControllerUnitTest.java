@@ -1,6 +1,6 @@
 package com.yuseogi.pos.domain.user.unit.controller;
 
-import com.yuseogi.pos.common.ControllerUnitTest;
+import com.yuseogi.pos.gateway.ControllerUnitTest;
 import com.yuseogi.pos.domain.user.controller.PageController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

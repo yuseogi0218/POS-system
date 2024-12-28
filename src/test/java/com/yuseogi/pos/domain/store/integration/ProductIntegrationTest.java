@@ -1,9 +1,9 @@
 package com.yuseogi.pos.domain.store.integration;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.yuseogi.pos.common.IntegrationTest;
-import com.yuseogi.pos.common.exception.CommonErrorCode;
-import com.yuseogi.pos.common.security.component.JwtBuilder;
+import com.yuseogi.pos.gateway.IntegrationTest;
+import com.yuseogi.common.exception.CommonErrorCode;
+import com.yuseogi.pos.gateway.security.component.JwtBuilder;
 import com.yuseogi.pos.domain.store.dto.request.CreateProductRequestDto;
 import com.yuseogi.pos.domain.store.dto.request.CreateProductRequestDtoBuilder;
 import com.yuseogi.pos.domain.store.dto.request.UpdateProductRequestDto;

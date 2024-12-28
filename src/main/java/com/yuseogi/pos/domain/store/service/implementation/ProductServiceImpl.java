@@ -1,6 +1,6 @@
 package com.yuseogi.pos.domain.store.service.implementation;
 
-import com.yuseogi.pos.common.exception.CustomException;
+import com.yuseogi.common.exception.CustomException;
 import com.yuseogi.pos.domain.store.dto.request.CreateProductRequestDto;
 import com.yuseogi.pos.domain.store.dto.request.UpdateProductRequestDto;
 import com.yuseogi.pos.domain.store.dto.response.GetProductResponseDto;

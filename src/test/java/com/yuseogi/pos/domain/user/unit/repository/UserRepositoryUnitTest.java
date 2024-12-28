@@ -1,6 +1,6 @@
 package com.yuseogi.pos.domain.user.unit.repository;
 
-import com.yuseogi.pos.common.RepositoryUnitTest;
+import com.yuseogi.pos.gateway.RepositoryUnitTest;
 import com.yuseogi.pos.domain.user.entity.UserEntity;
 import com.yuseogi.pos.domain.user.entity.UserEntityBuilder;
 import com.yuseogi.pos.domain.user.repository.UserRepository;

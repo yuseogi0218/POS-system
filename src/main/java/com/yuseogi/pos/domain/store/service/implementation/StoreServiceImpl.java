@@ -1,21 +1,15 @@
 package com.yuseogi.pos.domain.store.service.implementation;
 
-import com.yuseogi.pos.common.exception.CustomException;
+import com.yuseogi.common.exception.CustomException;
 import com.yuseogi.pos.domain.store.dto.request.CreateStoreRequestDto;
 import com.yuseogi.pos.domain.store.entity.StoreEntity;
-import com.yuseogi.pos.domain.store.entity.TradeDeviceEntity;
 import com.yuseogi.pos.domain.store.exception.StoreErrorCode;
 import com.yuseogi.pos.domain.store.repository.StoreRepository;
-import com.yuseogi.pos.domain.store.repository.TradeDeviceRepository;
 import com.yuseogi.pos.domain.store.service.StoreService;
 import com.yuseogi.pos.domain.store.service.TradeDeviceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @RequiredArgsConstructor
 @Service

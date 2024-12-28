@@ -1,7 +1,7 @@
 package com.yuseogi.pos.domain.trade.unit.service;
 
-import com.yuseogi.pos.common.ServiceUnitTest;
-import com.yuseogi.pos.common.exception.CustomException;
+import com.yuseogi.pos.gateway.ServiceUnitTest;
+import com.yuseogi.common.exception.CustomException;
 import com.yuseogi.pos.domain.store.entity.StoreEntity;
 import com.yuseogi.pos.domain.store.entity.TradeDeviceEntity;
 import com.yuseogi.pos.domain.store.service.TradeDeviceService;

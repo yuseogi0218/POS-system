@@ -1,6 +1,6 @@
 package com.yuseogi.pos.domain.user.controller;
 
-import com.yuseogi.pos.common.security.dto.TokenInfoResponseDto;
+import com.yuseogi.pos.gateway.security.dto.TokenInfoResponseDto;
 import com.yuseogi.pos.domain.user.dto.request.SignUpKakaoRequestDto;
 import com.yuseogi.pos.domain.user.service.UserAccountService;
 import com.yuseogi.pos.domain.user.service.UserAuthService;

@@ -1,6 +1,6 @@
 package com.yuseogi.pos.domain.trade.integration;
 
-import com.yuseogi.pos.common.IntegrationTest;
+import com.yuseogi.pos.gateway.IntegrationTest;
 import com.yuseogi.pos.domain.store.exception.StoreErrorCode;
 import com.yuseogi.pos.domain.trade.dto.request.CreateOrderRequestDto;
 import com.yuseogi.pos.domain.trade.dto.request.CreateOrderRequestDtoBuilder;

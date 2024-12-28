@@ -1,7 +1,7 @@
 package com.yuseogi.pos.domain.store.entity;
 
-import com.yuseogi.pos.common.exception.CustomException;
-import com.yuseogi.pos.common.util.BooleanAttributeConverter;
+import com.yuseogi.common.exception.CustomException;
+import com.yuseogi.common.util.BooleanAttributeConverter;
 import com.yuseogi.pos.domain.store.dto.request.UpdateProductRequestDto;
 import com.yuseogi.pos.domain.store.entity.type.ProductCategory;
 import com.yuseogi.pos.domain.store.exception.StoreErrorCode;

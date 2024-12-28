@@ -1,0 +1,49 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.4.1'
+	id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'com.yuseogi'
+version = '0.0.1-SNAPSHOT'
+
+jar.enabled = true
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	// spring web
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+	// spring security
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+
+	// spring Data JPA
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+	// validation
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+	// lombok
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}

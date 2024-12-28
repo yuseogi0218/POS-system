@@ -1,6 +1,7 @@
 package com.yuseogi.pos.domain.user.unit.service;
 
-import com.yuseogi.pos.common.ServiceUnitTest;
+import com.yuseogi.common.exception.CustomException;
+import com.yuseogi.pos.gateway.ServiceUnitTest;
 import com.yuseogi.pos.domain.user.entity.UserEntity;
 import com.yuseogi.pos.domain.user.entity.UserEntityBuilder;
 import com.yuseogi.pos.domain.user.exception.UserErrorCode;
@@ -12,7 +13,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.Optional;
 
@@ -59,7 +59,7 @@ public class UserDetailsServiceUnitTest extends ServiceUnitTest {
 
         // when & then
         Assertions.assertThatThrownBy(() -> userDetailsService.loadUserByUsername(unknownUserEmail))
-            .isInstanceOf(UsernameNotFoundException.class)
+            .isInstanceOf(CustomException.class)
             .hasMessage(UserErrorCode.NOT_FOUND_USER.getMessage());
     }
 }
