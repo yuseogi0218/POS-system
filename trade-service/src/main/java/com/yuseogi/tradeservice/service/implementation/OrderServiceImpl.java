@@ -42,6 +42,7 @@ public class OrderServiceImpl implements OrderService {
         int orderAmount = 0;
 
         for (CreateOrderRequestDto.Product productRequest : request.productList()) {
+            //TODO: 2024-12-28 삭제된 상품은 주문할 수 없도록 예외 반환 
             ProductEntity product = productService.getProduct(productRequest.id());
             product.checkAuthority(store);
             product.decreaseStock(productRequest.count());
