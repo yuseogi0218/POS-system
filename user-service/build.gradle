@@ -25,8 +25,15 @@ repositories {
 	mavenCentral()
 }
 
+ext {
+	set('springCloudVersion', "2024.0.0")
+}
+
 dependencies {
 	implementation project(':common')
+
+	// spring cloud - eureka
+	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 
 	// redis
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
@@ -41,6 +48,12 @@ dependencies {
 
 	// thymeleaf
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
 }
 
 tasks.named('test') {
