@@ -1,6 +1,5 @@
 plugins {
 	id 'java'
-	id 'org.springframework.boot' version '3.4.1'
 	id 'io.spring.dependency-management' version '1.1.7'
 }
 
@@ -27,6 +26,37 @@ repositories {
 
 dependencies {}
 
-tasks.named('test') {
-	useJUnitPlatform()
+subprojects {
+	apply plugin: 'java'
+	apply plugin: 'io.spring.dependency-management'
+
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		// spring web
+		implementation 'org.springframework.boot:spring-boot-starter-web'
+
+		// spring security
+		implementation 'org.springframework.boot:spring-boot-starter-security'
+
+		// spring Data JPA
+		implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+		// mysql
+		runtimeOnly 'com.mysql:mysql-connector-j'
+
+		// validation
+		implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+		// lombok
+		compileOnly 'org.projectlombok:lombok'
+		annotationProcessor 'org.projectlombok:lombok'
+
+		// netty-resolver-dns-native-macos
+		implementation 'io.netty:netty-resolver-dns-native-macos:4.1.116.Final:osx-aarch_64'
+	}
+	tasks.named('test') {
+		useJUnitPlatform()
+	}
 }
