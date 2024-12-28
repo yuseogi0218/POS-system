@@ -1,5 +1,6 @@
 rootProject.name = 'pos'
 
+include 'eureka-server'
 include 'common'
 include 'user-service'
 include 'store-service'
