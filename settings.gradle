@@ -1,3 +1,6 @@
 rootProject.name = 'pos'
 
 include 'common'
+include 'user-service'
+include 'store-service'
+include 'trade-service'
