@@ -31,7 +31,6 @@ ext {
 
 dependencies {
 	implementation project(':common')
-	implementation project(':user-service')
 	implementation project(':store-service')
 
 	// spring cloud - eureka

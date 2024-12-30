@@ -22,6 +22,7 @@ ext {
 }
 
 dependencies {
+	implementation project(':common')
 	// spring webflux
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
@@ -31,6 +32,13 @@ dependencies {
 	// spring cloud - eureka
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 
+	// redis
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+	// JWT
+	implementation 'io.jsonwebtoken:jjwt-api:0.12.6'
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.6'
+	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.6'
 }
 
 dependencyManagement {
@@ -41,7 +49,6 @@ dependencyManagement {
 
 configurations {
 	all*.exclude group: 'org.springframework.boot', module: 'spring-boot-starter-web'
-	all*.exclude group: 'org.springframework.boot', module: 'spring-boot-starter-security'
 	all*.exclude group: 'org.springframework.boot', module: 'spring-boot-starter-data-jpa'
 	all*.exclude group: 'com.mysql', module: 'mysql-connector-j'
 }

@@ -32,6 +32,9 @@ ext {
 dependencies {
 	implementation project(':common')
 
+	// spring security
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+
 	// spring cloud - eureka
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 

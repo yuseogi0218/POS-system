@@ -2,6 +2,8 @@ package com.yuseogi.userservice.service.implementation;
 
 import com.yuseogi.common.exception.CustomException;
 import com.yuseogi.common.util.NetworkUtil;
+import com.yuseogi.common.util.ParseRequestUtil;
+import com.yuseogi.userservice.dto.UserAccountDto;
 import com.yuseogi.userservice.exception.UserErrorCode;
 import com.yuseogi.userservice.infrastructure.cache.redis.dao.InvalidAccessToken;
 import com.yuseogi.userservice.infrastructure.cache.redis.dao.RefreshToken;
@@ -12,54 +14,45 @@ import com.yuseogi.userservice.infrastructure.client.dto.response.KakaoAccountRe
 import com.yuseogi.userservice.infrastructure.security.ExpireTime;
 import com.yuseogi.userservice.infrastructure.security.dto.TokenInfoResponseDto;
 import com.yuseogi.userservice.infrastructure.security.jwt.component.JwtProvider;
+import com.yuseogi.userservice.service.UserAccountService;
 import com.yuseogi.userservice.service.UserAuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
 public class UserAuthServiceImpl implements UserAuthService {
 
-    private final AuthenticationManager authenticationManager;
     private final JwtProvider jwtProvider;
     private final KakaoWebClient kakaoWebClient;
 
     private final RefreshTokenRedisRepository refreshTokenRedisRepository;
     private final InvalidAccessTokenRedisRepository invalidAccessTokenRedisRepository;
 
+    private final UserAccountService userAccountService;
+
     @Override
-    public Authentication authenticateKakao(String kakaoAccessToken) {
+    public UserAccountDto authenticateKakao(String kakaoAccessToken) {
         KakaoAccountResponseDto kakaoAccountResponse = kakaoWebClient.getAccount(kakaoAccessToken);
 
-        Authentication authentication = authenticationManager.authenticate(kakaoAccountResponse.toAuthentication());
-
-        return authentication;
+        return userAccountService.getUser(kakaoAccountResponse.kakao_account().email());
     }
 
     @Override
-    public TokenInfoResponseDto login(HttpServletRequest httpServletRequest, Authentication authentication) {
+    public TokenInfoResponseDto login(HttpServletRequest httpServletRequest, UserAccountDto userAccountDto) {
         // 인증 정보를 기반으로 JWT 토큰 생성
-        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-        List<String> authorityList = authorities.stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.toList());
-
-        TokenInfoResponseDto tokenInfoResponse = jwtProvider.generateToken(authentication.getName(), authorityList);
+        TokenInfoResponseDto tokenInfoResponse = jwtProvider.generateToken(userAccountDto.email(), List.of(userAccountDto.role()));
 
         // RefreshToken 을 Redis 에 저장
         refreshTokenRedisRepository.save(RefreshToken.builder()
-            .id(authentication.getName())
+            .id(userAccountDto.email())
             .ip(NetworkUtil.getClientIp(httpServletRequest))
             .authorityList(tokenInfoResponse.authorityList())
             .refreshToken(tokenInfoResponse.refreshToken())
@@ -102,7 +95,7 @@ public class UserAuthServiceImpl implements UserAuthService {
 
     @Override
     public void logout(HttpServletRequest httpServletRequest) {
-        String resolvedToken = (String)httpServletRequest.getAttribute("resolvedAccessToken");
+        String resolvedToken = ParseRequestUtil.extractAccessTokenFromRequest(httpServletRequest);
 
         // 1. Access Token 에서 User email 을 가져옵니다.
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

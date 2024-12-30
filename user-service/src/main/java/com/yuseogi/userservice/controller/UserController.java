@@ -1,5 +1,6 @@
 package com.yuseogi.userservice.controller;
 
+import com.yuseogi.userservice.dto.UserAccountDto;
 import com.yuseogi.userservice.dto.request.SignUpKakaoRequestDto;
 import com.yuseogi.userservice.infrastructure.security.dto.TokenInfoResponseDto;
 import com.yuseogi.userservice.service.UserAccountService;
@@ -31,8 +32,8 @@ public class UserController {
         @NotEmpty(message = "token은 필수 입력값입니다.")
         @RequestParam(name = "token") String token
     ) {
-        Authentication authentication = userAuthService.authenticateKakao(token);
-        TokenInfoResponseDto tokenInfoResponse = userAuthService.login(httpServletRequest, authentication);
+        UserAccountDto userAccountDto = userAuthService.authenticateKakao(token);
+        TokenInfoResponseDto tokenInfoResponse = userAuthService.login(httpServletRequest, userAccountDto);
         return ResponseEntity.ok(tokenInfoResponse);
     }
 

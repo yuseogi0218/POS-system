@@ -3,9 +3,6 @@ package com.yuseogi.common.exception;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.authentication.InsufficientAuthenticationException;
-import org.springframework.security.core.Authentication;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -31,18 +28,18 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> handleCustomException(CustomException e) {
         return e.toErrorResponse();
     }
-
-    @ExceptionHandler(InsufficientAuthenticationException.class)
-    public ResponseEntity<?> handleInsufficientAuthenticationException(InsufficientAuthenticationException e) {
-        CustomException exception = new CustomException(CommonErrorCode.INSUFFICIENT_AUTHENTICATION);
-        return exception.toErrorResponse();
-    }
-
-    @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<?> handleAccessDeniedException(Authentication e) {
-        CustomException exception = new CustomException(CommonErrorCode.DENIED_ACCESS);
-        return exception.toErrorResponse();
-    }
+//
+//    @ExceptionHandler(InsufficientAuthenticationException.class)
+//    public ResponseEntity<?> handleInsufficientAuthenticationException(InsufficientAuthenticationException e) {
+//        CustomException exception = new CustomException(CommonErrorCode.INSUFFICIENT_AUTHENTICATION);
+//        return exception.toErrorResponse();
+//    }
+//
+//    @ExceptionHandler(AccessDeniedException.class)
+//    public ResponseEntity<?> handleAccessDeniedException(Authentication e) {
+//        CustomException exception = new CustomException(CommonErrorCode.DENIED_ACCESS);
+//        return exception.toErrorResponse();
+//    }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<?> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {

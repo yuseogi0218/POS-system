@@ -1,79 +1,43 @@
-package com.yuseogi.userservice.infrastructure.security.jwt.component;
+package com.yuseogi.gatewayservice.infrastructure.security.jwt.component;
 
 import com.yuseogi.common.exception.CommonErrorCode;
 import com.yuseogi.common.exception.CustomException;
-import com.yuseogi.userservice.infrastructure.cache.redis.repository.InvalidAccessTokenRedisRepository;
-import com.yuseogi.userservice.infrastructure.security.ExpireTime;
-import com.yuseogi.userservice.infrastructure.security.dto.TokenInfoResponseDto;
+import com.yuseogi.gatewayservice.infrastructure.cache.redis.repository.InvalidAccessTokenRedisRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import org.apache.http.HttpHeaders;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class JwtProvider {
+
     private static final String BEARER_TYPE = "Bearer";
     private static final String AUTHORITY_KEY = "authority";
     private static final String TYPE_KEY = "type";
 
     public static final String TYPE_ACCESS = "access";
-    public static final String TYPE_REFRESH = "refresh";
 
     private final SecretKey secretKey;
 
+    private final InvalidAccessTokenRedisRepository invalidAccessTokenRedisRepository;
+
     public JwtProvider(
-        @Value("${jwt.secret.key}") String secretKey
+        @Value("${jwt.secret.key}") String secretKey,
+        InvalidAccessTokenRedisRepository invalidAccessTokenRedisRepository
     ) {
         this.secretKey = Keys.hmacShaKeyFor(Decoders.BASE64URL.decode(secretKey));
-    }
-
-    /**
-     * email, authorityList 을 가지고 AccessToken, RefreshToken 을 생성
-     */
-    public TokenInfoResponseDto generateToken(String email, List<String> authorityList) {
-
-        Date now = new Date();
-
-        // Access JWT Token 생성
-        String accessToken = generateJWT(email, authorityList, TYPE_ACCESS, now, ExpireTime.ACCESS_TOKEN.getMillSecond());
-
-        // Refresh JWT Token 생성
-        String refreshToken = generateJWT(email, authorityList, TYPE_REFRESH, now, ExpireTime.REFRESH_TOKEN.getMillSecond());
-
-        return TokenInfoResponseDto.builder()
-                .authorityList(authorityList)
-                .grantType(BEARER_TYPE)
-                .accessToken(accessToken)
-                .accessTokenExpireIn(ExpireTime.ACCESS_TOKEN.getSecond())
-                .refreshToken(refreshToken)
-                .refreshTokenExpireIn(ExpireTime.REFRESH_TOKEN.getSecond())
-                .build();
-    }
-
-    /**
-     * JWT 생성
-     */
-    public String generateJWT(String subject, List<String> authorityList, String type, Date issuedAt, long expireTime) {
-        return Jwts.builder()
-                .subject(subject)
-                .claim(AUTHORITY_KEY, authorityList)
-                .claim(TYPE_KEY, type)
-                .issuedAt(issuedAt)
-                .expiration(new Date(issuedAt.getTime() + expireTime)) //토큰 만료 시간 설정
-                .signWith(secretKey)
-                .compact();
+        this.invalidAccessTokenRedisRepository = invalidAccessTokenRedisRepository;
     }
 
     /**
@@ -81,6 +45,16 @@ public class JwtProvider {
      */
     private Claims parseClaims(String token) {
         return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload();
+    }
+
+    /**
+     * JWT 토큰을 복호화하여 토큰에 들어있는 정보를 추출하여 Authentication 생성
+     */
+    public String getUserEmail(String jwtToken) {
+        // 토큰 복호화
+        Claims claims = parseClaims(jwtToken);
+
+        return claims.getSubject();
     }
 
     /**
@@ -92,6 +66,11 @@ public class JwtProvider {
             List<String> authorityList = claims.get(AUTHORITY_KEY, List.class);
             if (authorityList.isEmpty()) {
                 throw new CustomException(CommonErrorCode.UNAUTHORIZED_JWT);
+            }
+
+            // access token 이 유효하지 않은지 확인
+            if (getType(token).equals(TYPE_ACCESS) && invalidAccessTokenRedisRepository.findByAccessToken(token).isPresent()) {
+                throw new CustomException(CommonErrorCode.INVALID_ACCESS_TOKEN);
             }
 
             return true;
@@ -130,5 +109,25 @@ public class JwtProvider {
         // 현재 시간
         Long now = new Date().getTime();
         return (expiration.getTime() - now);
+    }
+
+    /**
+     * Request Header 에서 토큰 정보 추출
+     */
+    public String resolveToken(ServerHttpRequest request) {
+        if (!request.getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
+            return null;
+        }
+
+        String bearerToken = request.getHeaders().getOrEmpty(HttpHeaders.AUTHORIZATION).get(0);
+        if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_TYPE)) {
+            try {
+                return bearerToken.substring(7);
+            } catch (StringIndexOutOfBoundsException e) {
+                throw new CustomException(CommonErrorCode.INVALID_JWT);
+            }
+        }
+
+        return null;
     }
 }

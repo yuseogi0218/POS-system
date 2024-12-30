@@ -26,10 +26,6 @@ public record KakaoAccountResponseDto (
         String phone_number
     ) { }
 
-    public UsernamePasswordAuthenticationToken toAuthentication() {
-        return new UsernamePasswordAuthenticationToken(kakao_account.email, null);
-    }
-
     public UserEntity toUserEntity() {
         return UserEntity.builder()
             .email(this.kakao_account.email)

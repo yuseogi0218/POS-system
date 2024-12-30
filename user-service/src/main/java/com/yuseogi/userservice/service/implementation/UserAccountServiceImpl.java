@@ -1,6 +1,7 @@
 package com.yuseogi.userservice.service.implementation;
 
 import com.yuseogi.common.exception.CustomException;
+import com.yuseogi.userservice.dto.UserAccountDto;
 import com.yuseogi.userservice.dto.request.SignUpKakaoRequestDto;
 import com.yuseogi.userservice.entity.UserEntity;
 import com.yuseogi.userservice.exception.UserErrorCode;
@@ -24,6 +25,14 @@ public class UserAccountServiceImpl implements UserAccountService {
 
     //TODO: 2024-12-28 의존성 순환에 의해 주석 처리
 //    private final StoreService storeService;
+
+
+    @Override
+    public UserAccountDto getUser(String email) {
+        UserEntity user = userRepository.findFirstByEmail(email).orElseThrow(() -> new CustomException(UserErrorCode.NOT_FOUND_USER));
+
+        return UserAccountDto.fromEntity(user);
+    }
 
     @Transactional
     @Override

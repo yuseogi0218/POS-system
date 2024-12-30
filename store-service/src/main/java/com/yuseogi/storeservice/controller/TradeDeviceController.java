@@ -1,12 +1,12 @@
 package com.yuseogi.storeservice.controller;
 
+import com.yuseogi.common.util.ParseRequestUtil;
 import com.yuseogi.storeservice.entity.StoreEntity;
 import com.yuseogi.storeservice.service.StoreService;
 import com.yuseogi.storeservice.service.TradeDeviceService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,11 +20,11 @@ public class TradeDeviceController {
     private final TradeDeviceService tradeDeviceService;
 
     @GetMapping("")
-    public ResponseEntity<?> getTradeDeviceList() {
+    public ResponseEntity<?> getTradeDeviceList(HttpServletRequest httpServletRequest) {
 
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String userEmail = ParseRequestUtil.extractUserEmailFromRequest(httpServletRequest);
 
-        StoreEntity store = storeService.getStore(user.getUsername());
+        StoreEntity store = storeService.getStore(userEmail);
 
         return ResponseEntity.ok(tradeDeviceService.getTradeDeviceList(store));
     }

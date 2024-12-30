@@ -32,10 +32,6 @@ dependencyManagement {
 	}
 }
 
-configurations {
-	all*.exclude group: 'org.springframework.boot', module: 'spring-boot-starter-security'
-}
-
 tasks.named('test') {
 	useJUnitPlatform()
 }
