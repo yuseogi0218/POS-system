@@ -1,8 +1,6 @@
 package com.yuseogi.tradeservice.entity;
 
 import com.yuseogi.common.util.BooleanAttributeConverter;
-import com.yuseogi.storeservice.entity.StoreEntity;
-import com.yuseogi.storeservice.entity.TradeDeviceEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -25,13 +23,11 @@ public class TradeEntity {
     @Column(name = "id", updatable = false)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "store_id", nullable = false, updatable = false)
-    private StoreEntity store;
+    @Column(name = "store_id", nullable = false, updatable = false)
+    private Long storeId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "trade_device_id", nullable = false, updatable = false)
-    private TradeDeviceEntity tradeDevice;
+    @Column(name = "trade_device_id", nullable = false, updatable = false)
+    private Long tradeDeviceId;
 
     @Column(name = "trade_amount", nullable = false)
     private Integer tradeAmount = 0;
@@ -45,9 +41,9 @@ public class TradeEntity {
     private Boolean isCompleted = Boolean.FALSE;
 
     @Builder
-    public TradeEntity(StoreEntity store, TradeDeviceEntity tradeDevice) {
-        this.store = store;
-        this.tradeDevice = tradeDevice;
+    public TradeEntity(Long storeId, Long tradeDeviceId) {
+        this.storeId = storeId;
+        this.tradeDeviceId = tradeDeviceId;
     }
 
     public void increaseTradeAmount(Integer orderAmount) {

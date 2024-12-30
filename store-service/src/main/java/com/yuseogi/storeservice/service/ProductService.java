@@ -1,5 +1,6 @@
 package com.yuseogi.storeservice.service;
 
+import com.yuseogi.storeservice.dto.ProductInfoDto;
 import com.yuseogi.storeservice.dto.request.CreateProductRequestDto;
 import com.yuseogi.storeservice.dto.request.UpdateProductRequestDto;
 import com.yuseogi.storeservice.dto.response.GetProductResponseDto;
@@ -13,6 +14,8 @@ public interface ProductService {
 
     ProductEntity getProduct(Long productId);
 
+    ProductInfoDto getProductInfo(Long productId);
+
     List<GetProductResponseDto> getProductList(StoreEntity store);
 
     void updateProduct(StoreEntity store, Long productId, UpdateProductRequestDto request);
@@ -20,4 +23,6 @@ public interface ProductService {
     void softDeleteProduct(StoreEntity store, Long productId);
 
     void reStock(StoreEntity store);
+
+    void decreaseStock(StoreEntity store, Long productId, Integer decreasingStock);
 }

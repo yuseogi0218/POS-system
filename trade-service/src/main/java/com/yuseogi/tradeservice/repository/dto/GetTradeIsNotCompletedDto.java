@@ -1,7 +1,7 @@
 package com.yuseogi.tradeservice.repository.dto;
 
 
-import com.yuseogi.storeservice.entity.type.ProductCategory;
+import com.yuseogi.tradeservice.entity.type.ProductCategory;
 
 import java.time.LocalDateTime;
 

@@ -1,12 +1,12 @@
 package com.yuseogi.tradeservice.service.implementation;
 
-import com.yuseogi.storeservice.entity.ProductEntity;
-import com.yuseogi.storeservice.entity.StoreEntity;
-import com.yuseogi.storeservice.service.ProductService;
+import com.yuseogi.tradeservice.dto.ProductInfoDto;
 import com.yuseogi.tradeservice.dto.request.CreateOrderRequestDto;
+import com.yuseogi.tradeservice.dto.request.DecreaseProductStockRequestDto;
 import com.yuseogi.tradeservice.entity.OrderDetailEntity;
 import com.yuseogi.tradeservice.entity.OrderEntity;
 import com.yuseogi.tradeservice.entity.TradeEntity;
+import com.yuseogi.tradeservice.infrastructure.client.StoreServiceClient;
 import com.yuseogi.tradeservice.repository.OrderDetailRepository;
 import com.yuseogi.tradeservice.repository.OrderRepository;
 import com.yuseogi.tradeservice.service.OrderService;
@@ -22,10 +22,11 @@ import java.util.List;
 @Service
 public class OrderServiceImpl implements OrderService {
 
+    private final StoreServiceClient storeServiceClient;
+
     private final OrderDetailRepository orderDetailRepository;
     private final OrderRepository orderRepository;
 
-    private final ProductService productService;
     private final TradeService tradeService;
 
     @Transactional
@@ -33,7 +34,7 @@ public class OrderServiceImpl implements OrderService {
     public void createOrder(Long tradeDeviceId, CreateOrderRequestDto request) {
         TradeEntity trade = tradeService.getTradeIsNotCompleted(tradeDeviceId)
             .orElseGet(() -> tradeService.createTrade(tradeDeviceId));
-        StoreEntity store = trade.getStore();
+        Long storeId = trade.getStoreId();
 
         OrderEntity order = request.toOrderEntity(trade);
         OrderEntity savedOrder = orderRepository.save(order);
@@ -42,10 +43,13 @@ public class OrderServiceImpl implements OrderService {
         int orderAmount = 0;
 
         for (CreateOrderRequestDto.Product productRequest : request.productList()) {
-            //TODO: 2024-12-28 삭제된 상품은 주문할 수 없도록 예외 반환 
-            ProductEntity product = productService.getProduct(productRequest.id());
-            product.checkAuthority(store);
-            product.decreaseStock(productRequest.count());
+            ProductInfoDto product = storeServiceClient.getProduct(productRequest.id());
+
+            DecreaseProductStockRequestDto decreaseProductStockRequest = DecreaseProductStockRequestDto.builder()
+                .storeId(storeId)
+                .decreasingStock(productRequest.count())
+                .build();
+            storeServiceClient.decreaseProductStock(productRequest.id(), decreaseProductStockRequest);
 
             OrderDetailEntity orderDetail = productRequest.toOrderDetailEntity(savedOrder, product);
 

@@ -1,6 +1,7 @@
 package com.yuseogi.storeservice.service.implementation;
 
 import com.yuseogi.common.exception.CustomException;
+import com.yuseogi.storeservice.dto.ProductInfoDto;
 import com.yuseogi.storeservice.dto.request.CreateProductRequestDto;
 import com.yuseogi.storeservice.dto.request.UpdateProductRequestDto;
 import com.yuseogi.storeservice.dto.response.GetProductResponseDto;
@@ -30,7 +31,14 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductEntity getProduct(Long productId) {
-        return productRepository.findFirstById(productId).orElseThrow(() -> new CustomException(StoreErrorCode.NOT_FOUND_PRODUCT));
+        return productRepository.findFirstByIdAndIsDeletedFalse(productId).orElseThrow(() -> new CustomException(StoreErrorCode.NOT_FOUND_PRODUCT));
+    }
+
+    @Override
+    public ProductInfoDto getProductInfo(Long productId) {
+        return ProductInfoDto.builder()
+            .product(getProduct(productId))
+            .build();
     }
 
     @Override
@@ -62,5 +70,15 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void reStock(StoreEntity store) {
         productRepository.resetStockToBaseStockByStoreId(store.getId());
+    }
+
+    @Transactional
+    @Override
+    public void decreaseStock(StoreEntity store, Long productId, Integer decreasingStock) {
+        ProductEntity product = getProduct(productId);
+
+        product.checkAuthority(store);
+
+        product.decreaseStock(decreasingStock);
     }
 }

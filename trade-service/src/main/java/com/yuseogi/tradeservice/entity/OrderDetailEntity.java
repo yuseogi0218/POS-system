@@ -1,7 +1,7 @@
 package com.yuseogi.tradeservice.entity;
 
-import com.yuseogi.storeservice.entity.ProductEntity;
-import com.yuseogi.storeservice.entity.type.ProductCategory;
+import com.yuseogi.tradeservice.dto.ProductInfoDto;
+import com.yuseogi.tradeservice.entity.type.ProductCategory;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -42,12 +42,12 @@ public class OrderDetailEntity {
     private Integer totalAmount;
 
     @Builder
-    public OrderDetailEntity(OrderEntity order, ProductEntity product, Integer count) {
+    public OrderDetailEntity(OrderEntity order, ProductInfoDto product, Integer count) {
         this.order = order;
-        this.productName = product.getName();
-        this.productCategory = product.getCategory();
-        this.productPrice = product.getPrice();
+        this.productName = product.name();
+        this.productCategory = ProductCategory.valueOf(product.category());
+        this.productPrice = product.price();
         this.count = count;
-        this.totalAmount = product.getPrice() * count;
+        this.totalAmount = product.price() * count;
     }
 }

@@ -1,7 +1,7 @@
 package com.yuseogi.tradeservice.controller;
 
-import com.yuseogi.storeservice.service.TradeDeviceService;
 import com.yuseogi.tradeservice.dto.request.CreateOrderRequestDto;
+import com.yuseogi.tradeservice.infrastructure.client.StoreServiceClient;
 import com.yuseogi.tradeservice.service.OrderService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class OrderController {
 
-    private final TradeDeviceService tradeDeviceService;
+    private final StoreServiceClient storeServiceClient;
+
     private final OrderService orderService;
 
     @PostMapping("")
@@ -21,7 +22,7 @@ public class OrderController {
         @CookieValue(value = "tradeDeviceId") Long tradeDeviceId,
         @RequestBody @Valid CreateOrderRequestDto request
     ) {
-        tradeDeviceService.checkExistTradeDevice(tradeDeviceId);
+        storeServiceClient.checkExistTradeDevice(tradeDeviceId);
         orderService.createOrder(tradeDeviceId, request);
 
         return ResponseEntity.ok().build();

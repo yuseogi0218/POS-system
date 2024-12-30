@@ -13,7 +13,7 @@ public interface TradeRepository extends CrudRepository<TradeEntity, Long> {
     @Query("""
         SELECT t
         FROM TradeEntity t
-        WHERE t.tradeDevice.id = :tradeDeviceId
+        WHERE t.tradeDeviceId = :tradeDeviceId
             AND t.isCompleted = false
     """)
     Optional<TradeEntity> findFirstByTradeDeviceIdAndIsNotCompleted(Long tradeDeviceId);
@@ -21,7 +21,7 @@ public interface TradeRepository extends CrudRepository<TradeEntity, Long> {
     @Query("""
         SELECT COUNT(t.id) > 0
         FROM TradeEntity t
-        WHERE t.tradeDevice.id = :tradeDeviceId
+        WHERE t.tradeDeviceId = :tradeDeviceId
             AND t.isCompleted = false
     """)
     boolean existsByTradeDeviceIdAndIsNotCompleted(Long tradeDeviceId);
@@ -32,7 +32,7 @@ public interface TradeRepository extends CrudRepository<TradeEntity, Long> {
         ) FROM TradeEntity t
         JOIN OrderEntity o ON o.trade = t
         JOIN OrderDetailEntity od ON od.order = o
-        WHERE t.tradeDevice.id = :tradeDeviceId
+        WHERE t.tradeDeviceId = :tradeDeviceId
             AND t.isCompleted = false
     """)
     List<GetTradeIsNotCompletedDto> findByTradeDeviceAndIsNotCompleted(Long tradeDeviceId);

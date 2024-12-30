@@ -1,14 +1,14 @@
 package com.yuseogi.tradeservice.service.implementation;
 
 import com.yuseogi.common.exception.CustomException;
-import com.yuseogi.storeservice.entity.TradeDeviceEntity;
-import com.yuseogi.storeservice.service.TradeDeviceService;
+import com.yuseogi.tradeservice.dto.TradeDeviceInfoDto;
 import com.yuseogi.tradeservice.dto.request.PayWithCardRequestDto;
 import com.yuseogi.tradeservice.dto.response.GetTradeIsNotCompletedResponseDto;
 import com.yuseogi.tradeservice.entity.PaymentEntity;
 import com.yuseogi.tradeservice.entity.TradeEntity;
 import com.yuseogi.tradeservice.entity.type.CardCompany;
 import com.yuseogi.tradeservice.exception.TradeErrorCode;
+import com.yuseogi.tradeservice.infrastructure.client.StoreServiceClient;
 import com.yuseogi.tradeservice.repository.PaymentRepository;
 import com.yuseogi.tradeservice.repository.TradeRepository;
 import com.yuseogi.tradeservice.repository.dto.mapper.GetTradeIsNotCompletedDtoMapper;
@@ -23,10 +23,10 @@ import java.util.Optional;
 @Service
 public class TradeServiceImpl implements TradeService {
 
+    private final StoreServiceClient storeServiceClient;
+
     private final PaymentRepository paymentRepository;
     private final TradeRepository tradeRepository;
-
-    private final TradeDeviceService tradeDeviceService;
 
     @Override
     public Optional<TradeEntity> getTradeIsNotCompleted(Long tradeDeviceId) {
@@ -50,11 +50,11 @@ public class TradeServiceImpl implements TradeService {
 
     @Override
     public TradeEntity createTrade(Long tradeDeviceId) {
-        TradeDeviceEntity tradeDevice = tradeDeviceService.getTradeDevice(tradeDeviceId);
+        TradeDeviceInfoDto tradeDevice = storeServiceClient.getTradeDevice(tradeDeviceId);
 
         TradeEntity trade = TradeEntity.builder()
-            .store(tradeDevice.getStore())
-            .tradeDevice(tradeDevice)
+            .storeId(tradeDevice.storeId())
+            .tradeDeviceId(tradeDevice.id())
             .build();
 
         return tradeRepository.save(trade);

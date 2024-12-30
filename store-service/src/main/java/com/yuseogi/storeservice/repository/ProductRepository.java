@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public interface ProductRepository extends CrudRepository<ProductEntity, Long> {
 
-    Optional<ProductEntity> findFirstById(Long productId);
+    Optional<ProductEntity> findFirstByIdAndIsDeletedFalse(Long productId);
 
     @Query("""
         SELECT new com.yuseogi.storeservice.dto.response.GetProductResponseDto(

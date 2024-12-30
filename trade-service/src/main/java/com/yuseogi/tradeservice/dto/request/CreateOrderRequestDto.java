@@ -1,6 +1,6 @@
 package com.yuseogi.tradeservice.dto.request;
 
-import com.yuseogi.storeservice.entity.ProductEntity;
+import com.yuseogi.tradeservice.dto.ProductInfoDto;
 import com.yuseogi.tradeservice.entity.OrderDetailEntity;
 import com.yuseogi.tradeservice.entity.OrderEntity;
 import com.yuseogi.tradeservice.entity.TradeEntity;
@@ -24,7 +24,7 @@ public record CreateOrderRequestDto(
        @Max(value = 10000000, message = "상품 주문 수량은 1 이상, 10,000,000 이하의 정수 입니다.")
        Integer count
    ) {
-       public OrderDetailEntity toOrderDetailEntity(OrderEntity order, ProductEntity product) {
+       public OrderDetailEntity toOrderDetailEntity(OrderEntity order, ProductInfoDto product) {
            return OrderDetailEntity.builder()
                .order(order)
                .product(product)
