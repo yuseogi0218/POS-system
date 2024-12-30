@@ -35,13 +35,6 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductInfoDto getProductInfo(Long productId) {
-        return ProductInfoDto.builder()
-            .product(getProduct(productId))
-            .build();
-    }
-
-    @Override
     public List<GetProductResponseDto> getProductList(StoreEntity store) {
         return productRepository.getProductListByStoreId(store.getId());
     }
@@ -74,11 +67,15 @@ public class ProductServiceImpl implements ProductService {
 
     @Transactional
     @Override
-    public void decreaseStock(StoreEntity store, Long productId, Integer decreasingStock) {
+    public ProductInfoDto decreaseStock(StoreEntity store, Long productId, Integer decreasingStock) {
         ProductEntity product = getProduct(productId);
 
         product.checkAuthority(store);
 
         product.decreaseStock(decreasingStock);
+
+        return ProductInfoDto.builder()
+            .product(product)
+            .build();
     }
 }

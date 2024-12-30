@@ -14,8 +14,6 @@ public interface ProductService {
 
     ProductEntity getProduct(Long productId);
 
-    ProductInfoDto getProductInfo(Long productId);
-
     List<GetProductResponseDto> getProductList(StoreEntity store);
 
     void updateProduct(StoreEntity store, Long productId, UpdateProductRequestDto request);
@@ -24,5 +22,5 @@ public interface ProductService {
 
     void reStock(StoreEntity store);
 
-    void decreaseStock(StoreEntity store, Long productId, Integer decreasingStock);
+    ProductInfoDto decreaseStock(StoreEntity store, Long productId, Integer decreasingStock);
 }

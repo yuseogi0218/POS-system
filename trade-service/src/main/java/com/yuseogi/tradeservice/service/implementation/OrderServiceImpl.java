@@ -43,13 +43,12 @@ public class OrderServiceImpl implements OrderService {
         int orderAmount = 0;
 
         for (CreateOrderRequestDto.Product productRequest : request.productList()) {
-            ProductInfoDto product = storeServiceClient.getProduct(productRequest.id());
-
             DecreaseProductStockRequestDto decreaseProductStockRequest = DecreaseProductStockRequestDto.builder()
                 .storeId(storeId)
                 .decreasingStock(productRequest.count())
                 .build();
-            storeServiceClient.decreaseProductStock(productRequest.id(), decreaseProductStockRequest);
+
+            ProductInfoDto product = storeServiceClient.decreaseProductStock(productRequest.id(), decreaseProductStockRequest);
 
             OrderDetailEntity orderDetail = productRequest.toOrderDetailEntity(savedOrder, product);
 

@@ -3,6 +3,7 @@ package com.yuseogi.storeservice.controller;
 import com.yuseogi.common.exception.CommonErrorCode;
 import com.yuseogi.common.exception.CustomException;
 import com.yuseogi.common.util.ParseRequestUtil;
+import com.yuseogi.storeservice.dto.ProductInfoDto;
 import com.yuseogi.storeservice.dto.UserAccountDto;
 import com.yuseogi.storeservice.dto.request.CreateProductRequestDto;
 import com.yuseogi.storeservice.dto.request.DecreaseProductStockRequestDto;
@@ -45,11 +46,6 @@ public class ProductController {
         productService.createProduct(store, request);
 
         return ResponseEntity.ok().build();
-    }
-
-    @GetMapping("/{product-id}")
-    public ResponseEntity<?> getProduct(@PathVariable("product-id") Long productId) {
-        return ResponseEntity.ok(productService.getProductInfo(productId));
     }
 
     @GetMapping("")
@@ -130,8 +126,8 @@ public class ProductController {
     ) {
         StoreEntity store = storeService.getStore(request.storeId());
 
-        productService.decreaseStock(store, productId, request.decreasingStock());
+        ProductInfoDto productInfoDto = productService.decreaseStock(store, productId, request.decreasingStock());
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(productInfoDto);
     }
 }

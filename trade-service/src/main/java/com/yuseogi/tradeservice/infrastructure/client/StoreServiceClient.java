@@ -18,11 +18,8 @@ public interface StoreServiceClient {
     @GetMapping("/store/trade-device/{trade-device-id}")
     TradeDeviceInfoDto getTradeDevice(@PathVariable("trade-device-id") Long tradeDeviceId);
 
-    @GetMapping("/store/product/{product-id}")
-    ProductInfoDto getProduct(@PathVariable("product-id") Long productId);
-
     @PatchMapping("/store/product/stock/{product-id}")
-    void decreaseProductStock(
+    ProductInfoDto decreaseProductStock(
         @PathVariable("product-id") Long productId,
         @RequestBody DecreaseProductStockRequestDto request
     );
