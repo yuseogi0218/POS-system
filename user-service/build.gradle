@@ -38,6 +38,9 @@ dependencies {
 	// spring cloud - eureka
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 
+	// spring cloud - openfeign
+	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+
 	// redis
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 

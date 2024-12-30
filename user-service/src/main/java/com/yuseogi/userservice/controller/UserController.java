@@ -1,7 +1,10 @@
 package com.yuseogi.userservice.controller;
 
 import com.yuseogi.userservice.dto.UserAccountDto;
+import com.yuseogi.userservice.dto.request.CreateStoreRequestDto;
 import com.yuseogi.userservice.dto.request.SignUpKakaoRequestDto;
+import com.yuseogi.userservice.entity.UserEntity;
+import com.yuseogi.userservice.infrastructure.client.StoreServiceClient;
 import com.yuseogi.userservice.infrastructure.security.dto.TokenInfoResponseDto;
 import com.yuseogi.userservice.service.UserAccountService;
 import com.yuseogi.userservice.service.UserAuthService;
@@ -19,6 +22,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/user")
 @RestController
 public class UserController {
+
+    private final StoreServiceClient storeServiceClient;
 
     private final UserAccountService userAccountService;
     private final UserAuthService userAuthService;
@@ -46,7 +51,9 @@ public class UserController {
         @RequestParam(name = "token") String token,
         @RequestBody @Valid SignUpKakaoRequestDto request
     ) {
-        userAccountService.signUpKakao(token, request);
+        UserEntity user = userAccountService.signUpKakao(token, request);
+        storeServiceClient.createStore(CreateStoreRequestDto.from(user, request));
+
         return ResponseEntity.ok().build();
     }
 
