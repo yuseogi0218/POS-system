@@ -8,6 +8,7 @@ import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
@@ -71,6 +72,7 @@ public class JwtAuthFilter extends AbstractGatewayFilterFactory<JwtAuthFilter.Co
     private Mono<Void> handleJwtException(ServerHttpResponse response, CustomException e) {
         ResponseEntity<ErrorResponse> errorResponse = e.toErrorResponse();
 
+        response.getHeaders().setContentType(MediaType.APPLICATION_JSON);
         response.setStatusCode(errorResponse.getStatusCode());
 
         String responseBody = String.format("{\"errorCode\": \"%s\", \"message\": \"%s\"}", errorResponse.getBody().errorCode(), errorResponse.getBody().message());

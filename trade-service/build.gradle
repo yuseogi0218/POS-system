@@ -25,28 +25,15 @@ repositories {
 	mavenCentral()
 }
 
-ext {
-	set('springCloudVersion', "2024.0.0")
-}
-
 dependencies {
 	implementation project(':common')
 
 	// spring cloud - eureka
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 
-	// spring cloud - openfeign
-	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
-
 	// feign-okhttp
 	implementation 'io.github.openfeign:feign-okhttp'
 
-}
-
-dependencyManagement {
-	imports {
-		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
-	}
 }
 
 tasks.named('test') {

@@ -1,6 +1,11 @@
 package com.yuseogi.common.exception;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import feign.FeignException;
 import jakarta.validation.ConstraintViolationException;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.ObjectError;
@@ -14,8 +19,11 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 
 import java.util.List;
 
+@RequiredArgsConstructor
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    private final ObjectMapper objectMapper;
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> handleUnknownException(Exception e) {
@@ -28,18 +36,14 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> handleCustomException(CustomException e) {
         return e.toErrorResponse();
     }
-//
-//    @ExceptionHandler(InsufficientAuthenticationException.class)
-//    public ResponseEntity<?> handleInsufficientAuthenticationException(InsufficientAuthenticationException e) {
-//        CustomException exception = new CustomException(CommonErrorCode.INSUFFICIENT_AUTHENTICATION);
-//        return exception.toErrorResponse();
-//    }
-//
-//    @ExceptionHandler(AccessDeniedException.class)
-//    public ResponseEntity<?> handleAccessDeniedException(Authentication e) {
-//        CustomException exception = new CustomException(CommonErrorCode.DENIED_ACCESS);
-//        return exception.toErrorResponse();
-//    }
+
+    @ExceptionHandler(FeignException.class)
+    public ResponseEntity<?> handleFeignException(FeignException e) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Content-Type", MediaType.APPLICATION_JSON_VALUE);
+
+        return ResponseEntity.status(e.status()).headers(headers).body(e.contentUTF8());
+    }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<?> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {

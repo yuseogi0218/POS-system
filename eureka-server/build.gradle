@@ -32,6 +32,10 @@ dependencyManagement {
 	}
 }
 
+configurations {
+	all*.exclude group: 'org.springframework.cloud', module: 'spring-cloud-starter-openfeign'
+}
+
 tasks.named('test') {
 	useJUnitPlatform()
 }
