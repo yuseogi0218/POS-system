@@ -1,18 +1,111 @@
 services:
-  spring-server:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    platform: linux/amd64
+
+  eureka-server:
+    image: eureka-server:latest
+    container_name: eureka-server
     ports:
-      - "8080:8080"
+      - "8761:8761"
     networks:
       - my-network
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/pos
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: admin_password
+      SPRING_APPLICATION_NAME: eureka-server
+      SERVER_PORT: 8761
+      EUREKA_CLIENT_REGISTER_WITH_EUREKA: false
+      EUREKA_CLIENT_FETCH_REGISTRY: false
+    healthcheck:
+      test: [ "CMD-SHELL", "pidof java || exit 1" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  gateway-service:
+    image: gateway-service:latest
+    container_name: gateway-service
+    ports:
+      - "8000:8000"
+    depends_on:
+      eureka-server:
+        condition: service_healthy
+    environment:
+      SPRING_APPLICATION_NAME: gateway-service
+      SPRING_DATA_REDIS_HOST: redisdb
+      SPRING_DATA_REDIS_PORT: 6379
+      SERVER_PORT: 8000
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+      EUREKA_CLIENT_REGISTER_WITH_EUREKA: true
+      EUREKA_CLIENT_FETCH_REGISTRY: true
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
+    networks:
+      - my-network
+
+  user-service:
+    image: user-service:latest
+    container_name: user-service
+    ports:
+      - "9001:9001"
+    depends_on:
+      eureka-server:
+        condition: service_healthy
+    environment:
+      SPRING_APPLICATION_NAME: user-service
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/pos?allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: ${MYSQL_ROOT_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       SPRING_DATASOURCE_DRIVER: com.mysql.cj.jdbc.Driver
+      SPRING_DATA_REDIS_HOST: redisdb
+      SPRING_DATA_REDIS_PORT: 6379
+      SERVER_PORT: 9001
+      EUREKA_CLIENT_REGISTER_WITH_EUREKA: true
+      EUREKA_CLIENT_FETCH_REGISTRY: true
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+      KAKAO_CLIENT_ID: ${KAKAO_CLIENT_ID}
+      KAKAO_ACCOUNT_URI: ${KAKAO_ACCOUNT_URI}
+      KAKAO_REDIRECT_URI: ${KAKAO_REDIRECT_URI}
+    networks:
+      - my-network
+
+  store-service:
+    image: store-service:latest
+    container_name: store-service
+    ports:
+      - "9002:9002"
+    depends_on:
+      eureka-server:
+        condition: service_healthy
+    environment:
+      SPRING_APPLICATION_NAME: store-service
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/pos?allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: ${MYSQL_ROOT_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      SPRING_DATASOURCE_DRIVER: com.mysql.cj.jdbc.Driver
+      SERVER_PORT: 9002
+      EUREKA_CLIENT_REGISTER_WITH_EUREKA: true
+      EUREKA_CLIENT_FETCH_REGISTRY: true
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
+    networks:
+      - my-network
+
+  trade-service:
+    image: trade-service:latest
+    container_name: trade-service
+    ports:
+      - "9003:9003"
+    depends_on:
+      eureka-server:
+        condition: service_healthy
+    environment:
+      SPRING_APPLICATION_NAME: trade-service
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/pos?allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: ${MYSQL_ROOT_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      SPRING_DATASOURCE_DRIVER: com.mysql.cj.jdbc.Driver
+      SERVER_PORT: 9003
+      EUREKA_CLIENT_REGISTER_WITH_EUREKA: true
+      EUREKA_CLIENT_FETCH_REGISTRY: true
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka/
+    networks:
+      - my-network
 
 networks:
   my-network:

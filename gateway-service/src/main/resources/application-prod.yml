@@ -1,0 +1,104 @@
+spring:
+  config:
+    activate:
+      on-profile: prod
+  application:
+    name: ${SPRING_APPLICATION_NAME}
+
+  data:
+    redis:
+      host: ${SPRING_DATA_REDIS_HOST}
+      port: ${SPRING_DATA_REDIS_PORT}
+
+  cloud:
+    gateway:
+      routes:
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/user-service/image/**
+            - Method=GET
+          filters:
+            - StripPrefix=1
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/user-service/page/**
+            - Method=GET
+          filters:
+            - StripPrefix=1
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/user-service/user/login/kakao
+            - Method=POST
+          filters:
+            - StripPrefix=1
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/user-service/user/kakao
+            - Method=POST
+          filters:
+            - StripPrefix=1
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/user-service/user/re-issue
+            - Method=POST
+          filters:
+            - StripPrefix=1
+
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/user-service/**
+          filters:
+            - StripPrefix=1
+            - name: JwtAuthFilter
+
+        - id: store-service
+          uri: lb://store-service
+          predicates:
+            - Path=/store-service/**
+          filters:
+            - StripPrefix=1
+            - name: JwtAuthFilter
+
+        - id: trade-service
+          uri: lb://trade-service
+          predicates:
+            - Path=/trade-service/trade/order
+            - Method=POST
+          filters:
+            - StripPrefix=1
+        - id: trade-service
+          uri: lb://trade-service
+          predicates:
+            - Path=/trade-service/trade
+            - Method=GET
+          filters:
+            - StripPrefix=1
+
+        - id: trade-service
+          uri: lb://trade-service
+          predicates:
+            - Path=/trade-service/**
+          filters:
+            - StripPrefix=1
+            - name: JwtAuthFilter
+
+server:
+  port:
+    ${SERVER_PORT}
+
+jwt:
+  secret:
+    key: ${JWT_SECRET_KEY}
+
+eureka:
+  client:
+    register-with-eureka: ${EUREKA_CLIENT_REGISTER_WITH_EUREKA}
+    fetch-registry: ${EUREKA_CLIENT_FETCH_REGISTRY}
+    service-url:
+      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE}
