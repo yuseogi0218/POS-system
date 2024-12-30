@@ -40,7 +40,7 @@ public class UserAuthServiceImpl implements UserAuthService {
 
     @Override
     public UserAccountDto authenticateKakao(String kakaoAccessToken) {
-        KakaoAccountResponseDto kakaoAccountResponse = kakaoWebClient.getAccount(kakaoAccessToken);
+        KakaoAccountResponseDto kakaoAccountResponse = kakaoWebClient.getAccount("Bearer " + kakaoAccessToken);
 
         return userAccountService.getUser(kakaoAccountResponse.kakao_account().email());
     }

@@ -36,7 +36,7 @@ public class UserAccountServiceImpl implements UserAccountService {
     @Transactional
     @Override
     public UserEntity signUpKakao(String kakaoAccessToken, SignUpKakaoRequestDto request) {
-        KakaoAccountResponseDto kakaoAccountResponse = kakaoWebClient.getAccount(kakaoAccessToken);
+        KakaoAccountResponseDto kakaoAccountResponse = kakaoWebClient.getAccount("Bearer " + kakaoAccessToken);
 
         UserEntity user = kakaoAccountResponse.toUserEntity();
 

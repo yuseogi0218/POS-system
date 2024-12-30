@@ -1,11 +1,11 @@
 package com.yuseogi.common.exception;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yuseogi.common.exception.dto.response.ErrorResponse;
 import feign.FeignException;
 import jakarta.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.ObjectError;
@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
+import java.io.IOException;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -39,10 +40,15 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(FeignException.class)
     public ResponseEntity<?> handleFeignException(FeignException e) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Content-Type", MediaType.APPLICATION_JSON_VALUE);
+        try {
+            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
+            ErrorResponse errorResponse = objectMapper.readValue(e.contentUTF8(), ErrorResponse.class);
 
-        return ResponseEntity.status(e.status()).headers(headers).body(e.contentUTF8());
+            return ResponseEntity.status(e.status()).body(errorResponse);
+        } catch (IOException ioException) {
+            return new CustomException(CommonErrorCode.INTERNAL_SERVER_ERROR).toErrorResponse();
+        }
+
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)

@@ -1,30 +1,14 @@
 package com.yuseogi.userservice.infrastructure.client;
 
 import com.yuseogi.userservice.infrastructure.client.dto.response.KakaoAccountResponseDto;
-import com.yuseogi.common.exception.CommonErrorCode;
-import com.yuseogi.common.exception.CustomException;
-import io.netty.handler.codec.http.HttpHeaderValues;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.stereotype.Component;
-import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 
-@Component
-public class KakaoWebClient {
+@FeignClient(name = "kakao-web-client", url = "${kakao.account-uri}")
+public interface KakaoWebClient {
 
-    @Value("${kakao.account-uri}")
-    private String kakaoAccountUri;
+    @GetMapping(consumes = "application/x-www-form-urlencoded")
+    KakaoAccountResponseDto getAccount(@RequestHeader("Authorization") String kakaoAccessToken);
 
-    public KakaoAccountResponseDto getAccount(String kakaoAccessToken) {
-        return WebClient.create(kakaoAccountUri)
-            .get()
-            .header(HttpHeaders.AUTHORIZATION, "Bearer " + kakaoAccessToken) // access token 인가
-            .header(HttpHeaders.CONTENT_TYPE, HttpHeaderValues.APPLICATION_X_WWW_FORM_URLENCODED.toString())
-            .retrieve()
-            .onStatus(HttpStatusCode::isError, clientResponse -> Mono.error(new CustomException(CommonErrorCode.INTERNAL_SERVER_ERROR)))
-            .bodyToMono(KakaoAccountResponseDto.class)
-            .block();
-    }
 }
