@@ -30,8 +30,8 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public StoreEntity getStore(String ownerUserEmail) {
-        return storeRepository.findFirstByOwnerUserEmail(ownerUserEmail).orElseThrow(() -> new CustomException(StoreErrorCode.NOT_FOUND_STORE));
+    public StoreEntity getStore(Long ownerUserId) {
+        return storeRepository.findFirstByOwnerUserId(ownerUserId).orElseThrow(() -> new CustomException(StoreErrorCode.NOT_FOUND_STORE));
     }
 
 }

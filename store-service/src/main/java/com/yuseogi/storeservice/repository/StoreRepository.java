@@ -7,7 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.Optional;
 
 public interface StoreRepository extends CrudRepository<StoreEntity, Long> {
-    Optional<StoreEntity> findFirstByOwnerUserEmail(String ownerUserEmail);
+    Optional<StoreEntity> findFirstByOwnerUserId(Long ownerUserId);
 
     @Query("""
         SELECT s

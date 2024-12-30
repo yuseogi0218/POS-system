@@ -31,10 +31,12 @@ ext {
 
 dependencies {
 	implementation project(':common')
-	implementation project(':user-service')
 
 	// spring cloud - eureka
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+
+	// spring cloud - openfeign
+	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 
 }
 

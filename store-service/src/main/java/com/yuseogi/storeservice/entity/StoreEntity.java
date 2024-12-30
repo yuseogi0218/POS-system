@@ -1,7 +1,6 @@
 package com.yuseogi.storeservice.entity;
 
 import com.yuseogi.storeservice.entity.type.PosGrade;
-import com.yuseogi.userservice.entity.UserEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -19,9 +18,8 @@ public class StoreEntity {
     @Column(name = "id", updatable = false)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "owner_user_id", nullable = false, updatable = false)
-    private UserEntity ownerUser;
+    @Column(name = "owner_user_id", nullable = false, updatable = false)
+    private Long ownerUserId;
 
     @Column(name = "name", nullable = false)
     private String name;
@@ -31,8 +29,8 @@ public class StoreEntity {
     private PosGrade posGrade;
 
     @Builder
-    public StoreEntity(UserEntity ownerUser, String name, PosGrade posGrade) {
-        this.ownerUser = ownerUser;
+    public StoreEntity(Long ownerUserId, String name, PosGrade posGrade) {
+        this.ownerUserId = ownerUserId;
         this.name = name;
         this.posGrade = posGrade;
     }

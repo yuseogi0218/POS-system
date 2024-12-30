@@ -3,10 +3,12 @@ package com.yuseogi.storeservice.controller;
 import com.yuseogi.common.exception.CommonErrorCode;
 import com.yuseogi.common.exception.CustomException;
 import com.yuseogi.common.util.ParseRequestUtil;
+import com.yuseogi.storeservice.dto.UserAccountDto;
 import com.yuseogi.storeservice.dto.request.CreateProductRequestDto;
 import com.yuseogi.storeservice.dto.request.UpdateProductRequestDto;
 import com.yuseogi.storeservice.entity.StoreEntity;
 import com.yuseogi.storeservice.entity.TradeDeviceEntity;
+import com.yuseogi.storeservice.infrastructure.client.UserServiceClient;
 import com.yuseogi.storeservice.service.ProductService;
 import com.yuseogi.storeservice.service.StoreService;
 import com.yuseogi.storeservice.service.TradeDeviceService;
@@ -22,6 +24,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class ProductController {
 
+    private final UserServiceClient userServiceClient;
+
     private final StoreService storeService;
     private final ProductService productService;
     private final TradeDeviceService tradeDeviceService;
@@ -34,7 +38,9 @@ public class ProductController {
 
         String userEmail = ParseRequestUtil.extractUserEmailFromRequest(httpServletRequest);
 
-        StoreEntity store = storeService.getStore(userEmail);
+        UserAccountDto userAccountDto = userServiceClient.getUserAccount(userEmail);
+
+        StoreEntity store = storeService.getStore(userAccountDto.id());
         productService.createProduct(store, request);
 
         return ResponseEntity.ok().build();
@@ -57,7 +63,9 @@ public class ProductController {
 
             store = tradeDevice.getStore();
         } else {
-            store = storeService.getStore(userEmail);
+            UserAccountDto userAccountDto = userServiceClient.getUserAccount(userEmail);
+
+            store = storeService.getStore(userAccountDto.id());
         }
 
         return ResponseEntity.ok(productService.getProductList(store));
@@ -71,7 +79,9 @@ public class ProductController {
     ) {
         String userEmail = ParseRequestUtil.extractUserEmailFromRequest(httpServletRequest);
 
-        StoreEntity store = storeService.getStore(userEmail);
+        UserAccountDto userAccountDto = userServiceClient.getUserAccount(userEmail);
+
+        StoreEntity store = storeService.getStore(userAccountDto.id());
 
         productService.updateProduct(store, productId, request);
 
@@ -85,7 +95,9 @@ public class ProductController {
     ) {
         String userEmail = ParseRequestUtil.extractUserEmailFromRequest(httpServletRequest);
 
-        StoreEntity store = storeService.getStore(userEmail);
+        UserAccountDto userAccountDto = userServiceClient.getUserAccount(userEmail);
+
+        StoreEntity store = storeService.getStore(userAccountDto.id());
 
         productService.softDeleteProduct(store, productId);
 
@@ -96,7 +108,9 @@ public class ProductController {
     public ResponseEntity<?> reStock(HttpServletRequest httpServletRequest) {
         String userEmail = ParseRequestUtil.extractUserEmailFromRequest(httpServletRequest);
 
-        StoreEntity store = storeService.getStore(userEmail);
+        UserAccountDto userAccountDto = userServiceClient.getUserAccount(userEmail);
+
+        StoreEntity store = storeService.getStore(userAccountDto.id());
 
         productService.reStock(store);
 

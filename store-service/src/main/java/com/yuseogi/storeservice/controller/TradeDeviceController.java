@@ -1,7 +1,9 @@
 package com.yuseogi.storeservice.controller;
 
 import com.yuseogi.common.util.ParseRequestUtil;
+import com.yuseogi.storeservice.dto.UserAccountDto;
 import com.yuseogi.storeservice.entity.StoreEntity;
+import com.yuseogi.storeservice.infrastructure.client.UserServiceClient;
 import com.yuseogi.storeservice.service.StoreService;
 import com.yuseogi.storeservice.service.TradeDeviceService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TradeDeviceController {
 
+    private final UserServiceClient userServiceClient;
+
     private final StoreService storeService;
     private final TradeDeviceService tradeDeviceService;
 
@@ -24,7 +28,9 @@ public class TradeDeviceController {
 
         String userEmail = ParseRequestUtil.extractUserEmailFromRequest(httpServletRequest);
 
-        StoreEntity store = storeService.getStore(userEmail);
+        UserAccountDto userAccountDto = userServiceClient.getUserAccount(userEmail);
+
+        StoreEntity store = storeService.getStore(userAccountDto.id());
 
         return ResponseEntity.ok(tradeDeviceService.getTradeDeviceList(store));
     }
