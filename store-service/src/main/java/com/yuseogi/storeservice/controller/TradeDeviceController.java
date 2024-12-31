@@ -1,6 +1,7 @@
 package com.yuseogi.storeservice.controller;
 
 import com.yuseogi.common.util.ParseRequestUtil;
+import com.yuseogi.storeservice.dto.TradeDeviceInfoDto;
 import com.yuseogi.storeservice.entity.StoreEntity;
 import com.yuseogi.storeservice.service.StoreService;
 import com.yuseogi.storeservice.service.TradeDeviceService;
@@ -29,7 +30,7 @@ public class TradeDeviceController {
 
     @GetMapping("/{trade-device-id}")
     public ResponseEntity<?> getTradeDevice(@PathVariable("trade-device-id") Long tradeDeviceId) {
-        return ResponseEntity.ok(tradeDeviceService.getTradeDeviceInfo(tradeDeviceId));
+        return ResponseEntity.ok(new TradeDeviceInfoDto(tradeDeviceService.getTradeDevice(tradeDeviceId)));
     }
 
     @GetMapping("")

@@ -29,6 +29,7 @@ public class OrderServiceImpl implements OrderService {
 
     private final TradeService tradeService;
 
+    //TODO: 2025-12-31 Service 코드 나누기
     @Transactional
     @Override
     public void createOrder(Long tradeDeviceId, CreateOrderRequestDto request) {

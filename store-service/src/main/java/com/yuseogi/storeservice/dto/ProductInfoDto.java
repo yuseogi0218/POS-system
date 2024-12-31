@@ -12,7 +12,7 @@ public record ProductInfoDto(
     Integer stock,
     Integer baseStock
 ) {
-    @Builder
+
     public ProductInfoDto(ProductEntity product) {
         this(
             product.getId(),

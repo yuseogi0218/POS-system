@@ -1,8 +1,6 @@
 package com.yuseogi.storeservice.service.implementation;
 
 import com.yuseogi.common.exception.CustomException;
-import com.yuseogi.storeservice.dto.ProductInfoDto;
-import com.yuseogi.storeservice.dto.TradeDeviceInfoDto;
 import com.yuseogi.storeservice.entity.StoreEntity;
 import com.yuseogi.storeservice.entity.TradeDeviceEntity;
 import com.yuseogi.storeservice.exception.StoreErrorCode;
@@ -27,13 +25,6 @@ public class TradeDeviceServiceImpl implements TradeDeviceService {
     }
 
     @Override
-    public TradeDeviceInfoDto getTradeDeviceInfo(Long tradeDeviceId) {
-        return TradeDeviceInfoDto.builder()
-            .tradeDevice(getTradeDevice(tradeDeviceId))
-            .build();
-    }
-
-    @Override
     public void checkExistTradeDevice(Long tradeDeviceId) {
         if (!tradeDeviceRepository.existsById(tradeDeviceId)) {
             throw new CustomException(StoreErrorCode.NOT_FOUND_TRADE_DEVICE);
@@ -54,6 +45,6 @@ public class TradeDeviceServiceImpl implements TradeDeviceService {
 
     @Override
     public List<Long> getTradeDeviceList(StoreEntity store) {
-        return tradeDeviceRepository.findAllIdByStoreId(store.getId());
+        return tradeDeviceRepository.findAllIdByStore(store.getId());
     }
 }

@@ -7,7 +7,7 @@ public record TradeDeviceInfoDto(
     Long id,
     Long storeId
 ) {
-    @Builder
+
     public TradeDeviceInfoDto(TradeDeviceEntity tradeDevice) {
         this(
             tradeDevice.getId(),

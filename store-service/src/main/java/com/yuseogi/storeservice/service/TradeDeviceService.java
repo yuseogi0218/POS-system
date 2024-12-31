@@ -11,8 +11,6 @@ public interface TradeDeviceService {
 
     TradeDeviceEntity getTradeDevice(Long tradeDeviceId);
 
-    TradeDeviceInfoDto getTradeDeviceInfo(Long tradeDeviceId);
-
     void checkExistTradeDevice(Long tradeDeviceId);
 
     void createTradeDevice(StoreEntity store);

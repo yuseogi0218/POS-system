@@ -22,5 +22,5 @@ public interface ProductService {
 
     void reStock(StoreEntity store);
 
-    ProductInfoDto decreaseStock(StoreEntity store, Long productId, Integer decreasingStock);
+    ProductEntity decreaseStock(StoreEntity store, Long productId, Integer decreasingStock);
 }

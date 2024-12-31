@@ -67,15 +67,13 @@ public class ProductServiceImpl implements ProductService {
 
     @Transactional
     @Override
-    public ProductInfoDto decreaseStock(StoreEntity store, Long productId, Integer decreasingStock) {
+    public ProductEntity decreaseStock(StoreEntity store, Long productId, Integer decreasingStock) {
         ProductEntity product = getProduct(productId);
 
         product.checkAuthority(store);
 
         product.decreaseStock(decreasingStock);
 
-        return ProductInfoDto.builder()
-            .product(product)
-            .build();
+        return product;
     }
 }

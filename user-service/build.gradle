@@ -44,6 +44,9 @@ dependencies {
 
 	// thymeleaf
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+	// test common
+	testImplementation project(':common')
 }
 
 tasks.named('test') {

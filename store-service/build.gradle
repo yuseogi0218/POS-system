@@ -31,6 +31,8 @@ dependencies {
 	// spring cloud - eureka
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 
+	// test common
+	testImplementation project(':common')
 }
 
 tasks.named('test') {

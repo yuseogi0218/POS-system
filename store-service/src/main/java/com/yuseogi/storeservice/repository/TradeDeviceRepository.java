@@ -16,5 +16,5 @@ public interface TradeDeviceRepository extends CrudRepository<TradeDeviceEntity,
         FROM TradeDeviceEntity td
         WHERE td.store.id = :storeId
     """)
-    List<Long> findAllIdByStoreId(Long storeId);
+    List<Long> findAllIdByStore(Long storeId);
 }

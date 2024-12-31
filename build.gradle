@@ -58,6 +58,14 @@ subprojects {
 		compileOnly 'org.projectlombok:lombok'
 		annotationProcessor 'org.projectlombok:lombok'
 
+		// test
+		testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+		// h2, lombok for test
+		testImplementation 'com.h2database:h2'
+		testCompileOnly 'org.projectlombok:lombok'
+		testAnnotationProcessor 'org.projectlombok:lombok'
+
 		// netty-resolver-dns-native-macos
 		implementation 'io.netty:netty-resolver-dns-native-macos:4.1.116.Final:osx-aarch_64'
 	}

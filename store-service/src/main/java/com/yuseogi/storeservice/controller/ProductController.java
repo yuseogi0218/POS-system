@@ -7,6 +7,7 @@ import com.yuseogi.storeservice.dto.ProductInfoDto;
 import com.yuseogi.storeservice.dto.request.CreateProductRequestDto;
 import com.yuseogi.storeservice.dto.request.DecreaseProductStockRequestDto;
 import com.yuseogi.storeservice.dto.request.UpdateProductRequestDto;
+import com.yuseogi.storeservice.entity.ProductEntity;
 import com.yuseogi.storeservice.entity.StoreEntity;
 import com.yuseogi.storeservice.entity.TradeDeviceEntity;
 import com.yuseogi.storeservice.service.ProductService;
@@ -112,8 +113,8 @@ public class ProductController {
     ) {
         StoreEntity store = storeService.getStore(request.storeId());
 
-        ProductInfoDto productInfoDto = productService.decreaseStock(store, productId, request.decreasingStock());
+        ProductEntity product = productService.decreaseStock(store, productId, request.decreasingStock());
 
-        return ResponseEntity.ok(productInfoDto);
+        return ResponseEntity.ok(new ProductInfoDto(product));
     }
 }
