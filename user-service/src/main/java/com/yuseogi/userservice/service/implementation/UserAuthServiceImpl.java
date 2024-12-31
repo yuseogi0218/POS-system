@@ -48,11 +48,11 @@ public class UserAuthServiceImpl implements UserAuthService {
     @Override
     public TokenInfoResponseDto login(HttpServletRequest httpServletRequest, UserAccountDto userAccountDto) {
         // 인증 정보를 기반으로 JWT 토큰 생성
-        TokenInfoResponseDto tokenInfoResponse = jwtProvider.generateToken(userAccountDto.email(), List.of(userAccountDto.role()));
+        TokenInfoResponseDto tokenInfoResponse = jwtProvider.generateToken(userAccountDto.id(), List.of(userAccountDto.role()));
 
         // RefreshToken 을 Redis 에 저장
         refreshTokenRedisRepository.save(RefreshToken.builder()
-            .id(userAccountDto.email())
+            .id(userAccountDto.id())
             .ip(NetworkUtil.getClientIp(httpServletRequest))
             .authorityList(tokenInfoResponse.authorityList())
             .refreshToken(tokenInfoResponse.refreshToken())
@@ -95,18 +95,16 @@ public class UserAuthServiceImpl implements UserAuthService {
 
     @Override
     public void logout(HttpServletRequest httpServletRequest) {
-        String resolvedToken = ParseRequestUtil.extractAccessTokenFromRequest(httpServletRequest);
-
-        // 1. Access Token 에서 User email 을 가져옵니다.
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Long userId = ParseRequestUtil.extractUserIdFromRequest(httpServletRequest);
+        String accessToken = ParseRequestUtil.extractAccessTokenFromRequest(httpServletRequest);
 
         // 2. Redis 에서 해당 User email 로 저장된 Refresh Token 이 있는지 여부를 확인 후 있을 경우 삭제합니다.
-        refreshTokenRedisRepository.deleteById(authentication.getName());
+        refreshTokenRedisRepository.deleteById(userId);
         // 3. Redis 에서 해당 Access Token 을 Black List 로 저장합니다.
         invalidAccessTokenRedisRepository.save(InvalidAccessToken.builder()
-            .id(authentication.getName())
-            .accessToken(resolvedToken)
-            .expireIn(jwtProvider.getExpireIn(resolvedToken))
+            .id(userId)
+            .accessToken(accessToken)
+            .expireIn(jwtProvider.getExpireIn(accessToken))
             .build());
     }
 }

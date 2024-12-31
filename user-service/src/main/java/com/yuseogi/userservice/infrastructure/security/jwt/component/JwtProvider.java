@@ -42,15 +42,15 @@ public class JwtProvider {
     /**
      * email, authorityList 을 가지고 AccessToken, RefreshToken 을 생성
      */
-    public TokenInfoResponseDto generateToken(String email, List<String> authorityList) {
+    public TokenInfoResponseDto generateToken(Long userId, List<String> authorityList) {
 
         Date now = new Date();
 
         // Access JWT Token 생성
-        String accessToken = generateJWT(email, authorityList, TYPE_ACCESS, now, ExpireTime.ACCESS_TOKEN.getMillSecond());
+        String accessToken = generateJWT(String.valueOf(userId), authorityList, TYPE_ACCESS, now, ExpireTime.ACCESS_TOKEN.getMillSecond());
 
         // Refresh JWT Token 생성
-        String refreshToken = generateJWT(email, authorityList, TYPE_REFRESH, now, ExpireTime.REFRESH_TOKEN.getMillSecond());
+        String refreshToken = generateJWT(String.valueOf(userId), authorityList, TYPE_REFRESH, now, ExpireTime.REFRESH_TOKEN.getMillSecond());
 
         return TokenInfoResponseDto.builder()
                 .authorityList(authorityList)

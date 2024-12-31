@@ -8,8 +8,10 @@ public class ParseRequestUtil {
 
     }
 
-    public static String extractUserEmailFromRequest(HttpServletRequest httpServletRequest) {
-        return httpServletRequest.getHeader("X-Authorization-userEmail");
+    public static Long extractUserIdFromRequest(HttpServletRequest httpServletRequest) {
+        String userId = httpServletRequest.getHeader("X-Authorization-userId");
+
+        return (userId == null || userId.isEmpty()) ? null : Long.parseLong(userId);
     }
 
     public static String extractAccessTokenFromRequest(HttpServletRequest httpServletRequest) {

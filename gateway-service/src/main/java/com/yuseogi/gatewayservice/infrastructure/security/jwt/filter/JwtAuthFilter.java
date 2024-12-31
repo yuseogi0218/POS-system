@@ -29,7 +29,6 @@ public class JwtAuthFilter extends AbstractGatewayFilterFactory<JwtAuthFilter.Co
     public GatewayFilter apply(Config config) {
         return ((exchange, chain) -> {
             ServerHttpRequest request = exchange.getRequest();
-
             ServerHttpResponse response = exchange.getResponse();
 
             HttpMethod httpMethod = request.getMethod();
@@ -49,10 +48,10 @@ public class JwtAuthFilter extends AbstractGatewayFilterFactory<JwtAuthFilter.Co
                 if (jwtProvider.validateToken(token)) {
                     jwtProvider.validateTokenType(token, JwtProvider.TYPE_ACCESS);
 
-                    String userEmail = jwtProvider.getUserEmail(token);
+                    String userId = jwtProvider.getUserId(token);
 
                     ServerHttpRequest.Builder mutatedRequest = request.mutate();
-                    mutatedRequest.header("X-Authorization-userEmail", userEmail);
+                    mutatedRequest.header("X-Authorization-userId", userId);
 
                     if (httpMethod.equals(HttpMethod.POST) && uri.equals("/user/logout")) {
                         mutatedRequest.header("X-Authorization-accessToken", token);

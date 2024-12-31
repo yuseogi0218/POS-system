@@ -19,7 +19,7 @@ import java.util.List;
 public class RefreshToken {
 
     @Id
-    private String id;
+    private Long id;
 
     private String ip;
 

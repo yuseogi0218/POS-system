@@ -28,11 +28,6 @@ public class UserController {
     private final UserAccountService userAccountService;
     private final UserAuthService userAuthService;
 
-    @GetMapping("")
-    public ResponseEntity<?> getUserAccount(@RequestParam(name = "userEmail") String userEmail) {
-        return ResponseEntity.ok(userAccountService.getUser(userEmail));
-    }
-
     /**
      * 소셜(카카오) 로그인
      */

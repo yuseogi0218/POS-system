@@ -4,20 +4,17 @@ import com.yuseogi.common.exception.CommonErrorCode;
 import com.yuseogi.common.exception.CustomException;
 import com.yuseogi.common.util.ParseRequestUtil;
 import com.yuseogi.storeservice.dto.ProductInfoDto;
-import com.yuseogi.storeservice.dto.UserAccountDto;
 import com.yuseogi.storeservice.dto.request.CreateProductRequestDto;
 import com.yuseogi.storeservice.dto.request.DecreaseProductStockRequestDto;
 import com.yuseogi.storeservice.dto.request.UpdateProductRequestDto;
 import com.yuseogi.storeservice.entity.StoreEntity;
 import com.yuseogi.storeservice.entity.TradeDeviceEntity;
-import com.yuseogi.storeservice.infrastructure.client.UserServiceClient;
 import com.yuseogi.storeservice.service.ProductService;
 import com.yuseogi.storeservice.service.StoreService;
 import com.yuseogi.storeservice.service.TradeDeviceService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,8 +22,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/store/product")
 @RestController
 public class ProductController {
-
-    private final UserServiceClient userServiceClient;
 
     private final StoreService storeService;
     private final ProductService productService;
@@ -38,11 +33,10 @@ public class ProductController {
         @RequestBody @Valid CreateProductRequestDto request
     ) {
 
-        String userEmail = ParseRequestUtil.extractUserEmailFromRequest(httpServletRequest);
+        Long userId = ParseRequestUtil.extractUserIdFromRequest(httpServletRequest);
 
-        UserAccountDto userAccountDto = userServiceClient.getUserAccount(userEmail);
+        StoreEntity store = storeService.getStoreByOwnerUser(userId);
 
-        StoreEntity store = storeService.getStore(userAccountDto.id());
         productService.createProduct(store, request);
 
         return ResponseEntity.ok().build();
@@ -56,8 +50,8 @@ public class ProductController {
 
         StoreEntity store;
 
-        String userEmail = ParseRequestUtil.extractUserEmailFromRequest(httpServletRequest);
-        if (StringUtils.isEmpty(userEmail)) {
+        Long userId = ParseRequestUtil.extractUserIdFromRequest(httpServletRequest);
+        if (userId == null) {
             if (tradeDeviceId == null) {
                 throw new CustomException(CommonErrorCode.INSUFFICIENT_AUTHENTICATION);
             }
@@ -65,9 +59,7 @@ public class ProductController {
 
             store = tradeDevice.getStore();
         } else {
-            UserAccountDto userAccountDto = userServiceClient.getUserAccount(userEmail);
-
-            store = storeService.getStore(userAccountDto.id());
+            store = storeService.getStoreByOwnerUser(userId);
         }
 
         return ResponseEntity.ok(productService.getProductList(store));
@@ -79,11 +71,9 @@ public class ProductController {
         @PathVariable("product-id") Long productId,
         @RequestBody @Valid UpdateProductRequestDto request
     ) {
-        String userEmail = ParseRequestUtil.extractUserEmailFromRequest(httpServletRequest);
+        Long userId = ParseRequestUtil.extractUserIdFromRequest(httpServletRequest);
 
-        UserAccountDto userAccountDto = userServiceClient.getUserAccount(userEmail);
-
-        StoreEntity store = storeService.getStore(userAccountDto.id());
+        StoreEntity store = storeService.getStoreByOwnerUser(userId);
 
         productService.updateProduct(store, productId, request);
 
@@ -95,11 +85,9 @@ public class ProductController {
         HttpServletRequest httpServletRequest,
         @PathVariable("product-id") Long productId
     ) {
-        String userEmail = ParseRequestUtil.extractUserEmailFromRequest(httpServletRequest);
+        Long userId = ParseRequestUtil.extractUserIdFromRequest(httpServletRequest);
 
-        UserAccountDto userAccountDto = userServiceClient.getUserAccount(userEmail);
-
-        StoreEntity store = storeService.getStore(userAccountDto.id());
+        StoreEntity store = storeService.getStoreByOwnerUser(userId);
 
         productService.softDeleteProduct(store, productId);
 
@@ -108,11 +96,9 @@ public class ProductController {
 
     @PatchMapping("/re-stock")
     public ResponseEntity<?> reStock(HttpServletRequest httpServletRequest) {
-        String userEmail = ParseRequestUtil.extractUserEmailFromRequest(httpServletRequest);
+        Long userId = ParseRequestUtil.extractUserIdFromRequest(httpServletRequest);
 
-        UserAccountDto userAccountDto = userServiceClient.getUserAccount(userEmail);
-
-        StoreEntity store = storeService.getStore(userAccountDto.id());
+        StoreEntity store = storeService.getStoreByOwnerUser(userId);
 
         productService.reStock(store);
 

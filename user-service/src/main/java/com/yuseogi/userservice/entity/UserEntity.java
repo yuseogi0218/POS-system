@@ -26,10 +26,6 @@ public class UserEntity {
     @Column(name = "phone", nullable = false, length = 11)
     private String phone;
 
-    public UserEntity(Long id) {
-        this.id = id;
-    }
-
     @Builder
     public UserEntity(String email, String name, String phone) {
         this.email = email;

@@ -50,7 +50,7 @@ public class JwtProvider {
     /**
      * JWT 토큰을 복호화하여 토큰에 들어있는 정보를 추출하여 Authentication 생성
      */
-    public String getUserEmail(String jwtToken) {
+    public String getUserId(String jwtToken) {
         // 토큰 복호화
         Claims claims = parseClaims(jwtToken);
 
@@ -99,16 +99,6 @@ public class JwtProvider {
      */
     public String getType(String token) {
         return (String) parseClaims(token).get(TYPE_KEY);
-    }
-
-    /**
-     * JWT 잔여 유효시간 (milli 초)
-     */
-    public Long getExpireIn(String token) {
-        Date expiration = parseClaims(token).getExpiration();
-        // 현재 시간
-        Long now = new Date().getTime();
-        return (expiration.getTime() - now);
     }
 
     /**

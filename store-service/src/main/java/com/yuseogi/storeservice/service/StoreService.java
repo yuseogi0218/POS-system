@@ -6,5 +6,7 @@ import com.yuseogi.storeservice.entity.StoreEntity;
 public interface StoreService {
     void createStore(CreateStoreRequestDto request);
 
-    StoreEntity getStore(Long ownerUserId);
+    StoreEntity getStore(Long storeId);
+
+    StoreEntity getStoreByOwnerUser(Long ownerUserId);
 }

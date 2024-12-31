@@ -17,7 +17,7 @@ import org.springframework.data.redis.core.index.Indexed;
 public class InvalidAccessToken {
 
     @Id
-    private String id;
+    private Long id;
 
     @Indexed
     private String accessToken;

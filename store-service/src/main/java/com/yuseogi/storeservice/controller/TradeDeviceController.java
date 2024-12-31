@@ -1,9 +1,7 @@
 package com.yuseogi.storeservice.controller;
 
 import com.yuseogi.common.util.ParseRequestUtil;
-import com.yuseogi.storeservice.dto.UserAccountDto;
 import com.yuseogi.storeservice.entity.StoreEntity;
-import com.yuseogi.storeservice.infrastructure.client.UserServiceClient;
 import com.yuseogi.storeservice.service.StoreService;
 import com.yuseogi.storeservice.service.TradeDeviceService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,8 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/store/trade-device")
 @RestController
 public class TradeDeviceController {
-
-    private final UserServiceClient userServiceClient;
 
     private final StoreService storeService;
     private final TradeDeviceService tradeDeviceService;
@@ -38,12 +34,9 @@ public class TradeDeviceController {
 
     @GetMapping("")
     public ResponseEntity<?> getTradeDeviceList(HttpServletRequest httpServletRequest) {
+        Long userId = ParseRequestUtil.extractUserIdFromRequest(httpServletRequest);
 
-        String userEmail = ParseRequestUtil.extractUserEmailFromRequest(httpServletRequest);
-
-        UserAccountDto userAccountDto = userServiceClient.getUserAccount(userEmail);
-
-        StoreEntity store = storeService.getStore(userAccountDto.id());
+        StoreEntity store = storeService.getStoreByOwnerUser(userId);
 
         return ResponseEntity.ok(tradeDeviceService.getTradeDeviceList(store));
     }

@@ -30,8 +30,13 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public StoreEntity getStore(Long ownerUserId) {
-        return storeRepository.findFirstByOwnerUserId(ownerUserId).orElseThrow(() -> new CustomException(StoreErrorCode.NOT_FOUND_STORE));
+    public StoreEntity getStore(Long storeId) {
+        return storeRepository.findFirstById(storeId).orElseThrow(() -> new CustomException(StoreErrorCode.NOT_FOUND_STORE));
+    }
+
+    @Override
+    public StoreEntity getStoreByOwnerUser(Long ownerUserId) {
+        return storeRepository.findFirstByOwnerUser(ownerUserId).orElseThrow(() -> new CustomException(StoreErrorCode.NOT_FOUND_STORE));
     }
 
 }
