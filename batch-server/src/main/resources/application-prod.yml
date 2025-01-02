@@ -1,0 +1,10 @@
+spring:
+  config:
+    activate:
+      on-profile: prod
+  application:
+    name: ${SPRING_APPLICATION_NAME}
+
+server:
+  port:
+    ${SERVER_PORT}

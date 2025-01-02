@@ -7,8 +7,6 @@ plugins {
 group = 'com.yuseogi'
 version = '0.0.1-SNAPSHOT'
 
-jar.enabled = false
-
 java {
 	toolchain {
 		languageVersion = JavaLanguageVersion.of(21)
@@ -20,16 +18,15 @@ repositories {
 }
 
 dependencies {
-	// spring cloud - eureka
-	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server'
+	// spring batch
+	implementation 'org.springframework.boot:spring-boot-starter-batch'
 }
 
 configurations {
+	all*.exclude group: 'org.springframework.boot', module: 'spring-boot-starter-web'
 	all*.exclude group: 'org.springframework.boot', module: 'spring-boot-starter-data-jpa'
 	all*.exclude group: 'org.springframework.cloud', module: 'spring-cloud-starter-openfeign'
-	all*.exclude group: 'com.mysql', module: 'mysql-connector-j'
 	all*.exclude group: 'org.springframework.boot', module: 'spring-boot-starter-validation'
-	all*.exclude group: 'org.projectlombok', module: 'lombok'
 
 	all*.exclude group: 'org.springframework.boot', module: 'spring-boot-starter-test'
 	all*.exclude group: 'com.h2database', module: 'h2'

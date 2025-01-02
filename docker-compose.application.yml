@@ -107,6 +107,17 @@ services:
     networks:
       - my-network
 
+  batch-server:
+    image: batch-server:latest
+    container_name: batch-server
+    ports:
+      - "9004:9004"
+    networks:
+      - my-network
+    environment:
+      SPRING_APPLICATION_NAME: batch-server
+      SERVER_PORT: 9004
+
 networks:
   my-network:
     external: true
