@@ -1,5 +1,6 @@
 package com.yuseogi.userservice.infrastructure.client.dto.response;
 
+import com.yuseogi.common.util.PhoneNumberUtil;
 import com.yuseogi.userservice.entity.UserEntity;
 import lombok.Builder;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,10 +30,8 @@ public record KakaoAccountResponseDto (
     public UserEntity toUserEntity() {
         return UserEntity.builder()
             .email(this.kakao_account.email)
-            .name("이유석")
-            .phone("01012345678")
-//            .name(this.kakao_account.name)
-//            .phone(this.kakao_account.phone_number)
+            .name(this.kakao_account.name)
+            .phone(PhoneNumberUtil.formatPhoneNumber(this.kakao_account.phone_number))
             .build();
     }
 }

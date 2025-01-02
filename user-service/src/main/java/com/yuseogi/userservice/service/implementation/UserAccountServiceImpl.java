@@ -2,12 +2,10 @@ package com.yuseogi.userservice.service.implementation;
 
 import com.yuseogi.common.exception.CustomException;
 import com.yuseogi.userservice.dto.UserAccountDto;
-import com.yuseogi.userservice.dto.request.CreateStoreRequestDto;
 import com.yuseogi.userservice.dto.request.SignUpKakaoRequestDto;
 import com.yuseogi.userservice.entity.UserEntity;
 import com.yuseogi.userservice.exception.UserErrorCode;
 import com.yuseogi.userservice.infrastructure.client.KakaoWebClient;
-import com.yuseogi.userservice.infrastructure.client.StoreServiceClient;
 import com.yuseogi.userservice.infrastructure.client.dto.response.KakaoAccountResponseDto;
 import com.yuseogi.userservice.repository.UserRepository;
 import com.yuseogi.userservice.service.UserAccountService;

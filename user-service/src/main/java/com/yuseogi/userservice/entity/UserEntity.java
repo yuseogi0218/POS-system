@@ -23,7 +23,7 @@ public class UserEntity {
     @Column(name = "name", nullable = false, length = 10)
     private String name;
 
-    @Column(name = "phone", nullable = false, length = 11)
+    @Column(name = "phone", length = 11)
     private String phone;
 
     @Builder
