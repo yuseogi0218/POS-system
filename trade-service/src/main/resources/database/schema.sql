@@ -39,6 +39,7 @@ CREATE TABLE `payment` (
                         `trade_id`       BIGINT(20) NOT NULL,
                         `payment_method` ENUM ('CASH', 'CARD') NOT NULL,
                         `card_company`   ENUM ('H', 'K', 'S') NULL,
+                        `card_fee`       INT NOT NULL,
                         `payment_at`     DATETIME(6) NOT NULL,
                         FOREIGN KEY (`trade_id`) REFERENCES trade(`id`)
 );

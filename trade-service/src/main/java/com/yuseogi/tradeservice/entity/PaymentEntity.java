@@ -36,6 +36,9 @@ public class PaymentEntity {
     @Column(name = "card_company", updatable = false)
     private CardCompany cardCompany;
 
+    @Column(name = "card_fee", nullable = false, updatable = false)
+    private Integer cardFee;
+
     @CreatedDate
     @Column(name = "payment_at", nullable = false, updatable = false)
     private LocalDateTime paymentAt;
@@ -44,6 +47,7 @@ public class PaymentEntity {
     public PaymentEntity(TradeEntity trade) {
         this.trade = trade;
         this.method = PaymentMethod.CASH;
+        this.cardFee = 0;
     }
 
     @Builder(builderMethodName = "builderAsCardPay", buildMethodName = "buildAsCardPay")
@@ -51,5 +55,6 @@ public class PaymentEntity {
         this.trade = trade;
         this.method = PaymentMethod.CARD;
         this.cardCompany = cardCompany;
+        this.cardFee = (int) Math.floor(trade.getTradeAmount() * cardCompany.getFeeRate());
     }
 }
