@@ -53,7 +53,6 @@ public class OrderControllerUnitTest extends ControllerUnitTest {
 
         // then
         resultActions.andExpect(status().isOk());
-        verify(storeServiceClient, times(1)).checkExistTradeDevice(Long.valueOf(tradeDeviceId));
         verify(orderService, times(1)).createOrder(Long.valueOf(tradeDeviceId), request);
     }
 

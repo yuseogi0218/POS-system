@@ -106,15 +106,4 @@ public class ProductController {
         return ResponseEntity.ok().build();
     }
 
-    @PatchMapping("/stock/{product-id}")
-    public ResponseEntity<?> decreaseStock(
-        @PathVariable("product-id") Long productId,
-        @RequestBody DecreaseProductStockRequestDto request
-    ) {
-        StoreEntity store = storeService.getStore(request.storeId());
-
-        ProductEntity product = productService.decreaseStock(store, productId, request.decreasingStock());
-
-        return ResponseEntity.ok(new ProductInfoDto(product));
-    }
 }

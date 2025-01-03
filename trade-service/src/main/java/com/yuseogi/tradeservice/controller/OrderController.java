@@ -22,7 +22,6 @@ public class OrderController {
         @CookieValue(value = "tradeDeviceId") Long tradeDeviceId,
         @RequestBody @Valid CreateOrderRequestDto request
     ) {
-        storeServiceClient.checkExistTradeDevice(tradeDeviceId);
         orderService.createOrder(tradeDeviceId, request);
 
         return ResponseEntity.ok().build();

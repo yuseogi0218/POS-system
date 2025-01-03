@@ -468,33 +468,6 @@ public class ProductControllerUnitTest extends ControllerUnitTest {
         verify(productService, times(1)).reStock(store);
     }
 
-    /**
-     * 상품 현재 재고 감소 성공
-     */
-    @Test
-    void 상품_현재_재고_감소_성공() throws Exception {
-        // given
-        String productId = "1";
-        DecreaseProductStockRequestDto request = DecreaseProductStockRequestDtoBuilder.build();
-        StoreEntity store = mock(StoreEntity.class);
-        ProductEntity product = ProductEntityBuilder.build();
-
-
-        // stub
-        when(storeService.getStore(request.storeId())).thenReturn(store);
-        when(productService.decreaseStock(store, Long.valueOf(productId), request.decreasingStock())).thenReturn(product);
-
-        // when
-        ResultActions resultActions = requestDecreaseStock(productId, request);
-
-        // then
-        String responseString = resultActions
-            .andExpect(status().isOk())
-            .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
-
-        objectMapper.readValue(responseString, ProductInfoDto.class);
-    }
-
     private ResultActions requestCreateProduct(String userId, CreateProductRequestDto request) throws Exception {
         return mvc.perform(post("/store/product")
                 .header("X-Authorization-userId", userId)
@@ -540,10 +513,4 @@ public class ProductControllerUnitTest extends ControllerUnitTest {
             .andDo(print());
     }
 
-    private ResultActions requestDecreaseStock(String productId, DecreaseProductStockRequestDto request) throws Exception {
-        return mvc.perform(patch("/store/product/stock/{product-id}", productId)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request)))
-            .andDo(print());
-    }
 }

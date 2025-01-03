@@ -21,18 +21,6 @@ public class TradeDeviceController {
     private final StoreService storeService;
     private final TradeDeviceService tradeDeviceService;
 
-    @GetMapping("/check-exist/{trade-device-id}")
-    public ResponseEntity<?> checkExistTradeDevice(@PathVariable("trade-device-id") Long tradeDeviceId) {
-        tradeDeviceService.checkExistTradeDevice(tradeDeviceId);
-
-        return ResponseEntity.ok().build();
-    }
-
-    @GetMapping("/{trade-device-id}")
-    public ResponseEntity<?> getTradeDevice(@PathVariable("trade-device-id") Long tradeDeviceId) {
-        return ResponseEntity.ok(new TradeDeviceInfoDto(tradeDeviceService.getTradeDevice(tradeDeviceId)));
-    }
-
     @GetMapping("")
     public ResponseEntity<?> getTradeDeviceList(HttpServletRequest httpServletRequest) {
         Long userId = ParseRequestUtil.extractUserIdFromRequest(httpServletRequest);

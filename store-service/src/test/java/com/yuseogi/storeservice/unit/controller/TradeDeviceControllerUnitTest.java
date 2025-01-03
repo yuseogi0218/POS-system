@@ -42,81 +42,6 @@ public class TradeDeviceControllerUnitTest extends ControllerUnitTest {
         mvc = buildMockMvc(context);
     }
 
-    /**
-     * 주문용 태블릿 기기 DB Id 기준으로 주문용 태블릿 기기 존재 유무 확인 성공
-     */
-    @Test
-    void 주문용_태블릿_기기_DB_Id_기준으로_주문용_태블릿_기기_존재_유무_확인_성공() throws Exception {
-        // given
-        String tradeDeviceId = "1";
-
-        // when
-        ResultActions resultActions = requestCheckExistTradeDevice(tradeDeviceId);
-
-        // then
-        resultActions.andExpect(status().isOk());
-        verify(tradeDeviceService, times(1)).checkExistTradeDevice(Long.valueOf(tradeDeviceId));
-    }
-
-    /**
-     * 주문용 태블릿 기기 DB Id 기준으로 주문용 태블릿 기기 존재 유무 확인 실패
-     * - 실패 사유 : PathVariable - trade-device-id 타입
-     */
-    @Test
-    void 주문용_태블릿_기기_DB_Id_기준으로_주문용_태블릿_기기_존재_유무_확인_실패() throws Exception {
-        // given
-        String invalidTradeDeviceId = "invalid-trade-device-id";
-
-        // when
-        ResultActions resultActions = requestCheckExistTradeDevice(invalidTradeDeviceId);
-
-        // then
-        assertErrorWithMessage(CommonErrorCode.MISMATCH_PARAMETER_TYPE, resultActions, "trade-device-id");
-    }
-
-    /**
-     * 주문용 태블릿 기기 DB Id 기준으로 주문용 태블릿 기기 정보 조회 성공
-     */
-    @Test
-    void 주문용_태블릿_기기_DB_Id_기준으로_주문용_태블릿_기기_정보_조회_성공() throws Exception {
-        // given
-        String tradeDeviceId = "1";
-        TradeDeviceEntity tradeDevice = mock(TradeDeviceEntity.class);
-        Long storeId = 1L;
-        StoreEntity store = mock(StoreEntity.class);
-
-        // stub
-        when(tradeDeviceService.getTradeDevice(Long.valueOf(tradeDeviceId))).thenReturn(tradeDevice);
-        when(tradeDevice.getId()).thenReturn(Long.valueOf(tradeDeviceId));
-        when(tradeDevice.getStore()).thenReturn(store);
-        when(store.getId()).thenReturn(storeId);
-
-        // when
-        ResultActions resultActions = requestGetTradeDevice(tradeDeviceId);
-
-        // then
-        String responseString = resultActions
-            .andExpect(status().isOk())
-            .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
-
-        objectMapper.readValue(responseString, TradeDeviceInfoDto.class);
-    }
-
-    /**
-     * 주문용 태블릿 기기 DB Id 기준으로 주문용 태블릿 기기 정보 조회 실패
-     * - 실패 사유 : PathVariable - trade-device-id 타입
-     */
-    @Test
-    void 주문용_태블릿_기기_DB_Id_기준으로_주문용_태블릿_기기_정보_조회_실패() throws Exception {
-        // given
-        String invalidTradeDeviceId = "invalid-trade-device-id";
-
-        // when
-        ResultActions resultActions = requestGetTradeDevice(invalidTradeDeviceId);
-
-        // then
-        assertErrorWithMessage(CommonErrorCode.MISMATCH_PARAMETER_TYPE, resultActions, "trade-device-id");
-    }
 
     /**
      * 주문용 태블릿 기기 목록 조회 성공
@@ -141,16 +66,6 @@ public class TradeDeviceControllerUnitTest extends ControllerUnitTest {
             .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
 
         objectMapper.readValue(responseString, new TypeReference<List<Long>>() {});
-    }
-
-    public ResultActions requestCheckExistTradeDevice(String tradeDeviceId) throws Exception {
-        return mvc.perform(get("/store/trade-device/check-exist/{trade-device-id}", tradeDeviceId))
-            .andDo(print());
-    }
-
-    public ResultActions requestGetTradeDevice(String tradeDeviceId) throws Exception {
-        return mvc.perform(get("/store/trade-device/{trade-device-id}", tradeDeviceId))
-            .andDo(print());
     }
 
     private ResultActions requestGetTradeDeviceList(String userId) throws Exception {
