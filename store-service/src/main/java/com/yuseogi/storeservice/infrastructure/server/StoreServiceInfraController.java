@@ -3,9 +3,6 @@ package com.yuseogi.storeservice.infrastructure.server;
 import com.yuseogi.storeservice.dto.ProductInfoDto;
 import com.yuseogi.storeservice.dto.TradeDeviceInfoDto;
 import com.yuseogi.storeservice.dto.request.CreateStoreRequestDto;
-import com.yuseogi.storeservice.dto.request.DecreaseProductStockRequestDto;
-import com.yuseogi.storeservice.entity.ProductEntity;
-import com.yuseogi.storeservice.entity.StoreEntity;
 import com.yuseogi.storeservice.service.ProductService;
 import com.yuseogi.storeservice.service.StoreService;
 import com.yuseogi.storeservice.service.TradeDeviceService;
@@ -29,16 +26,9 @@ public class StoreServiceInfraController {
         return ResponseEntity.ok().build();
     }
 
-    @PatchMapping("/product/stock/{product-id}")
-    public ResponseEntity<?> decreaseStock(
-        @PathVariable("product-id") Long productId,
-        @RequestBody DecreaseProductStockRequestDto request
-    ) {
-        StoreEntity store = storeService.getStore(request.storeId());
-
-        ProductEntity product = productService.decreaseStock(store, productId, request.decreasingStock());
-
-        return ResponseEntity.ok(new ProductInfoDto(product));
+    @GetMapping("/product/{product-id}")
+    public ResponseEntity<?> getProductInfo(@PathVariable("product-id") Long productId) {
+        return ResponseEntity.ok(new ProductInfoDto(productService.getProduct(productId)));
     }
 
     @GetMapping("/trade-device/check-exist/{trade-device-id}")

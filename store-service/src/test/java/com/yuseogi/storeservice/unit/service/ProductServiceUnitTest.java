@@ -2,6 +2,7 @@ package com.yuseogi.storeservice.unit.service;
 
 import com.yuseogi.common.exception.CustomException;
 import com.yuseogi.storeservice.dto.request.CreateProductRequestDto;
+import com.yuseogi.storeservice.infrastructure.messagequeue.kafka.dto.request.DecreaseProductStockRequestMessage;
 import com.yuseogi.storeservice.dto.request.UpdateProductRequestDto;
 import com.yuseogi.storeservice.dto.response.GetProductResponseDto;
 import com.yuseogi.storeservice.entity.ProductEntity;
@@ -111,6 +112,7 @@ public class ProductServiceUnitTest extends ServiceUnitTest {
     @Test
     void updateProduct_성공() {
         // given
+        Long storeId = 1L;
         StoreEntity store = mock(StoreEntity.class);
         Long productId = 1L;
         ProductEntity product = mock(ProductEntity.class);
@@ -118,12 +120,13 @@ public class ProductServiceUnitTest extends ServiceUnitTest {
 
         // stub
         when(productRepository.findFirstByIdAndIsDeletedFalse(productId)).thenReturn(Optional.of(product));
+        when(store.getId()).thenReturn(storeId);
 
         // when
         productService.updateProduct(store, productId, request);
 
         // then
-        verify(product, times(1)).checkAuthority(store);
+        verify(product, times(1)).checkAuthority(storeId);
         verify(product, times(1)).updateProperties(request);
     }
 
@@ -153,18 +156,20 @@ public class ProductServiceUnitTest extends ServiceUnitTest {
     @Test
     void softDeleteProduct_성공() {
         // given
+        Long storeId = 1L;
         StoreEntity store = mock(StoreEntity.class);
         Long productId = 1L;
         ProductEntity product = mock(ProductEntity.class);
 
         // stub
         when(productRepository.findFirstByIdAndIsDeletedFalse(productId)).thenReturn(Optional.of(product));
+        when(store.getId()).thenReturn(storeId);
 
         // when
         productService.softDeleteProduct(store, productId);
 
         // then
-        verify(product, times(1)).checkAuthority(store);
+        verify(product, times(1)).checkAuthority(storeId);
         verify(product, times(1)).softDelete();
     }
 
@@ -212,21 +217,24 @@ public class ProductServiceUnitTest extends ServiceUnitTest {
     @Test
     void decreaseStock_성공() {
         // given
-        StoreEntity store = mock(StoreEntity.class);
+        DecreaseProductStockRequestMessage request = mock(DecreaseProductStockRequestMessage.class);
+        Long storeId = 1L;
         Long productId = 1L;
         Integer decreasingStock = 10;
 
         ProductEntity expectedProduct = mock(ProductEntity.class);
 
         // stub
+        when(request.productId()).thenReturn(productId);
         when(productRepository.findFirstByIdAndIsDeletedFalse(productId)).thenReturn(Optional.of(expectedProduct));
+        when(request.storeId()).thenReturn(storeId);
+        when(request.decreasingStock()).thenReturn(decreasingStock);
 
         // when
-        ProductEntity actualProduct = productService.decreaseStock(store, productId, decreasingStock);
+        productService.decreaseStock(request);
 
         // then
-        Assertions.assertThat(actualProduct).isEqualTo(expectedProduct);
-        verify(expectedProduct, times(1)).checkAuthority(store);
+        verify(expectedProduct, times(1)).checkAuthority(storeId);
         verify(expectedProduct, times(1)).decreaseStock(decreasingStock);
     }
 
@@ -237,15 +245,16 @@ public class ProductServiceUnitTest extends ServiceUnitTest {
     @Test
     void decreaseStock_실패_NOT_FOUND_PRODUCT() {
         // given
-        StoreEntity store = mock(StoreEntity.class);
+        DecreaseProductStockRequestMessage request = mock(DecreaseProductStockRequestMessage.class);
         Long unknownProductId = 0L;
         Integer decreasingStock = 10;
 
         // stub
+        when(request.productId()).thenReturn(unknownProductId);
         when(productRepository.findFirstByIdAndIsDeletedFalse(unknownProductId)).thenReturn(Optional.empty());
 
         // when & then
-        Assertions.assertThatThrownBy(() -> productService.decreaseStock(store, unknownProductId, decreasingStock))
+        Assertions.assertThatThrownBy(() -> productService.decreaseStock(request))
             .isInstanceOf(CustomException.class)
             .hasMessage(StoreErrorCode.NOT_FOUND_PRODUCT.getMessage());
     }

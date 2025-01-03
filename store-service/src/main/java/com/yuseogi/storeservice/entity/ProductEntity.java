@@ -56,8 +56,8 @@ public class ProductEntity {
         this.baseStock = baseStock;
     }
 
-    public void checkAuthority(StoreEntity store) {
-        if (!this.store.getId().equals(store.getId())) {
+    public void checkAuthority(Long storeId) {
+        if (!this.store.getId().equals(storeId)) {
             throw new CustomException(StoreErrorCode.DENIED_ACCESS_TO_PRODUCT);
         }
     }

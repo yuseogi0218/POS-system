@@ -1,7 +1,7 @@
 package com.yuseogi.storeservice.service;
 
-import com.yuseogi.storeservice.dto.ProductInfoDto;
 import com.yuseogi.storeservice.dto.request.CreateProductRequestDto;
+import com.yuseogi.storeservice.infrastructure.messagequeue.kafka.dto.request.DecreaseProductStockRequestMessage;
 import com.yuseogi.storeservice.dto.request.UpdateProductRequestDto;
 import com.yuseogi.storeservice.dto.response.GetProductResponseDto;
 import com.yuseogi.storeservice.entity.ProductEntity;
@@ -22,5 +22,5 @@ public interface ProductService {
 
     void reStock(StoreEntity store);
 
-    ProductEntity decreaseStock(StoreEntity store, Long productId, Integer decreasingStock);
+    void decreaseStock(DecreaseProductStockRequestMessage request);
 }

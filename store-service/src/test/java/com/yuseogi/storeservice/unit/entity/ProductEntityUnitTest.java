@@ -39,6 +39,7 @@ public class ProductEntityUnitTest {
     @Test
     void checkAuthority_성공() {
         // given
+        Long storeId = 1L;
         StoreEntity store = mock(StoreEntity.class);
         ProductEntity product = ProductEntity.builder()
             .store(store)
@@ -48,7 +49,7 @@ public class ProductEntityUnitTest {
         when(store.getId()).thenReturn(1L);
 
         // when
-        product.checkAuthority(store);
+        product.checkAuthority(storeId);
 
         // then
     }
@@ -56,19 +57,19 @@ public class ProductEntityUnitTest {
     @Test
     void checkAuthority_실패_DENIED_ACCESS_TO_PRODUCT() {
         // given
+        Long storeId = 1L;
         StoreEntity store = mock(StoreEntity.class);
         ProductEntity product = ProductEntity.builder()
             .store(store)
             .build();
 
-        StoreEntity anotherStore = mock(StoreEntity.class);
+        Long anotherStoreId = 2L;
 
         // stub
-        when(store.getId()).thenReturn(1L);
-        when(anotherStore.getId()).thenReturn(2L);
+        when(store.getId()).thenReturn(storeId);
 
         // when & then
-        Assertions.assertThatThrownBy(() -> product.checkAuthority(anotherStore))
+        Assertions.assertThatThrownBy(() -> product.checkAuthority(anotherStoreId))
             .isInstanceOf(CustomException.class)
             .hasMessage(StoreErrorCode.DENIED_ACCESS_TO_PRODUCT.getMessage());
     }

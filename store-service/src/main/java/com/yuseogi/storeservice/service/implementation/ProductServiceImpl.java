@@ -1,8 +1,8 @@
 package com.yuseogi.storeservice.service.implementation;
 
 import com.yuseogi.common.exception.CustomException;
-import com.yuseogi.storeservice.dto.ProductInfoDto;
 import com.yuseogi.storeservice.dto.request.CreateProductRequestDto;
+import com.yuseogi.storeservice.infrastructure.messagequeue.kafka.dto.request.DecreaseProductStockRequestMessage;
 import com.yuseogi.storeservice.dto.request.UpdateProductRequestDto;
 import com.yuseogi.storeservice.dto.response.GetProductResponseDto;
 import com.yuseogi.storeservice.entity.ProductEntity;
@@ -44,7 +44,7 @@ public class ProductServiceImpl implements ProductService {
     public void updateProduct(StoreEntity store, Long productId, UpdateProductRequestDto request) {
         ProductEntity product = getProduct(productId);
 
-        product.checkAuthority(store);
+        product.checkAuthority(store.getId());
 
         product.updateProperties(request);
     }
@@ -54,7 +54,7 @@ public class ProductServiceImpl implements ProductService {
     public void softDeleteProduct(StoreEntity store, Long productId) {
         ProductEntity product = getProduct(productId);
 
-        product.checkAuthority(store);
+        product.checkAuthority(store.getId());
 
         product.softDelete();
     }
@@ -67,13 +67,11 @@ public class ProductServiceImpl implements ProductService {
 
     @Transactional
     @Override
-    public ProductEntity decreaseStock(StoreEntity store, Long productId, Integer decreasingStock) {
-        ProductEntity product = getProduct(productId);
+    public void decreaseStock(DecreaseProductStockRequestMessage request) {
+        ProductEntity product = getProduct(request.productId());
 
-        product.checkAuthority(store);
+        product.checkAuthority(request.storeId());
 
-        product.decreaseStock(decreasingStock);
-
-        return product;
+        product.decreaseStock(request.decreasingStock());
     }
 }

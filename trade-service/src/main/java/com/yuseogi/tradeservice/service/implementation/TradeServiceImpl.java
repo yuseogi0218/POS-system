@@ -88,4 +88,9 @@ public class TradeServiceImpl implements TradeService {
 
         paymentRepository.save(payment);
     }
+
+    @Override
+    public void deleteTrade(Long tradeId) {
+        tradeRepository.deleteById(tradeId);
+    }
 }

@@ -2,7 +2,8 @@ package com.yuseogi.tradeservice.unit.service;
 
 import com.yuseogi.tradeservice.dto.ProductInfoDto;
 import com.yuseogi.tradeservice.dto.request.CreateOrderRequestDto;
-import com.yuseogi.tradeservice.dto.request.DecreaseProductStockRequestDto;
+import com.yuseogi.tradeservice.infrastructure.messagequeue.kafka.TradeKafkaProducer;
+import com.yuseogi.tradeservice.infrastructure.messagequeue.kafka.dto.request.DecreaseProductStockRequestMessage;
 import com.yuseogi.tradeservice.entity.OrderDetailEntity;
 import com.yuseogi.tradeservice.entity.OrderEntity;
 import com.yuseogi.tradeservice.entity.TradeEntity;
@@ -27,6 +28,9 @@ public class OrderServiceUnitTest extends ServiceUnitTest {
 
     @Mock
     private StoreServiceClient storeServiceClient;
+
+    @Mock
+    private TradeKafkaProducer tradeKafkaProducer;
 
     @Mock
     private OrderDetailRepository orderDetailRepository;
@@ -79,14 +83,14 @@ public class OrderServiceUnitTest extends ServiceUnitTest {
         when(request.productList()).thenReturn(productRequestList);
 
         when(productRequest1.id()).thenReturn(productId1);
+        when(storeServiceClient.getProductInfo(productId1)).thenReturn(productInfoDto1);
         when(productRequest1.count()).thenReturn(productRequestCount1);
-        when(storeServiceClient.decreaseProductStock(eq(productId1), any(DecreaseProductStockRequestDto.class))).thenReturn(productInfoDto1);
         when(productRequest1.toOrderDetailEntity(savedOrder, productInfoDto1)).thenReturn(orderDetail1);
         when(orderDetail1.getTotalAmount()).thenReturn(orderDetailTotalAmount1);
 
         when(productRequest2.id()).thenReturn(productId2);
+        when(storeServiceClient.getProductInfo(productId2)).thenReturn(productInfoDto2);
         when(productRequest2.count()).thenReturn(productRequestCount2);
-        when(storeServiceClient.decreaseProductStock(eq(productId2), any(DecreaseProductStockRequestDto.class))).thenReturn(productInfoDto2);
         when(productRequest2.toOrderDetailEntity(savedOrder, productInfoDto2)).thenReturn(orderDetail2);
         when(orderDetail2.getTotalAmount()).thenReturn(orderDetailTotalAmount2);
 
@@ -95,6 +99,8 @@ public class OrderServiceUnitTest extends ServiceUnitTest {
 
         // then
         verify(tradeService, never()).createTrade(tradeDeviceId);
+
+        verify(tradeKafkaProducer, times(2)).produceDecreaseProductStockMessage(any(DecreaseProductStockRequestMessage.class));
 
         verify(orderDetailRepository, times(1)).saveAll(orderDetailList);
         verify(savedOrder, times(1)).updateOrderAmount(orderAmount);
@@ -144,19 +150,22 @@ public class OrderServiceUnitTest extends ServiceUnitTest {
         when(request.productList()).thenReturn(productRequestList);
 
         when(productRequest1.id()).thenReturn(productId1);
+        when(storeServiceClient.getProductInfo(productId1)).thenReturn(productInfoDto1);
         when(productRequest1.count()).thenReturn(productRequestCount1);
-        when(storeServiceClient.decreaseProductStock(eq(productId1), any(DecreaseProductStockRequestDto.class))).thenReturn(productInfoDto1);
         when(productRequest1.toOrderDetailEntity(savedOrder, productInfoDto1)).thenReturn(orderDetail1);
         when(orderDetail1.getTotalAmount()).thenReturn(orderDetailTotalAmount1);
 
         when(productRequest2.id()).thenReturn(productId2);
+        when(storeServiceClient.getProductInfo(productId2)).thenReturn(productInfoDto2);
         when(productRequest2.count()).thenReturn(productRequestCount2);
-        when(storeServiceClient.decreaseProductStock(eq(productId2), any(DecreaseProductStockRequestDto.class))).thenReturn(productInfoDto2);
         when(productRequest2.toOrderDetailEntity(savedOrder, productInfoDto2)).thenReturn(orderDetail2);
         when(orderDetail2.getTotalAmount()).thenReturn(orderDetailTotalAmount2);
 
         // when
         orderService.createOrder(tradeDeviceId, request);
+
+        // then
+        verify(tradeKafkaProducer, times(2)).produceDecreaseProductStockMessage(any(DecreaseProductStockRequestMessage.class));
 
         verify(orderDetailRepository, times(1)).saveAll(orderDetailList);
         verify(savedOrder, times(1)).updateOrderAmount(orderAmount);

@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class OrderController {
 
-    private final StoreServiceClient storeServiceClient;
-
     private final OrderService orderService;
 
     @PostMapping("")

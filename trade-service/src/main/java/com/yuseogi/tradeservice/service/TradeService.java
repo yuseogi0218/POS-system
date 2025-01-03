@@ -19,4 +19,6 @@ public interface TradeService {
     void payWithCash(Long tradeDeviceId);
 
     void payWithCard(Long tradeDeviceId, PayWithCardRequestDto request);
+
+    void deleteTrade(Long tradeId);
 }

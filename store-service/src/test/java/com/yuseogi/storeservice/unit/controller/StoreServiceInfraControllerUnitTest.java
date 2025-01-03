@@ -1,12 +1,9 @@
 package com.yuseogi.storeservice.unit.controller;
 
 import com.yuseogi.common.exception.CommonErrorCode;
-import com.yuseogi.storeservice.controller.TradeDeviceController;
 import com.yuseogi.storeservice.dto.ProductInfoDto;
 import com.yuseogi.storeservice.dto.TradeDeviceInfoDto;
 import com.yuseogi.storeservice.dto.request.CreateStoreRequestDto;
-import com.yuseogi.storeservice.dto.request.DecreaseProductStockRequestDto;
-import com.yuseogi.storeservice.dto.request.DecreaseProductStockRequestDtoBuilder;
 import com.yuseogi.storeservice.entity.ProductEntity;
 import com.yuseogi.storeservice.entity.ProductEntityBuilder;
 import com.yuseogi.storeservice.entity.StoreEntity;
@@ -70,23 +67,19 @@ public class StoreServiceInfraControllerUnitTest extends ControllerUnitTest{
     }
 
     /**
-     * 상품 현재 재고 감소 성공
+     * 상품 정보 조회 성공
      */
     @Test
-    void 상품_현재_재고_감소_성공() throws Exception {
+    void 상품_정보_조회_성공() throws Exception {
         // given
         String productId = "1";
-        DecreaseProductStockRequestDto request = DecreaseProductStockRequestDtoBuilder.build();
-        StoreEntity store = mock(StoreEntity.class);
         ProductEntity product = ProductEntityBuilder.build();
 
-
         // stub
-        when(storeService.getStore(request.storeId())).thenReturn(store);
-        when(productService.decreaseStock(store, Long.valueOf(productId), request.decreasingStock())).thenReturn(product);
+        when(productService.getProduct(Long.valueOf(productId))).thenReturn(product);
 
         // when
-        ResultActions resultActions = requestDecreaseStock(productId, request);
+        ResultActions resultActions = requestGetProductInfo(productId);
 
         // then
         String responseString = resultActions
@@ -95,6 +88,23 @@ public class StoreServiceInfraControllerUnitTest extends ControllerUnitTest{
 
         objectMapper.readValue(responseString, ProductInfoDto.class);
     }
+
+    /**
+     * 상품 정보 조회 실패
+     * - 실패 사유 : PathVariable - product-id 타입
+     */
+    @Test
+    void 상품_정보_조회_실패_PathVariable_product_id_타입() throws Exception {
+        // given
+        String invalidProductId = "invalid-product-id";
+
+        // when
+        ResultActions resultActions = requestGetProductInfo(invalidProductId);
+
+        // then
+        assertErrorWithMessage(CommonErrorCode.MISMATCH_PARAMETER_TYPE, resultActions, "product-id");
+    }
+
     /**
      * 주문용 태블릿 기기 DB Id 기준으로 주문용 태블릿 기기 존재 유무 확인 성공
      */
@@ -116,7 +126,7 @@ public class StoreServiceInfraControllerUnitTest extends ControllerUnitTest{
      * - 실패 사유 : PathVariable - trade-device-id 타입
      */
     @Test
-    void 주문용_태블릿_기기_DB_Id_기준으로_주문용_태블릿_기기_존재_유무_확인_실패() throws Exception {
+    void 주문용_태블릿_기기_DB_Id_기준으로_주문용_태블릿_기기_존재_유무_확인_실패_PathVariable_trade_device_id_타입() throws Exception {
         // given
         String invalidTradeDeviceId = "invalid-trade-device-id";
 
@@ -160,7 +170,7 @@ public class StoreServiceInfraControllerUnitTest extends ControllerUnitTest{
      * - 실패 사유 : PathVariable - trade-device-id 타입
      */
     @Test
-    void 주문용_태블릿_기기_DB_Id_기준으로_주문용_태블릿_기기_정보_조회_실패() throws Exception {
+    void 주문용_태블릿_기기_DB_Id_기준으로_주문용_태블릿_기기_정보_조회_실패_PathVariable_trade_device_id_타입() throws Exception {
         // given
         String invalidTradeDeviceId = "invalid-trade-device-id";
 
@@ -179,10 +189,9 @@ public class StoreServiceInfraControllerUnitTest extends ControllerUnitTest{
 
     }
 
-    private ResultActions requestDecreaseStock(String productId, DecreaseProductStockRequestDto request) throws Exception {
-        return mvc.perform(patch("/store/product/stock/{product-id}", productId)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request)))
+    private ResultActions requestGetProductInfo(String productId) throws Exception {
+        return mvc.perform(get("/store/product/{product-id}", productId)
+                .contentType(MediaType.APPLICATION_JSON))
             .andDo(print());
     }
 
