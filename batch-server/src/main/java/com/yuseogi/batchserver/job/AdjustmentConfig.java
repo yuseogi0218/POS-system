@@ -33,6 +33,7 @@ public class AdjustmentConfig {
     private static final int chunkSize = 10;
 
     private static final String CARD_FEE_TYPE = "CARD";
+    //TODO: 2025-01-03 1달 정산 시, 포스기 이용 요금 포함 할것
     private static final String POS_USAGE_FEE_TYPE = "POS_USAGE";
 
     private final DataSource dataSource;
