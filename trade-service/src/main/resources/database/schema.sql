@@ -27,19 +27,22 @@ CREATE TABLE `order_detail` (
                              `id`               BIGINT(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
                              `order_id`         BIGINT(20) NOT NULL,
                              `product_name`     VARCHAR(255) NOT NULL,
-                             `product_category` ENUM ('MAIN_MENU', 'SUB_MENU', 'DRINK') NOT NULL,
+                             `product_category` VARCHAR(10) NOT NULL,
                              `product_price`    INT NOT NULL,
                              `count`            INT NOT NULL,
                              `total_amount`     INT NOT NULL,
+                             CHECK ( `product_category` IN ('MAIN_MENU', 'SUB_MENU', 'DRINK') ),
                              FOREIGN KEY (`order_id`) REFERENCES order_table(`id`)
 );
 
 CREATE TABLE `payment` (
                         `id`             BIGINT(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
                         `trade_id`       BIGINT(20) NOT NULL,
-                        `payment_method` ENUM ('CASH', 'CARD') NOT NULL,
-                        `card_company`   ENUM ('H', 'K', 'S') NULL,
+                        `payment_method` VARCHAR(4) NOT NULL,
+                        `card_company`   VARCHAR(1) NULL,
                         `card_fee`       INT NOT NULL,
                         `payment_at`     DATETIME(6) NOT NULL,
+                        CHECK ( `payment_method` IN ('CASH', 'CARD') ),
+                        CHECK ( `card_company` IN ('H', 'K', 'S') ),
                         FOREIGN KEY (`trade_id`) REFERENCES trade(`id`)
 );

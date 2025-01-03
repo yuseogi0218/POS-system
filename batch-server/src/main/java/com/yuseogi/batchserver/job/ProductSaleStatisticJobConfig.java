@@ -1,10 +1,9 @@
 package com.yuseogi.batchserver.job;
 
-import com.yuseogi.batchserver.item.ProductSaleStatisticItem;
+import com.yuseogi.batchserver.dao.ProductSaleStatisticItemDao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
-import org.springframework.batch.core.configuration.annotation.JobScope;
 import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.listener.ExecutionContextPromotionListener;
@@ -56,7 +55,6 @@ public class ProductSaleStatisticJobConfig {
     }
 
     @Bean
-    @JobScope
     public Step createProductSaleStatisticStep(
         JobRepository jobRepository,
         PlatformTransactionManager transactionManager
@@ -117,7 +115,7 @@ public class ProductSaleStatisticJobConfig {
         PlatformTransactionManager transactionManager
     ) throws Exception {
         return new StepBuilder("productSaleCountStatisticStep", jobRepository)
-            .<ProductSaleStatisticItem, ProductSaleStatisticItem>chunk(chunkSize, transactionManager)
+            .<ProductSaleStatisticItemDao, ProductSaleStatisticItemDao>chunk(chunkSize, transactionManager)
             .reader(productSaleStatisticItemReader(null, null, null, null, null))
             .writer(productSaleStatisticItemWriter())
             .build();
@@ -125,7 +123,7 @@ public class ProductSaleStatisticJobConfig {
 
     @Bean
     @StepScope
-    public JdbcPagingItemReader<ProductSaleStatisticItem> productSaleStatisticItemReader(
+    public JdbcPagingItemReader<ProductSaleStatisticItemDao> productSaleStatisticItemReader(
         @Value("#{jobExecutionContext[statisticId]}") Long statisticId,
         @Value("#{jobParameters[storeId]}") Long storeId,
         @Value("#{jobParameters[startDate]}") LocalDate startDate,
@@ -138,11 +136,11 @@ public class ProductSaleStatisticJobConfig {
         parameterValues.put("endDate", endDate);
         parameterValues.put("productCategory", productCategory);
 
-        return new JdbcPagingItemReaderBuilder<ProductSaleStatisticItem>()
+        return new JdbcPagingItemReaderBuilder<ProductSaleStatisticItemDao>()
             .pageSize(chunkSize)
             .fetchSize(chunkSize)
             .dataSource(dataSource)
-            .rowMapper((rs, rowNum) -> new ProductSaleStatisticItem(
+            .rowMapper((rs, rowNum) -> new ProductSaleStatisticItemDao(
                 statisticId,
                 rs.getInt("count_ranking"),
                 rs.getInt("amount_ranking"),
@@ -186,14 +184,15 @@ public class ProductSaleStatisticJobConfig {
         """);
         queryProvider.setWhereClause("count_ranking <= 5 OR amount_ranking <= 5");
 
+        //TODO: 2025-01-3 Sort Key 고유한 값으로 수정 필요 또는 안쓸수 있는 방법 찾아보기
         queryProvider.setSortKey("count_ranking");
 
         return queryProvider.getObject();
     }
 
     @Bean
-    public ItemWriter<ProductSaleStatisticItem> productSaleStatisticItemWriter() {
-        return new JdbcBatchItemWriterBuilder<ProductSaleStatisticItem>()
+    public ItemWriter<ProductSaleStatisticItemDao> productSaleStatisticItemWriter() {
+        return new JdbcBatchItemWriterBuilder<ProductSaleStatisticItemDao>()
             .dataSource(dataSource)
             .sql("INSERT INTO product_sale_statistic_item (statistic_id, count_ranking, amount_ranking, product_name, product_price, sale_count, sale_amount)" +
                 "VALUES (:statisticId, :countRanking, :amountRanking, :productName, :productPrice, :saleCount, :saleAmount)")

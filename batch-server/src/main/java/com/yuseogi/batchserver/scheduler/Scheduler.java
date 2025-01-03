@@ -34,6 +34,8 @@ public class Scheduler {
     public void dailyRunJob() {
         LocalDate startDate = LocalDate.now().minusDays(1);
         LocalDate endDate = LocalDate.now();
+
+        // statistic create job
         List<Long> storeIdList = schedulerJdbcTemplateRepository.findAllStoreId();
 
         storeIdList.forEach(storeId ->
@@ -53,6 +55,19 @@ public class Scheduler {
                 }
             )
         );
+
+        // adjustment create job
+        JobParameters jobParameters = new JobParametersBuilder()
+            .addString("dateTerm", DAY)
+            .addLocalDate("startDate", startDate)
+            .addLocalDate("endDate", endDate)
+            .toJobParameters();
+
+        try {
+            jobLauncher.run(jobRegistry.getJob("adjustmentJob"), jobParameters);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
     }
 
     // 매주 월요일 자정
@@ -60,6 +75,8 @@ public class Scheduler {
     public void weeklyRunJob() {
         LocalDate startDate = LocalDate.now().minusWeeks(1);
         LocalDate endDate = LocalDate.now();
+
+        // statistic create job
         List<Long> storeIdList = schedulerJdbcTemplateRepository.findAllStoreId();
 
         storeIdList.forEach(storeId ->
@@ -79,6 +96,19 @@ public class Scheduler {
                 }
             )
         );
+
+        // adjustment create job
+        JobParameters jobParameters = new JobParametersBuilder()
+            .addString("dateTerm", WEEK)
+            .addLocalDate("startDate", startDate)
+            .addLocalDate("endDate", endDate)
+            .toJobParameters();
+
+        try {
+            jobLauncher.run(jobRegistry.getJob("adjustmentJob"), jobParameters);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
     }
 
     // 매달 1일 자정
@@ -86,6 +116,8 @@ public class Scheduler {
     public void monthlyRunJob() {
         LocalDate startDate = LocalDate.now().minusMonths(1);
         LocalDate endDate = LocalDate.now();
+
+        // statistic create job
         List<Long> storeIdList = schedulerJdbcTemplateRepository.findAllStoreId();
 
         storeIdList.forEach(storeId ->
@@ -105,6 +137,19 @@ public class Scheduler {
                 }
             )
         );
+
+        // adjustment create job
+        JobParameters jobParameters = new JobParametersBuilder()
+            .addString("dateTerm", MONTH)
+            .addLocalDate("startDate", startDate)
+            .addLocalDate("endDate", endDate)
+            .toJobParameters();
+
+        try {
+            jobLauncher.run(jobRegistry.getJob("adjustmentJob"), jobParameters);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
     }
 
 }

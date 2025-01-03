@@ -1,6 +1,6 @@
-package com.yuseogi.batchserver.item;
+package com.yuseogi.batchserver.dao;
 
-public record ProductSaleStatisticItem (
+public record ProductSaleStatisticItemDao(
     Long statisticId,
     Integer countRanking,
     Integer amountRanking,
