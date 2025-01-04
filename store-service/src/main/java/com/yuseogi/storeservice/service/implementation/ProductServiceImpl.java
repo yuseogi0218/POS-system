@@ -2,12 +2,14 @@ package com.yuseogi.storeservice.service.implementation;
 
 import com.yuseogi.common.exception.CustomException;
 import com.yuseogi.storeservice.dto.request.CreateProductRequestDto;
+import com.yuseogi.storeservice.entity.ProductHistoryEntity;
 import com.yuseogi.storeservice.infrastructure.messagequeue.kafka.dto.request.DecreaseProductStockRequestMessage;
 import com.yuseogi.storeservice.dto.request.UpdateProductRequestDto;
 import com.yuseogi.storeservice.dto.response.GetProductResponseDto;
 import com.yuseogi.storeservice.entity.ProductEntity;
 import com.yuseogi.storeservice.entity.StoreEntity;
 import com.yuseogi.storeservice.exception.StoreErrorCode;
+import com.yuseogi.storeservice.repository.ProductHistoryRepository;
 import com.yuseogi.storeservice.repository.ProductRepository;
 import com.yuseogi.storeservice.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -21,12 +23,16 @@ import java.util.List;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
+    private final ProductHistoryRepository productHistoryRepository;
 
+    @Transactional
     @Override
     public void createProduct(StoreEntity store, CreateProductRequestDto request) {
         ProductEntity product = request.toProductEntity(store);
 
         productRepository.save(product);
+
+        createProductHistory(product);
     }
 
     @Override
@@ -47,6 +53,8 @@ public class ProductServiceImpl implements ProductService {
         product.checkAuthority(store.getId());
 
         product.updateProperties(request);
+
+        createProductHistory(product);
     }
 
     @Transactional
@@ -73,5 +81,13 @@ public class ProductServiceImpl implements ProductService {
         product.checkAuthority(request.storeId());
 
         product.decreaseStock(request.decreasingStock());
+    }
+
+    private void createProductHistory(ProductEntity product) {
+        ProductHistoryEntity productHistory = ProductHistoryEntity.builder()
+            .product(product)
+            .build();
+
+        productHistoryRepository.save(productHistory);
     }
 }

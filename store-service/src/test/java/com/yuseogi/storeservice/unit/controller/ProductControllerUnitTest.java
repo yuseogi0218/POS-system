@@ -340,6 +340,96 @@ public class ProductControllerUnitTest extends ControllerUnitTest {
 
     /**
      * 상품 정보 수정 실패
+     * - 실패 사유 : RequestBody - name 필드 null
+     */
+    @Test
+    void 상품_정보_수정_실패_RequestBody_name_필드_null() throws Exception {
+        // given
+        String userId = "1";
+        String productId = "1";
+        UpdateProductRequestDto nullNameRequest = UpdateProductRequestDtoBuilder.nullNameBuild();
+
+        // when
+        ResultActions resultActions = requestUpdateProduct(userId, productId, nullNameRequest);
+
+        // then
+        assertErrorWithMessage(CommonErrorCode.INVALID_REQUEST_BODY_FIELDS, resultActions, "상품 이름은 필수 입력값입니다.");
+    }
+
+    /**
+     * 상품 정보 수정 실패
+     * - 실패 사유 : RequestBody - name 필드 empty
+     */
+    @Test
+    void 상품_정보_수정_실패_RequestBody_name_필드_empty() throws Exception {
+        // given
+        String userId = "1";
+        String productId = "1";
+        UpdateProductRequestDto emptyNameRequest = UpdateProductRequestDtoBuilder.emptyNameBuild();
+
+        // when
+        ResultActions resultActions = requestUpdateProduct(userId, productId, emptyNameRequest);
+
+        // then
+        assertErrorWithMessage(CommonErrorCode.INVALID_REQUEST_BODY_FIELDS, resultActions, "상품 이름은 필수 입력값입니다.");
+    }
+
+    /**
+     * 상품 정보 수정 실패
+     * - 실패 사유 : RequestBody - category 필드 null
+     */
+    @Test
+    void 상품_정보_수정_실패_RequestBody_category_필드_null() throws Exception {
+        // given
+        String userId = "1";
+        String productId = "1";
+        UpdateProductRequestDto nullCategoryRequest = UpdateProductRequestDtoBuilder.nullCategoryBuild();
+
+        // when
+        ResultActions resultActions = requestUpdateProduct(userId, productId, nullCategoryRequest);
+
+        // then
+        assertErrorWithMessage(CommonErrorCode.INVALID_REQUEST_BODY_FIELDS, resultActions, "상품 카테고리는 MAIN_MENU, SUB_MENU, DRINK 중 하나 이어야 합니다.");
+    }
+
+    /**
+     * 상품 정보 수정 실패
+     * - 실패 사유 : RequestBody - category 필드 empty
+     */
+    @Test
+    void 상품_정보_수정_실패_RequestBody_category_필드_empty() throws Exception {
+        // given
+        String userId = "1";
+        String productId = "1";
+        UpdateProductRequestDto emptyCategoryRequest = UpdateProductRequestDtoBuilder.emptyCategoryBuild();
+
+        // when
+        ResultActions resultActions = requestUpdateProduct(userId, productId, emptyCategoryRequest);
+
+        // then
+        assertErrorWithMessage(CommonErrorCode.INVALID_REQUEST_BODY_FIELDS, resultActions, "상품 카테고리는 MAIN_MENU, SUB_MENU, DRINK 중 하나 이어야 합니다.");
+    }
+
+    /**
+     * 상품 정보 수정 실패
+     * - 실패 사유 : RequestBody - category 필드 유효성
+     */
+    @Test
+    void 상품_정보_수정_실패_RequestBody_category_필드_유효성() throws Exception {
+        // given
+        String userId = "1";
+        String productId = "1";
+        UpdateProductRequestDto invalidCategoryRequest = UpdateProductRequestDtoBuilder.invalidCategoryBuild();
+
+        // when
+        ResultActions resultActions = requestUpdateProduct(userId, productId, invalidCategoryRequest);
+
+        // then
+        assertErrorWithMessage(CommonErrorCode.INVALID_REQUEST_BODY_FIELDS, resultActions, "상품 카테고리는 MAIN_MENU, SUB_MENU, DRINK 중 하나 이어야 합니다.");
+    }
+
+    /**
+     * 상품 정보 수정 실패
      * - 실패 사유 : RequestBody - price 필드 null
      */
     @Test

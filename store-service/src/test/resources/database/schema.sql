@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS `product_history`;
 DROP TABLE IF EXISTS `product`;
 DROP TABLE IF EXISTS `trade_device`;
 DROP TABLE IF EXISTS `store`;
@@ -32,4 +33,16 @@ CREATE TABLE `product` (
                            `is_deleted` VARCHAR(1) NOT NULL,
                            CHECK (`category` IN ('MAIN_MENU', 'SUB_MENU', 'DRINK')),
                            FOREIGN KEY (`store_id`) REFERENCES store(`id`)
+);
+
+CREATE TABLE `product_history` (
+                                `id`         BIGINT(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                                `product_id`   BIGINT(20) NOT NULL,
+                                `name`       VARCHAR(255) NOT NULL,
+                                `category`   VARCHAR(10) NOT NULL,
+                                `price`      INT NOT NULL,
+                                `base_stock` INT NOT NULL,
+                                `created_at` DATETIME(6) NOT NULL,
+                                CHECK ( `category` IN ('MAIN_MENU', 'SUB_MENU', 'DRINK') ),
+                                FOREIGN KEY (`product_id`) REFERENCES product(`id`)
 );

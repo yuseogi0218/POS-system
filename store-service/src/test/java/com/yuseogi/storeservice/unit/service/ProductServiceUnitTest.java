@@ -2,12 +2,14 @@ package com.yuseogi.storeservice.unit.service;
 
 import com.yuseogi.common.exception.CustomException;
 import com.yuseogi.storeservice.dto.request.CreateProductRequestDto;
+import com.yuseogi.storeservice.entity.ProductHistoryEntity;
 import com.yuseogi.storeservice.infrastructure.messagequeue.kafka.dto.request.DecreaseProductStockRequestMessage;
 import com.yuseogi.storeservice.dto.request.UpdateProductRequestDto;
 import com.yuseogi.storeservice.dto.response.GetProductResponseDto;
 import com.yuseogi.storeservice.entity.ProductEntity;
 import com.yuseogi.storeservice.entity.StoreEntity;
 import com.yuseogi.storeservice.exception.StoreErrorCode;
+import com.yuseogi.storeservice.repository.ProductHistoryRepository;
 import com.yuseogi.storeservice.repository.ProductRepository;
 import com.yuseogi.storeservice.service.implementation.ProductServiceImpl;
 import org.assertj.core.api.Assertions;
@@ -28,6 +30,9 @@ public class ProductServiceUnitTest extends ServiceUnitTest {
     @Mock
     private ProductRepository productRepository;
 
+    @Mock
+    private ProductHistoryRepository productHistoryRepository;
+
     /**
      * 상품 정보 생성 성공
      */
@@ -46,6 +51,7 @@ public class ProductServiceUnitTest extends ServiceUnitTest {
 
         // then
         verify(productRepository, times(1)).save(product);
+        verify(productHistoryRepository, times(1)).save(any(ProductHistoryEntity.class));
     }
 
     /**
@@ -128,6 +134,7 @@ public class ProductServiceUnitTest extends ServiceUnitTest {
         // then
         verify(product, times(1)).checkAuthority(storeId);
         verify(product, times(1)).updateProperties(request);
+        verify(productHistoryRepository, times(1)).save(any(ProductHistoryEntity.class));
     }
 
     /**

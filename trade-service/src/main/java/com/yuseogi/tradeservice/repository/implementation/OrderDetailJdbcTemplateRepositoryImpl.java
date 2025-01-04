@@ -17,7 +17,7 @@ public class OrderDetailJdbcTemplateRepositoryImpl implements OrderDetailJdbcTem
 
     @Override
     public void saveAll(List<OrderDetailEntity> orderDetailList) {
-        String sql = "INSERT INTO order_detail (order_id, product_id, count, total_amount, created_at) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO order_detail (order_id, product_id, count, total_amount, created_at) VALUES (?, ?, ?, ?, ?)";
 
         jdbcTemplate.batchUpdate(
             sql,

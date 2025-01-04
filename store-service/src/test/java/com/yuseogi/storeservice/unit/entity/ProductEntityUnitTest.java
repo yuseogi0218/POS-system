@@ -79,10 +79,14 @@ public class ProductEntityUnitTest {
         // given
         ProductEntity product = ProductEntity.builder().build();
         UpdateProductRequestDto request = mock(UpdateProductRequestDto.class);
+        String expectedName = "수정 상품 이름";
+        ProductCategory expectedCategory = ProductCategory.SUB_MENU;
         Integer expectedPrice = 1000;
         Integer expectedBaseStock = 10;
 
         // stub
+        when(request.name()).thenReturn(expectedName);
+        when(request.category()).thenReturn(expectedCategory.name());
         when(request.price()).thenReturn(expectedPrice);
         when(request.baseStock()).thenReturn(expectedBaseStock);
 
@@ -90,6 +94,8 @@ public class ProductEntityUnitTest {
         product.updateProperties(request);
 
         // then
+        Assertions.assertThat(product.getName()).isEqualTo(expectedName);
+        Assertions.assertThat(product.getCategory()).isEqualTo(expectedCategory);
         Assertions.assertThat(product.getPrice()).isEqualTo(expectedPrice);
         Assertions.assertThat(product.getBaseStock()).isEqualTo(expectedBaseStock);
     }
