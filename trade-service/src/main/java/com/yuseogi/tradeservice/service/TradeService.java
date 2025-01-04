@@ -8,6 +8,8 @@ import java.util.Optional;
 
 public interface TradeService {
 
+    TradeEntity getTrade(Long tradeId);
+
     Optional<TradeEntity> getTradeIsNotCompleted(Long tradeDeviceId);
 
     void checkExistTradeIsNotCompleted(Long tradeDeviceId);

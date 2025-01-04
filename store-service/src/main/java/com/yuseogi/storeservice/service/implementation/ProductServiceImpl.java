@@ -76,11 +76,15 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     @Override
     public void decreaseStock(DecreaseProductStockRequestMessage request) {
-        ProductEntity product = getProduct(request.productId());
+        request.itemList().forEach(
+            item -> {
+                ProductEntity product = getProduct(item.productId());
 
-        product.checkAuthority(request.storeId());
+                product.checkAuthority(request.storeId());
 
-        product.decreaseStock(request.decreasingStock());
+                product.decreaseStock(item.decreasingStock());
+            }
+        );
     }
 
     private void createProductHistory(ProductEntity product) {

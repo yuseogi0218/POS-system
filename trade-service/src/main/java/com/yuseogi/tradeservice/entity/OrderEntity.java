@@ -38,7 +38,7 @@ public class OrderEntity {
         this.trade = trade;
     }
 
-    public void updateOrderAmount(Integer orderAmount) {
+    public void initializeOrderAmount(Integer orderAmount) {
         this.orderAmount = orderAmount;
     }
 }

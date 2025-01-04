@@ -1,7 +1,6 @@
 package com.yuseogi.tradeservice.controller;
 
 import com.yuseogi.tradeservice.dto.request.CreateOrderRequestDto;
-import com.yuseogi.tradeservice.infrastructure.client.StoreServiceClient;
 import com.yuseogi.tradeservice.service.OrderService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

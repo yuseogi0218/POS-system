@@ -103,7 +103,7 @@ public class OrderServiceUnitTest extends ServiceUnitTest {
         verify(tradeKafkaProducer, times(2)).produceDecreaseProductStockMessage(any(DecreaseProductStockRequestMessage.class));
 
         verify(orderDetailRepository, times(1)).saveAll(orderDetailList);
-        verify(savedOrder, times(1)).updateOrderAmount(orderAmount);
+        verify(savedOrder, times(1)).initializeOrderAmount(orderAmount);
         verify(trade, times(1)).increaseTradeAmount(orderAmount);
     }
 
@@ -168,7 +168,7 @@ public class OrderServiceUnitTest extends ServiceUnitTest {
         verify(tradeKafkaProducer, times(2)).produceDecreaseProductStockMessage(any(DecreaseProductStockRequestMessage.class));
 
         verify(orderDetailRepository, times(1)).saveAll(orderDetailList);
-        verify(savedOrder, times(1)).updateOrderAmount(orderAmount);
+        verify(savedOrder, times(1)).initializeOrderAmount(orderAmount);
         verify(trade, times(1)).increaseTradeAmount(orderAmount);
     }
 }

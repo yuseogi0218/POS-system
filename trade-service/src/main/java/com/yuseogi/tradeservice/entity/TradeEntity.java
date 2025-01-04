@@ -50,6 +50,10 @@ public class TradeEntity {
         this.tradeAmount += orderAmount;
     }
 
+    public void decreaseTradeAmount(Integer orderAmount) {
+        this.tradeAmount -= orderAmount;
+    }
+
     public void complete() {
         this.isCompleted = Boolean.TRUE;
     }

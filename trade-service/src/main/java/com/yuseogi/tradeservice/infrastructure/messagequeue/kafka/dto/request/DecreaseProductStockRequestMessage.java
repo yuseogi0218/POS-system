@@ -2,21 +2,32 @@ package com.yuseogi.tradeservice.infrastructure.messagequeue.kafka.dto.request;
 
 import lombok.Builder;
 
+import java.util.List;
+
 public record DecreaseProductStockRequestMessage(
+    Long storeId,
     Boolean isNewTrade,
     Long tradeId,
     Long orderId,
-    Long productId,
-    Long storeId,
-    Integer decreasingStock
+    List<Item> itemList
 ) {
+    public record Item(
+        Long productId,
+        Integer decreasingStock
+    ) {
+        @Builder
+        public Item(Long productId, Integer decreasingStock) {
+            this.productId = productId;
+            this.decreasingStock = decreasingStock;
+        }
+    }
+
     @Builder
-    public DecreaseProductStockRequestMessage(Boolean isNewTrade, Long tradeId, Long orderId, Long productId, Long storeId, Integer decreasingStock) {
+    public DecreaseProductStockRequestMessage(Long storeId, Boolean isNewTrade, Long tradeId, Long orderId, List<Item> itemList) {
+        this.storeId = storeId;
         this.isNewTrade = isNewTrade;
         this.tradeId = tradeId;
         this.orderId = orderId;
-        this.productId = productId;
-        this.storeId = storeId;
-        this.decreasingStock = decreasingStock;
+        this.itemList = itemList;
     }
 }

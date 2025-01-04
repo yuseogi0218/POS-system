@@ -29,6 +29,11 @@ public class TradeServiceImpl implements TradeService {
     private final TradeRepository tradeRepository;
 
     @Override
+    public TradeEntity getTrade(Long tradeId) {
+        return tradeRepository.findById(tradeId).orElseThrow(() -> new CustomException(TradeErrorCode.NOT_FOUND_TRADE));
+    }
+
+    @Override
     public Optional<TradeEntity> getTradeIsNotCompleted(Long tradeDeviceId) {
         return tradeRepository.findFirstByTradeDeviceIdAndIsNotCompleted(tradeDeviceId);
     }

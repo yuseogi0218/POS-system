@@ -23,13 +23,13 @@ public class OrderEntityUnitTest {
     }
 
     @Test
-    void updateOrderAmount() {
+    void initializeOrderAmount() {
         // given
         OrderEntity order = OrderEntity.builder().build();
         Integer expectedOrderAmount = 1000;
 
         // when
-        order.updateOrderAmount(expectedOrderAmount);
+        order.initializeOrderAmount(expectedOrderAmount);
 
         // then
         Assertions.assertThat(order.getOrderAmount()).isEqualTo(expectedOrderAmount);
