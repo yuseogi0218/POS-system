@@ -1,8 +1,7 @@
 package com.yuseogi.tradeservice.repository.dto;
 
 
-import com.yuseogi.tradeservice.entity.type.ProductCategory;
-
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 public record GetTradeIsNotCompletedDto(
@@ -16,23 +15,6 @@ public record GetTradeIsNotCompletedDto(
     Integer orderDetailProductPrice,
     Integer orderDetailCount,
     Integer orderDetailTotalAmount,
-    LocalDateTime orderCreatedAt,
-    LocalDateTime tradeCreatedAt
-) {
-    public GetTradeIsNotCompletedDto(Long tradeId, Integer tradeAmount, Long orderId, Integer orderAmount, Long orderDetailId, String orderDetailProductName, ProductCategory orderDetailProductCategory, Integer orderDetailProductPrice, Integer orderDetailCount, Integer orderDetailTotalAmount, LocalDateTime orderCreatedAt, LocalDateTime tradeCreatedAt) {
-        this(
-            tradeId,
-            tradeAmount,
-            orderId,
-            orderAmount,
-            orderDetailId,
-            orderDetailProductName,
-            orderDetailProductCategory.name(),
-            orderDetailProductPrice,
-            orderDetailCount,
-            orderDetailTotalAmount,
-            orderCreatedAt,
-            tradeCreatedAt
-        );
-    }
-}
+    Timestamp orderCreatedAt,
+    Timestamp tradeCreatedAt
+) { }

@@ -28,6 +28,8 @@ CREATE TABLE `product` (
                         `price`      INT NOT NULL,
                         `stock`      INT NOT NULL,
                         `base_stock` INT NOT NULL,
+                        `created_at` DATETIME(6) NOT NULL,
+                        `updated_at` DATETIME(6) NOT NULL,
                         `is_deleted` VARCHAR(1) NOT NULL,
                         CHECK ( `category` IN ('MAIN_MENU', 'SUB_MENU', 'DRINK') ),
                         CHECK ( `is_deleted` IN ('Y', 'N') ),

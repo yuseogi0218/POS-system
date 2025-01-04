@@ -1,6 +1,6 @@
 INSERT INTO store(id, owner_user_id, name, pos_grade, settlement_date) VALUES
-                                                          (1, 1, '상점 이름', 'BRONZE', 1),
-                                                          (2, 2, '어느 상점 이름', 'BRONZE', 1);
+                                                                             (1, 1, '상점 이름', 'BRONZE', 1),
+                                                                             (2, 2, '어느 상점 이름', 'BRONZE', 1);
 
 INSERT INTO trade_device(id, store_id) VALUES
                                            (1, 1),
@@ -24,9 +24,9 @@ INSERT INTO trade_device(id, store_id) VALUES
                                            (19, 2),
                                            (20, 2);
 
-INSERT INTO product(id, store_id, name, category, price, stock, base_stock, is_deleted) VALUES
-                                                                                            (1, 1, '상품 이름 1', 'MAIN_MENU', 1000, 20, 20, 'N'),
-                                                                                            (2, 1, '상품 이름 2', 'SUB_MENU', 500, 20, 40, 'N'),
-                                                                                            (3, 1, '상품 이름 3', 'SUB_MENU', 700, 20, 20, 'Y'),
-                                                                                            (4, 1, '상품 이름 4', 'DRINK', 300, 30, 50, 'N'),
-                                                                                            (5, 2, '어느 상품 이름', 'MAIN_MENU', 3000, 10, 10, 'N');
+INSERT INTO product(id, store_id, name, category, price, stock, base_stock, is_deleted, created_at, updated_at) VALUES
+                                                                                                                      (1, 1, '상품 이름 1', 'MAIN_MENU', 1000, 20, 20, 'N', '2024-12-01 8:00:00', '2024-12-01 8:00:00'),
+                                                                                                                      (2, 1, '상품 이름 2', 'SUB_MENU', 500, 20, 40, 'N', '2024-12-01 8:10:00', '2024-12-01 8:10:00'),
+                                                                                                                      (3, 1, '상품 이름 3', 'SUB_MENU', 700, 20, 20, 'Y', '2024-12-01 8:20:00', '2024-12-01 8:20:00'),
+                                                                                                                      (4, 1, '상품 이름 4', 'DRINK', 300, 30, 50, 'N', '2024-12-01 8:30:00', '2024-12-01 8:30:00'),
+                                                                                                                      (5, 2, '어느 상품 이름', 'MAIN_MENU', 3000, 10, 10, 'N', '2024-12-01 8:40:00', '2024-12-01 8:40:00');

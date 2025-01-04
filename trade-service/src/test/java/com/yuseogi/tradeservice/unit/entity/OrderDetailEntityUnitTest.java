@@ -3,7 +3,6 @@ package com.yuseogi.tradeservice.unit.entity;
 import com.yuseogi.tradeservice.dto.ProductInfoDto;
 import com.yuseogi.tradeservice.entity.OrderDetailEntity;
 import com.yuseogi.tradeservice.entity.OrderEntity;
-import com.yuseogi.tradeservice.entity.type.ProductCategory;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -17,15 +16,13 @@ public class OrderDetailEntityUnitTest {
         // given
         OrderEntity expectedOrder = mock(OrderEntity.class);
         ProductInfoDto productInfoDto = mock(ProductInfoDto.class);
-        String expectedProductName = "상품 이름";
-        ProductCategory expectedProductCategory = ProductCategory.MAIN_MENU;
+        Long expectedProductId = 1L;
         Integer expectedProductPrice = 1000;
         Integer expectedCount = 10;
         Integer expectedTotalAmount = expectedProductPrice * expectedCount;
 
         // stub
-        when(productInfoDto.name()).thenReturn(expectedProductName);
-        when(productInfoDto.category()).thenReturn(expectedProductCategory.name());
+        when(productInfoDto.id()).thenReturn(expectedProductId);
         when(productInfoDto.price()).thenReturn(expectedProductPrice);
 
         // when
@@ -33,9 +30,7 @@ public class OrderDetailEntityUnitTest {
 
         // then
         Assertions.assertThat(actualOrderDetail.getOrder()).isEqualTo(expectedOrder);
-        Assertions.assertThat(actualOrderDetail.getProductName()).isEqualTo(expectedProductName);
-        Assertions.assertThat(actualOrderDetail.getProductCategory()).isEqualTo(expectedProductCategory);
-        Assertions.assertThat(actualOrderDetail.getProductPrice()).isEqualTo(expectedProductPrice);
+        Assertions.assertThat(actualOrderDetail.getProductId()).isEqualTo(expectedProductId);
         Assertions.assertThat(actualOrderDetail.getCount()).isEqualTo(expectedCount);
         Assertions.assertThat(actualOrderDetail.getTotalAmount()).isEqualTo(expectedTotalAmount);
 

@@ -40,8 +40,8 @@ public class PaymentEntity {
     private Integer cardFee;
 
     @CreatedDate
-    @Column(name = "payment_at", nullable = false, updatable = false)
-    private LocalDateTime paymentAt;
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
 
     @Builder(builderMethodName = "builderAsCashPay", buildMethodName = "buildAsCashPay")
     public PaymentEntity(TradeEntity trade) {

@@ -27,7 +27,7 @@ public class GetTradeIsNotCompletedDtoMapper {
 
         // Trade-level details
         Integer tradeAmount = tradeDetails.getFirst().tradeAmount();
-        LocalDateTime tradeCreatedAt = tradeDetails.getFirst().tradeCreatedAt();
+        LocalDateTime tradeCreatedAt = tradeDetails.getFirst().tradeCreatedAt().toLocalDateTime();
 
         // Grouping by orderId to construct order list
         Map<Long, List<GetTradeIsNotCompletedDto>> groupedByOrder = tradeDetails.stream()
@@ -40,7 +40,7 @@ public class GetTradeIsNotCompletedDtoMapper {
 
                 // Order-level details
                 Integer orderAmount = orderDetails.getFirst().orderAmount();
-                LocalDateTime orderCreatedAt = orderDetails.getFirst().orderCreatedAt();
+                LocalDateTime orderCreatedAt = orderDetails.getFirst().orderCreatedAt().toLocalDateTime();
 
                 // Map order details
                 List<GetTradeIsNotCompletedResponseDto.GetOrderResponseDto.GetOrderDetailResponseDto> orderDetailList = orderDetails.stream()
