@@ -36,6 +36,7 @@ public class Scheduler {
             .toJobParameters();
         try {
             jobLauncher.run(jobRegistry.getJob("productSaleCountStatisticJob"), jobParameters);
+            jobLauncher.run(jobRegistry.getJob("settlementJob"), jobParameters);
         } catch (Exception e) {
             log.error(e.getMessage());
         }
@@ -49,7 +50,7 @@ public class Scheduler {
         LocalDate endDate = LocalDate.now();
 
         JobParameters jobParameters = new JobParametersBuilder()
-            .addString("dateTerm", DAY)
+            .addString("dateTerm", WEEK)
             .addLocalDate("startDate", startDate)
             .addLocalDate("endDate", endDate)
             .toJobParameters();
@@ -67,7 +68,7 @@ public class Scheduler {
         LocalDate endDate = LocalDate.now();
 
         JobParameters jobParameters = new JobParametersBuilder()
-            .addString("dateTerm", DAY)
+            .addString("dateTerm", MONTH)
             .addLocalDate("startDate", startDate)
             .addLocalDate("endDate", endDate)
             .toJobParameters();
@@ -77,5 +78,24 @@ public class Scheduler {
             log.error(e.getMessage());
         }
     }
+
+    // 매달 1, 5, 10, 15, 20, 25일 자정
+    @Scheduled(cron = "0 0 0 1,5,10,15,20,25 * *")
+    public void monthlySettlementRunJob() {
+        LocalDate startDate = LocalDate.now().minusMonths(1);
+        LocalDate endDate = LocalDate.now();
+
+        JobParameters jobParameters = new JobParametersBuilder()
+            .addString("dateTerm", MONTH)
+            .addLocalDate("startDate", startDate)
+            .addLocalDate("endDate", endDate)
+            .toJobParameters();
+        try {
+            jobLauncher.run(jobRegistry.getJob("settlementJob"), jobParameters);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+    }
+
 
 }

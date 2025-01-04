@@ -76,14 +76,14 @@ public class ProductSaleStatisticJobConfig {
                 rs.getInt("sale_count"),
                 rs.getInt("sale_amount")
             ))
-            .queryProvider(queryProvider())
+            .queryProvider(productSaleStatisticQueryProvider())
             .parameterValues(parameterValues)
             .name("productSaleStatisticReader")
             .build();
     }
 
     @Bean
-    public PagingQueryProvider queryProvider() throws Exception {
+    public PagingQueryProvider productSaleStatisticQueryProvider() throws Exception {
         SqlPagingQueryProviderFactoryBean queryProvider = new SqlPagingQueryProviderFactoryBean();
         queryProvider.setDataSource(dataSource);
         queryProvider.setSelectClause("product_id, sale_count, sale_amount");
