@@ -1,4 +1,4 @@
-package com.yuseogi.tradeservice.dto.request;
+package com.yuseogi.tradeservice.infrastructure.messagequeue.kafka.dto.request;
 
 import com.yuseogi.tradeservice.infrastructure.messagequeue.kafka.dto.response.DecreaseProductStockResponseMessage;
 

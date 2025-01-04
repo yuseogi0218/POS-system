@@ -38,7 +38,7 @@ public class OrderDetailJdbcTemplateRepositoryUnitTest {
 
         // then
         verify(jdbcTemplate, times(1)).batchUpdate(
-            eq("INSERT INTO order_detail (order_id, product_id, count, total_amount, created_at) VALUES (?, ?, ?, ?, ?, ?)"),
+            eq("INSERT INTO order_detail (order_id, product_id, count, total_amount, created_at) VALUES (?, ?, ?, ?, ?)"),
             eq(orderDetailList),
             eq(orderDetailList.size()),
             any()

@@ -37,6 +37,20 @@ public class TradeEntityUnitTest {
     }
 
     @Test
+    void decreaseTradeAmount() {
+        // given
+        TradeEntity trade = TradeEntity.builder().build();
+        Integer decreasingTradeAmount = 1000;
+        Integer expectedTradeAmount = trade.getTradeAmount() - decreasingTradeAmount;
+
+        // when
+        trade.decreaseTradeAmount(decreasingTradeAmount);
+
+        // then
+        Assertions.assertThat(trade.getTradeAmount()).isEqualTo(expectedTradeAmount);
+    }
+
+    @Test
     void complete() {
         // given
         TradeEntity trade = TradeEntity.builder().build();

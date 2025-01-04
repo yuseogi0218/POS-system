@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yuseogi.common.exception.CommonErrorCode;
 import com.yuseogi.common.exception.CustomException;
-import com.yuseogi.tradeservice.dto.request.RollbackCreateOrderRequest;
+import com.yuseogi.tradeservice.infrastructure.messagequeue.kafka.dto.request.RollbackCreateOrderRequest;
 import com.yuseogi.tradeservice.infrastructure.messagequeue.kafka.dto.Status;
 import com.yuseogi.tradeservice.infrastructure.messagequeue.kafka.dto.response.DecreaseProductStockResponseMessage;
 import com.yuseogi.tradeservice.service.OrderService;

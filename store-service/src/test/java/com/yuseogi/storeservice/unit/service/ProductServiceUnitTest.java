@@ -226,23 +226,41 @@ public class ProductServiceUnitTest extends ServiceUnitTest {
         // given
         DecreaseProductStockRequestMessage request = mock(DecreaseProductStockRequestMessage.class);
         Long storeId = 1L;
-        Long productId = 1L;
-        Integer decreasingStock = 10;
 
-        ProductEntity expectedProduct = mock(ProductEntity.class);
+        DecreaseProductStockRequestMessage.Item item1 = mock(DecreaseProductStockRequestMessage.Item.class);
+        Long productId1 = 1L;
+        Integer decreasingStock1 = 10;
+
+        DecreaseProductStockRequestMessage.Item item2 = mock(DecreaseProductStockRequestMessage.Item.class);
+        Long productId2 = 2L;
+        Integer decreasingStock2 = 20;
+
+        List<DecreaseProductStockRequestMessage.Item> itemList = List.of(item1, item2);
+
+        ProductEntity expectedProduct1 = mock(ProductEntity.class);
+        ProductEntity expectedProduct2 = mock(ProductEntity.class);
 
         // stub
-        when(request.productId()).thenReturn(productId);
-        when(productRepository.findFirstByIdAndIsDeletedFalse(productId)).thenReturn(Optional.of(expectedProduct));
+        when(request.itemList()).thenReturn(itemList);
+
+        when(item1.productId()).thenReturn(productId1);
+        when(productRepository.findFirstByIdAndIsDeletedFalse(productId1)).thenReturn(Optional.of(expectedProduct1));
         when(request.storeId()).thenReturn(storeId);
-        when(request.decreasingStock()).thenReturn(decreasingStock);
+        when(item1.decreasingStock()).thenReturn(decreasingStock1);
+
+        when(item2.productId()).thenReturn(productId2);
+        when(productRepository.findFirstByIdAndIsDeletedFalse(productId2)).thenReturn(Optional.of(expectedProduct2));
+        when(item2.decreasingStock()).thenReturn(decreasingStock2);
 
         // when
         productService.decreaseStock(request);
 
         // then
-        verify(expectedProduct, times(1)).checkAuthority(storeId);
-        verify(expectedProduct, times(1)).decreaseStock(decreasingStock);
+        verify(expectedProduct1, times(1)).checkAuthority(storeId);
+        verify(expectedProduct1, times(1)).decreaseStock(decreasingStock1);
+
+        verify(expectedProduct2, times(1)).checkAuthority(storeId);
+        verify(expectedProduct2, times(1)).decreaseStock(decreasingStock2);
     }
 
     /**
@@ -253,11 +271,16 @@ public class ProductServiceUnitTest extends ServiceUnitTest {
     void decreaseStock_실패_NOT_FOUND_PRODUCT() {
         // given
         DecreaseProductStockRequestMessage request = mock(DecreaseProductStockRequestMessage.class);
+
+        DecreaseProductStockRequestMessage.Item item = mock(DecreaseProductStockRequestMessage.Item.class);
         Long unknownProductId = 0L;
-        Integer decreasingStock = 10;
+
+        List<DecreaseProductStockRequestMessage.Item> itemList = List.of(item);
 
         // stub
-        when(request.productId()).thenReturn(unknownProductId);
+        when(request.itemList()).thenReturn(itemList);
+
+        when(item.productId()).thenReturn(unknownProductId);
         when(productRepository.findFirstByIdAndIsDeletedFalse(unknownProductId)).thenReturn(Optional.empty());
 
         // when & then

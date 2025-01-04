@@ -3,7 +3,7 @@ package com.yuseogi.tradeservice.service.implementation;
 import com.yuseogi.common.exception.CustomException;
 import com.yuseogi.tradeservice.dto.ProductInfoDto;
 import com.yuseogi.tradeservice.dto.request.CreateOrderRequestDto;
-import com.yuseogi.tradeservice.dto.request.RollbackCreateOrderRequest;
+import com.yuseogi.tradeservice.infrastructure.messagequeue.kafka.dto.request.RollbackCreateOrderRequest;
 import com.yuseogi.tradeservice.entity.OrderDetailEntity;
 import com.yuseogi.tradeservice.entity.OrderEntity;
 import com.yuseogi.tradeservice.entity.TradeEntity;
