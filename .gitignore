@@ -11,6 +11,9 @@ out
 # yml
 application-dev.yml
 
+# sql
+query.sql
+
 ### MAC ###
 .DS_Store
 db
