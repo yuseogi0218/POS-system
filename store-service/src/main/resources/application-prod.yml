@@ -20,6 +20,9 @@ server:
   port:
     ${SERVER_PORT}
 
+kafka:
+  url: ${SPRING_KAFKA_URL}
+
 eureka:
   client:
     register-with-eureka: ${EUREKA_CLIENT_REGISTER_WITH_EUREKA}

@@ -32,6 +32,7 @@ public class StoreKafkaConsumer {
                 DecreaseProductStockResponseMessage successMessage = DecreaseProductStockResponseMessage.from(Status.REWARDED, request);
                 transactionKafkaProducer.produceDecreaseProductStockResponseMessage(successMessage);
             } catch (CustomException e) {
+                //TODO: 2025-01-04 상품 재고 부족 시, 알림을 통해 주문자 또는 상점 관리자가 알 수 있도록 하는 방법
                 DecreaseProductStockResponseMessage failMessage = DecreaseProductStockResponseMessage.from(Status.NOT_REWARDED, request);
                 transactionKafkaProducer.produceDecreaseProductStockResponseMessage(failMessage);
             }

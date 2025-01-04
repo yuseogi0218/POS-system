@@ -24,6 +24,9 @@ server:
   port:
     ${SERVER_PORT}
 
+kafka:
+  url: ${SPRING_KAFKA_URL}
+
 eureka:
   client:
     register-with-eureka: ${EUREKA_CLIENT_REGISTER_WITH_EUREKA}
@@ -38,3 +41,20 @@ eureka:
     non-secure-port-enabled: true
     metadata-map:
       instanceId: ${spring.application.name}:${random.value}
+
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        failure-rate-threshold: 50
+        slow-call-rate-threshold: 80
+        slow-call-duration-threshold: 10s
+        permitted-number-of-calls-in-half-open-state: 3
+        max-wait-duration-in-half-open-state: 0
+        sliding-window-type: COUNT_BASED
+        sliding-window-size: 10
+        minimum-number-of-calls: 10
+        wait-duration-in-open-state: 10s
+    instances:
+      pos-circuit-breaker:
+        base-config: default

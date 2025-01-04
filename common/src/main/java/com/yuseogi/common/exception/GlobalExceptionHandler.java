@@ -4,8 +4,10 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yuseogi.common.exception.dto.response.ErrorResponse;
 import feign.FeignException;
+import io.github.resilience4j.circuitbreaker.CallNotPermittedException;
 import jakarta.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
+import org.aspectj.weaver.ast.Call;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.ObjectError;
@@ -48,7 +50,11 @@ public class GlobalExceptionHandler {
         } catch (IOException ioException) {
             return new CustomException(CommonErrorCode.INTERNAL_SERVER_ERROR).toErrorResponse();
         }
+    }
 
+    @ExceptionHandler(CallNotPermittedException.class)
+    public ResponseEntity<?> handleResilience4jException() {
+        return new CustomException(CommonErrorCode.INTERNAL_SERVER_ERROR).toErrorResponse();
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
