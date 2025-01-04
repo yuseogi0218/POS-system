@@ -11,6 +11,7 @@ public class StoreEntityBuilder {
             .ownerUserId(expectedOwnerUserId)
             .name("상점 이름")
             .posGrade(PosGrade.BRONZE)
+            .settlementDate(1)
             .build();
     }
 
@@ -18,5 +19,6 @@ public class StoreEntityBuilder {
         Assertions.assertThat(actualStore.getOwnerUserId()).isEqualTo(expectedStore.getOwnerUserId());
         Assertions.assertThat(actualStore.getName()).isEqualTo(expectedStore.getName());
         Assertions.assertThat(actualStore.getPosGrade()).isEqualTo(expectedStore.getPosGrade());
+        Assertions.assertThat(actualStore.getSettlementDate()).isEqualTo(expectedStore.getSettlementDate());
     }
 }

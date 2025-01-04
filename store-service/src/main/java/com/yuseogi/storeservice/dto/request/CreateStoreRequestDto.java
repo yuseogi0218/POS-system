@@ -6,7 +6,8 @@ import com.yuseogi.storeservice.entity.type.PosGrade;
 public record CreateStoreRequestDto(
     Long userId,
     String storeName,
-    String posGrade
+    String posGrade,
+    Integer settlementDate
 ) {
 
     public StoreEntity toStoreEntity() {
@@ -14,6 +15,7 @@ public record CreateStoreRequestDto(
             .ownerUserId(userId)
             .name(storeName)
             .posGrade(PosGrade.valueOf(posGrade))
+            .settlementDate(settlementDate)
             .build();
     }
 }

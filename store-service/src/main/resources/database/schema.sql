@@ -7,7 +7,9 @@ CREATE TABLE `store` (
                       `owner_user_id` BIGINT(20) NOT NULL,
                       `name`          VARCHAR(255) NOT NULL,
                       `pos_grade`     VARCHAR(6) NOT NULL,
+                      `settlement_date` INT NOT NULL,
                       CHECK ( `pos_grade` IN ('BRONZE', 'SILVER', 'GOLD') ),
+                      CHECK ( `settlement_date` IN (1, 5, 10, 15, 20, 25)),
                       FOREIGN KEY (`owner_user_id`) REFERENCES user_table(`id`),
                       UNIQUE (`owner_user_id`)
 );

@@ -28,10 +28,14 @@ public class StoreEntity {
     @Column(name = "pos_grade", nullable = false)
     private PosGrade posGrade;
 
+    @Column(name = "settlement_date", nullable = false, updatable = false)
+    private Integer settlementDate;
+
     @Builder
-    public StoreEntity(Long ownerUserId, String name, PosGrade posGrade) {
+    public StoreEntity(Long ownerUserId, String name, PosGrade posGrade, Integer settlementDate) {
         this.ownerUserId = ownerUserId;
         this.name = name;
         this.posGrade = posGrade;
+        this.settlementDate = settlementDate;
     }
 }

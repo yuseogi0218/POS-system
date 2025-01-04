@@ -267,6 +267,40 @@ public class UserControllerUnitTest extends ControllerUnitTest {
     }
 
     /**
+     * 소셜(카카오) 회원가입 실패
+     * - 실패 사유 : RequestBody - settlementDate 필드 null
+     */
+    @Test
+    void 소셜_카카오_회원가입_실패_RequestBody_settlementDate_필드_null() throws Exception {
+        // given
+        String kakaoAccessToken = "kakaoAccessToken";
+        SignUpKakaoRequestDto nullSettlementDateRequest = SignUpKakaoRequestDtoBuilder.nullSettlementDateBuild();
+
+        // when
+        ResultActions resultActions = requestSignUpKakao(kakaoAccessToken, nullSettlementDateRequest);
+
+        // then
+        assertErrorWithMessage(CommonErrorCode.INVALID_REQUEST_BODY_FIELDS, resultActions, "정산일은 필수 선택값입니다.");
+    }
+
+    /**
+     * 소셜(카카오) 회원가입 실패
+     * - 실패 사유 : RequestBody - settlementDate 필드 유효성
+     */
+    @Test
+    void 소셜_카카오_회원가입_실패_RequestBody_settlementDate_필드_유효성() throws Exception {
+        // given
+        String kakaoAccessToken = "kakaoAccessToken";
+        SignUpKakaoRequestDto invalidSettlementDateRequest = SignUpKakaoRequestDtoBuilder.invalidSettlementDateBuild();
+
+        // when
+        ResultActions resultActions = requestSignUpKakao(kakaoAccessToken, invalidSettlementDateRequest);
+
+        // then
+        assertErrorWithMessage(CommonErrorCode.INVALID_REQUEST_BODY_FIELDS, resultActions, "정산일은 1, 5, 10, 15, 20, 25 중 하나 이어야 합니다.");
+    }
+
+    /**
      * Refresh Token 을 이용한 Access Token 재 발급 (Re-Issue) 성공
      */
     @Test

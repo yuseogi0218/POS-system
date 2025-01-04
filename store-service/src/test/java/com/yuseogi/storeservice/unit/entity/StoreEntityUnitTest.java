@@ -13,13 +13,15 @@ public class StoreEntityUnitTest {
         Long expectedOwnerUserId = 1L;
         String expectedName = "상점 이름";
         PosGrade expectedPosGrade = PosGrade.BRONZE;
+        Integer expectedSettlementDate = 1;
 
         // when
-        StoreEntity actualStore = new StoreEntity(expectedOwnerUserId, expectedName, expectedPosGrade);
+        StoreEntity actualStore = new StoreEntity(expectedOwnerUserId, expectedName, expectedPosGrade, expectedSettlementDate);
 
         // then
         Assertions.assertThat(actualStore.getOwnerUserId()).isEqualTo(expectedOwnerUserId);
         Assertions.assertThat(actualStore.getName()).isEqualTo(expectedName);
         Assertions.assertThat(actualStore.getPosGrade()).isEqualTo(expectedPosGrade);
+        Assertions.assertThat(actualStore.getSettlementDate()).isEqualTo(expectedSettlementDate);
     }
 }

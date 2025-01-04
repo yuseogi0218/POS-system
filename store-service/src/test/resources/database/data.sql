@@ -1,6 +1,6 @@
-INSERT INTO store(id, owner_user_id, name, pos_grade) VALUES
-                                                          (1, 1, '상점 이름', 'BRONZE'),
-                                                          (2, 2, '어느 상점 이름', 'BRONZE');
+INSERT INTO store(id, owner_user_id, name, pos_grade, settlement_date) VALUES
+                                                          (1, 1, '상점 이름', 'BRONZE', 1),
+                                                          (2, 2, '어느 상점 이름', 'BRONZE', 1);
 
 INSERT INTO trade_device(id, store_id) VALUES
                                            (1, 1),

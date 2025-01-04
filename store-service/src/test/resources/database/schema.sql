@@ -7,8 +7,9 @@ CREATE TABLE `store` (
                          `id`            BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
                          `owner_user_id` BIGINT NOT NULL,
                          `name`          VARCHAR(255) NOT NULL,
-                         `pos_grade`     VARCHAR(6) NOT NULL,
-                         CHECK (`pos_grade` IN ('BRONZE', 'SILVER', 'GOLD')),
+                         `pos_grade`     VARCHAR(6) NOT NULL,`settlement_date` INT NOT NULL,
+                         CHECK ( `pos_grade` IN ('BRONZE', 'SILVER', 'GOLD') ),
+                         CHECK ( `settlement_date` IN (1, 5, 10, 15, 20, 25)),
                          UNIQUE (`owner_user_id`)
 );
 
