@@ -62,6 +62,7 @@ public class SettlementJobConfig {
         @Value("#{jobParameters[endDate]}") LocalDate endDate
     ) throws Exception {
         Map<String, Object> parameterValues = new HashMap<>();
+        parameterValues.put("dateTerm", dateTerm);
         parameterValues.put("startDate", startDate);
         parameterValues.put("endDate", endDate);
 
@@ -88,16 +89,19 @@ public class SettlementJobConfig {
         SqlPagingQueryProviderFactoryBean queryProvider = new SqlPagingQueryProviderFactoryBean();
         queryProvider.setDataSource(dataSource);
         queryProvider.setSelectClause("""
-            s.id AS store_id,
+            s.id                AS store_id,
             SUM(t.trade_amount) AS revenue,
-            SUM(p.card_fee) AS fee
+            SUM(p.card_fee)     AS fee
         """);
         queryProvider.setFromClause("""
             FROM payment p
                 JOIN trade t ON p.trade_id = t.id
                 JOIN store s ON s.id = t.store_id
         """);
-        queryProvider.setWhereClause(":startDate <= DATE(p.created_at) AND DATE(p.created_at) < :endDate");
+        queryProvider.setWhereClause("""
+            :startDate <= DATE(p.created_at) AND DATE(p.created_at) < :endDate AND
+            (:dateTerm = 'DAY' OR s.settlement_date = DAY(:startDate))
+        """);
         queryProvider.setGroupClause("store_id");
 
         queryProvider.setSortKey("store_id");

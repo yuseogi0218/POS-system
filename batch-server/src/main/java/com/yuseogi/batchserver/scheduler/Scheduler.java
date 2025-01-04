@@ -83,7 +83,7 @@ public class Scheduler {
     @Scheduled(cron = "0 0 0 1,5,10,15,20,25 * *")
     public void monthlySettlementRunJob() {
         LocalDate startDate = LocalDate.now().minusMonths(1);
-        LocalDate endDate = LocalDate.now();
+        LocalDate endDate = LocalDate.now().minusDays(1);
 
         JobParameters jobParameters = new JobParametersBuilder()
             .addString("dateTerm", MONTH)
