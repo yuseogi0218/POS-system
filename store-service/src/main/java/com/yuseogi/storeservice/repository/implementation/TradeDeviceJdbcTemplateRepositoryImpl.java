@@ -23,6 +23,7 @@ public class TradeDeviceJdbcTemplateRepositoryImpl implements TradeDeviceJdbcTem
             tradeDeviceList.size(),
             (PreparedStatement ps, TradeDeviceEntity tradeDevice) -> {
                 ps.setLong(1, tradeDevice.getStore().getId());
-            });
+            }
+        );
     }
 }
