@@ -3,7 +3,7 @@ package com.yuseogi.storeservice.repository.implementation;
 import com.yuseogi.storeservice.dto.response.GetSettlementDetailResponseDto;
 import com.yuseogi.storeservice.dto.response.GetSettlementResponseDto;
 import com.yuseogi.storeservice.repository.SettlementRepository;
-import com.yuseogi.storeservice.service.mapper.GetSettlementDetailRevenueProductCategoryMapper;
+import com.yuseogi.storeservice.repository.mapper.GetSettlementDetailRevenueProductCategoryMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;

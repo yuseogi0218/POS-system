@@ -39,7 +39,7 @@ CREATE TABLE `product` (
 
 CREATE TABLE `product_history` (
                                 `id`         BIGINT(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                                `product_id`   BIGINT(20) NOT NULL,
+                                `product_id` BIGINT(20) NOT NULL,
                                 `price`      INT NOT NULL,
                                 `base_stock` INT NOT NULL,
                                 `created_at` DATETIME(6) NOT NULL,

@@ -1,4 +1,4 @@
-package com.yuseogi.storeservice.service.mapper;
+package com.yuseogi.storeservice.repository.mapper;
 
 import com.yuseogi.storeservice.dto.response.GetSettlementDetailResponseDto;
 
