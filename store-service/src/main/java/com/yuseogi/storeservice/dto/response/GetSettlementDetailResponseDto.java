@@ -50,6 +50,6 @@ public record GetSettlementDetailResponseDto(
 
     @Builder
     public GetSettlementDetailResponseDto(Revenue revenue, Fee fee) {
-        this(revenue, fee, revenue.amount - fee.amount);
+        this(revenue, fee, revenue.amount() - fee.amount());
     }
 }

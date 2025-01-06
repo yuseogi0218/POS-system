@@ -4,6 +4,7 @@ import lombok.Builder;
 
 import java.util.List;
 
+@Builder
 public record GetProductSaleStatisticResponseDto (
     List<Product> productList
 ) {
@@ -13,8 +14,4 @@ public record GetProductSaleStatisticResponseDto (
         Integer saleAmount
     ) {}
 
-    @Builder
-    public GetProductSaleStatisticResponseDto(List<Product> productList) {
-        this.productList = productList;
-    }
 }
