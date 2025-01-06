@@ -16,16 +16,12 @@ public class ProductHistoryEntityUnitTest {
     void constructor() {
         // given
         Long expectedProductId = 1L;
-        String expectedName = "상품 이름";
-        ProductCategory expectedCategory = ProductCategory.MAIN_MENU;
         Integer expectedPrice = 1000;
         Integer expectedBaseStock = 10;
         ProductEntity product = mock(ProductEntity.class);
 
         // stub
         when(product.getId()).thenReturn(expectedProductId);
-        when(product.getName()).thenReturn(expectedName);
-        when(product.getCategory()).thenReturn(expectedCategory);
         when(product.getPrice()).thenReturn(expectedPrice);
         when(product.getBaseStock()).thenReturn(expectedBaseStock);
 
@@ -34,8 +30,6 @@ public class ProductHistoryEntityUnitTest {
 
         // then
         Assertions.assertThat(actualProductHistory.getProductId()).isEqualTo(expectedProductId);
-        Assertions.assertThat(actualProductHistory.getName()).isEqualTo(expectedName);
-        Assertions.assertThat(actualProductHistory.getCategory()).isEqualTo(expectedCategory);
         Assertions.assertThat(actualProductHistory.getPrice()).isEqualTo(expectedPrice);
         Assertions.assertThat(actualProductHistory.getBaseStock()).isEqualTo(expectedBaseStock);
     }

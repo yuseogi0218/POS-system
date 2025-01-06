@@ -81,8 +81,6 @@ public class ProductEntity {
         if (this.isDeleted) {
             throw new CustomException(StoreErrorCode.UNABLE_UPDATE_DELETED_PRODUCT);
         }
-        this.name = request.name();
-        this.category = ProductCategory.valueOf(request.category());
         this.price = request.price();
         this.baseStock = request.baseStock();
     }

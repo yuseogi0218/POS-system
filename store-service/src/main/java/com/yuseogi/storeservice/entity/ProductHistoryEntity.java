@@ -26,13 +26,6 @@ public class ProductHistoryEntity {
     @Column(name = "product_id", nullable = false, updatable = false)
     private Long productId;
 
-    @Column(name = "name", nullable = false, updatable = false)
-    private String name;
-
-    @Enumerated(value = EnumType.STRING)
-    @Column(name = "category", nullable = false, updatable = false)
-    private ProductCategory category;
-
     @Column(name = "price", nullable = false)
     private Integer price;
 
@@ -46,8 +39,6 @@ public class ProductHistoryEntity {
     @Builder
     public ProductHistoryEntity(ProductEntity product) {
         this.productId = product.getId();
-        this.name = product.getName();
-        this.category = product.getCategory();
         this.price = product.getPrice();
         this.baseStock = product.getBaseStock();
     }
