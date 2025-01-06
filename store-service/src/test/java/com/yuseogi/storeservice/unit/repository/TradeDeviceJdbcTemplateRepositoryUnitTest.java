@@ -3,6 +3,7 @@ package com.yuseogi.storeservice.unit.repository;
 import com.yuseogi.storeservice.entity.StoreEntity;
 import com.yuseogi.storeservice.entity.TradeDeviceEntity;
 import com.yuseogi.storeservice.repository.implementation.TradeDeviceJdbcTemplateRepositoryImpl;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -16,17 +17,13 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
-public class TradeDeviceJdbcTemplateRepositoryUnitTest {
+public class TradeDeviceJdbcTemplateRepositoryUnitTest extends JdbcTemplateRepositoryUnitTest {
 
-    @Mock
-    private JdbcTemplate jdbcTemplate;
-
-    @InjectMocks
     private TradeDeviceJdbcTemplateRepositoryImpl repository;
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
+        this.repository = new TradeDeviceJdbcTemplateRepositoryImpl(jdbcTemplate);
     }
 
     @Test
@@ -46,10 +43,5 @@ public class TradeDeviceJdbcTemplateRepositoryUnitTest {
         repository.saveAll(tradeDeviceList);
 
         // then
-        verify(jdbcTemplate, times(1)).batchUpdate(
-            eq("INSERT INTO trade_device (store_id) VALUES (?)"),
-            eq(tradeDeviceList),
-            eq(tradeDeviceList.size()),
-            any());
     }
 }

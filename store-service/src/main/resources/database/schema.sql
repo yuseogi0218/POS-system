@@ -11,7 +11,6 @@ CREATE TABLE `store` (
                       `settlement_date` INT NOT NULL,
                       CHECK ( `pos_grade` IN ('BRONZE', 'SILVER', 'GOLD') ),
                       CHECK ( `settlement_date` IN (1, 5, 10, 15, 20, 25)),
-                      FOREIGN KEY (`owner_user_id`) REFERENCES user_table(`id`),
                       UNIQUE (`owner_user_id`)
 );
 

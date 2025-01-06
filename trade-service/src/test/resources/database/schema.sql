@@ -37,11 +37,11 @@ CREATE TABLE `order_table` (
 );
 
 CREATE TABLE `order_detail` (
-                             `id`               BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-                             `order_id`         BIGINT(20) NOT NULL,
-                             `product_id`       BIGINT(20) NOT NULL,
-                             `count`            INT NOT NULL,
-                             `total_amount`     INT NOT NULL,
+                             `id`           BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                             `order_id`     BIGINT NOT NULL,
+                             `product_id`   BIGINT NOT NULL,
+                             `count`        INT NOT NULL,
+                             `total_amount` INT NOT NULL,
                              `created_at`   DATETIME(6) NOT NULL,
                              FOREIGN KEY (`order_id`) REFERENCES order_table(`id`)
 );
@@ -51,6 +51,7 @@ CREATE TABLE `payment` (
                         `trade_id`       BIGINT NOT NULL,
                         `payment_method` VARCHAR(4) NOT NULL,
                         `card_company`   VARCHAR(1) NULL,
+                        `card_fee`       INT NOT NULL,
                         `created_at`     DATETIME(6) NOT NULL,
                         CHECK ( `payment_method` IN ('CASH', 'CARD')),
                         CHECK ( `card_company` IN ('H', 'K', 'S')),

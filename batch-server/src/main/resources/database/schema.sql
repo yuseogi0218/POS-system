@@ -1,5 +1,5 @@
-DROP TABLE IF EXISTS `product_sale_statistic`;
 DROP TABLE IF EXISTS `settlement`;
+DROP TABLE IF EXISTS `product_sale_statistic`;
 
 CREATE TABLE `product_sale_statistic` (
                                        `id`          BIGINT(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
