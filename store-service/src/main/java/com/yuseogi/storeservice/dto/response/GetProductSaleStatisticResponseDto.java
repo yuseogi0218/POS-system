@@ -9,7 +9,6 @@ public record GetProductSaleStatisticResponseDto (
 ) {
     public record Product(
         String name,
-        Integer price,
         Integer saleCount,
         Integer saleAmount
     ) {}

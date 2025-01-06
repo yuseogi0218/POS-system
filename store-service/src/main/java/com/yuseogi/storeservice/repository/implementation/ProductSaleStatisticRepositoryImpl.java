@@ -22,7 +22,6 @@ public class ProductSaleStatisticRepositoryImpl implements ProductSaleStatisticR
         String sql = String.format("""
             SELECT
                 p.name          AS name,
-                p.price         AS price,
                 pss.sale_count  AS sale_count,
                 pss.sale_amount AS sale_amount
             FROM product_sale_statistic pss
@@ -39,7 +38,6 @@ public class ProductSaleStatisticRepositoryImpl implements ProductSaleStatisticR
         RowMapper<GetProductSaleStatisticResponseDto.Product> rowMapper = (ResultSet rs, int rowNum) ->
             new GetProductSaleStatisticResponseDto.Product(
                 rs.getString("name"),
-                rs.getInt("price"),
                 rs.getInt("sale_count"),
                 rs.getInt("sale_amount")
             );
