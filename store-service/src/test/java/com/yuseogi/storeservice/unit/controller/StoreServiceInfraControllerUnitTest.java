@@ -223,7 +223,7 @@ public class StoreServiceInfraControllerUnitTest extends ControllerUnitTest{
     }
 
     private ResultActions requestCreateStore(CreateStoreRequestDto request) throws Exception {
-        return mvc.perform(post("/store")
+        return mvc.perform(post("/infra/store")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
             .andDo(print());
@@ -231,19 +231,19 @@ public class StoreServiceInfraControllerUnitTest extends ControllerUnitTest{
     }
 
     private ResultActions requestGetProductInfo(String productId) throws Exception {
-        return mvc.perform(get("/store/product/{product-id}", productId)
+        return mvc.perform(get("/infra/store/product/{product-id}", productId)
                 .contentType(MediaType.APPLICATION_JSON))
             .andDo(print());
     }
 
     public ResultActions requestCheckAuthorityTradeDevice(String tradeDeviceId, String userId) throws Exception {
-        return mvc.perform(get("/store/trade-device/check-authority/{trade-device-id}", tradeDeviceId)
+        return mvc.perform(get("/infra/store/trade-device/check-authority/{trade-device-id}", tradeDeviceId)
                 .param("user-id", userId))
             .andDo(print());
     }
 
     public ResultActions requestGetTradeDevice(String tradeDeviceId) throws Exception {
-        return mvc.perform(get("/store/trade-device/{trade-device-id}", tradeDeviceId))
+        return mvc.perform(get("/infra/store/trade-device/{trade-device-id}", tradeDeviceId))
             .andDo(print());
     }
 }

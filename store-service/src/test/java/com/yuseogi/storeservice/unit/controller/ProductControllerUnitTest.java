@@ -120,7 +120,7 @@ public class ProductControllerUnitTest extends ControllerUnitTest {
         ResultActions resultActions = requestCreateProduct(userId, nullCategoryRequest);
 
         // then
-        assertErrorWithMessage(CommonErrorCode.INVALID_REQUEST_BODY_FIELDS, resultActions, "상품 카테고리는 MAIN_MENU, SUB_MENU, DRINK 중 하나 이어야 합니다.");
+        assertErrorWithMessage(CommonErrorCode.INVALID_REQUEST_BODY_FIELDS, resultActions, "상품 카테고리는 필수 선택값입니다.");
     }
 
     /**
@@ -137,7 +137,7 @@ public class ProductControllerUnitTest extends ControllerUnitTest {
         ResultActions resultActions = requestCreateProduct(userId, emptyCategoryRequest);
 
         // then
-        assertErrorWithMessage(CommonErrorCode.INVALID_REQUEST_BODY_FIELDS, resultActions, "상품 카테고리는 MAIN_MENU, SUB_MENU, DRINK 중 하나 이어야 합니다.");
+        assertErrorWithMessage(CommonErrorCode.INVALID_REQUEST_BODY_FIELDS, resultActions, "상품 카테고리는 필수 선택값입니다.");
     }
 
     /**
@@ -389,7 +389,7 @@ public class ProductControllerUnitTest extends ControllerUnitTest {
         ResultActions resultActions = requestUpdateProduct(userId, productId, nullCategoryRequest);
 
         // then
-        assertErrorWithMessage(CommonErrorCode.INVALID_REQUEST_BODY_FIELDS, resultActions, "상품 카테고리는 MAIN_MENU, SUB_MENU, DRINK 중 하나 이어야 합니다.");
+        assertErrorWithMessage(CommonErrorCode.INVALID_REQUEST_BODY_FIELDS, resultActions, "상품 카테고리는 필수 선택값입니다.");
     }
 
     /**
@@ -407,7 +407,7 @@ public class ProductControllerUnitTest extends ControllerUnitTest {
         ResultActions resultActions = requestUpdateProduct(userId, productId, emptyCategoryRequest);
 
         // then
-        assertErrorWithMessage(CommonErrorCode.INVALID_REQUEST_BODY_FIELDS, resultActions, "상품 카테고리는 MAIN_MENU, SUB_MENU, DRINK 중 하나 이어야 합니다.");
+        assertErrorWithMessage(CommonErrorCode.INVALID_REQUEST_BODY_FIELDS, resultActions, "상품 카테고리는 필수 선택값입니다.");
     }
 
     /**

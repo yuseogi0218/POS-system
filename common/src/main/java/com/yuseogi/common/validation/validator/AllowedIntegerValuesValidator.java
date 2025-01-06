@@ -1,16 +1,16 @@
 package com.yuseogi.common.validation.validator;
 
-import com.yuseogi.common.validation.constraints.AllowedValues;
+import com.yuseogi.common.validation.constraints.AllowedIntegerValues;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
 import java.util.Arrays;
 
-public class AllowedValuesValidator implements ConstraintValidator<AllowedValues, Integer> {
+public class AllowedIntegerValuesValidator implements ConstraintValidator<AllowedIntegerValues, Integer> {
     private int[] allowedValues;
 
     @Override
-    public void initialize(AllowedValues constraintAnnotation) {
+    public void initialize(AllowedIntegerValues constraintAnnotation) {
         this.allowedValues = constraintAnnotation.allowedValues();
     }
 

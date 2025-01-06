@@ -210,7 +210,7 @@ public class TradeControllerUnitTest extends ControllerUnitTest {
         ResultActions resultActions = requestPayWithCard(userId, tradeDeviceId, nullCardCompanyRequest);
 
         // then
-        assertErrorWithMessage(CommonErrorCode.INVALID_REQUEST_BODY_FIELDS, resultActions, "카드 회사는 K, H, S 중 하나 이어야 합니다.");
+        assertErrorWithMessage(CommonErrorCode.INVALID_REQUEST_BODY_FIELDS, resultActions, "카드 회사는 필수 선택값입니다.");
     }
 
     /**
@@ -228,7 +228,7 @@ public class TradeControllerUnitTest extends ControllerUnitTest {
         ResultActions resultActions = requestPayWithCard(userId, tradeDeviceId, emptyCardCompanyRequest);
 
         // then
-        assertErrorWithMessage(CommonErrorCode.INVALID_REQUEST_BODY_FIELDS, resultActions, "카드 회사는 K, H, S 중 하나 이어야 합니다.");
+        assertErrorWithMessage(CommonErrorCode.INVALID_REQUEST_BODY_FIELDS, resultActions, "카드 회사는 필수 선택값입니다.");
     }
 
     /**

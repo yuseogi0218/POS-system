@@ -229,7 +229,7 @@ public class UserControllerUnitTest extends ControllerUnitTest {
         ResultActions resultActions = requestSignUpKakao(kakaoAccessToken, nullPosGradeRequest);
 
         // then
-        assertErrorWithMessage(CommonErrorCode.INVALID_REQUEST_BODY_FIELDS, resultActions, "POS 시스템 사용 등급은 BRONZE, SILVER, GOLD 중 하나 이어야 합니다.");
+        assertErrorWithMessage(CommonErrorCode.INVALID_REQUEST_BODY_FIELDS, resultActions, "POS 시스템 사용 등급은 필수 선택값입니다.");
     }
 
     /**
@@ -246,7 +246,7 @@ public class UserControllerUnitTest extends ControllerUnitTest {
         ResultActions resultActions = requestSignUpKakao(kakaoAccessToken, emptyPosGradeRequest);
 
         // then
-        assertErrorWithMessage(CommonErrorCode.INVALID_REQUEST_BODY_FIELDS, resultActions, "POS 시스템 사용 등급은 BRONZE, SILVER, GOLD 중 하나 이어야 합니다.");
+        assertErrorWithMessage(CommonErrorCode.INVALID_REQUEST_BODY_FIELDS, resultActions, "POS 시스템 사용 등급은 필수 선택값입니다.");
     }
 
     /**

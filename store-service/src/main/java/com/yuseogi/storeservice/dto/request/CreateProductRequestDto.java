@@ -1,6 +1,6 @@
 package com.yuseogi.storeservice.dto.request;
 
-import com.yuseogi.common.validation.constraints.ValidEnum;
+import com.yuseogi.common.validation.constraints.AllowedStringValues;
 import com.yuseogi.storeservice.entity.ProductEntity;
 import com.yuseogi.storeservice.entity.StoreEntity;
 import com.yuseogi.storeservice.entity.type.ProductCategory;
@@ -13,7 +13,8 @@ public record CreateProductRequestDto(
     @NotEmpty(message = "상품 이름은 필수 입력값입니다.")
     String name,
 
-    @ValidEnum(enumClass = ProductCategory.class, message = "상품 카테고리는 MAIN_MENU, SUB_MENU, DRINK 중 하나 이어야 합니다.")
+    @NotEmpty(message = "상품 카테고리는 필수 선택값입니다.")
+    @AllowedStringValues(allowedValues = {"MAIN_MENU", "SUB_MENU", "DRINK"}, message = "상품 카테고리는 MAIN_MENU, SUB_MENU, DRINK 중 하나 이어야 합니다.")
     String category,
 
     @NotNull(message = "상품 판매 단가는 필수 입력값입니다.")
