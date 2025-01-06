@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
-@RequestMapping("/store")
+@RequestMapping("/infra/store")
 @RestController
 public class StoreServiceInfraController {
 
