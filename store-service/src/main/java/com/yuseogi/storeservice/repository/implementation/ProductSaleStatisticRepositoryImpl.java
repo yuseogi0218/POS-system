@@ -21,26 +21,30 @@ public class ProductSaleStatisticRepositoryImpl implements ProductSaleStatisticR
     public List<GetProductSaleStatisticResponseDto.Product> findBy(Long userId, String category, String dateTerm, LocalDate startDate, String criteria) {
         String sql = String.format("""
             SELECT
-                p.name, p.price, pss.sale_count, pss.sale_amount
+                p.name          AS name,
+                p.price         AS price,
+                pss.sale_count  AS sale_count,
+                pss.sale_amount AS sale_amount
             FROM product_sale_statistic pss
                 JOIN product p ON pss.product_id = p.id
-                JOIN store s ON p.store_id = s.id AND s.owner_user_id = ?
+                JOIN store s ON p.store_id = s.id
             WHERE
-                p.category = ?
+                s.owner_user_id = ?
+                AND p.category = ?
                 AND pss.date_term = ?
                 AND pss.start_date = ?
             ORDER BY pss.%s DESC, p.name ASC LIMIT 5
         """, criteria);
 
+        RowMapper<GetProductSaleStatisticResponseDto.Product> rowMapper = (ResultSet rs, int rowNum) ->
+            new GetProductSaleStatisticResponseDto.Product(
+                rs.getString("name"),
+                rs.getInt("price"),
+                rs.getInt("sale_count"),
+                rs.getInt("sale_amount")
+            );
+
         return jdbcTemplate.query(sql, rowMapper, userId, category, dateTerm, startDate);
     }
-
-    private final RowMapper<GetProductSaleStatisticResponseDto.Product> rowMapper =
-        (ResultSet rs, int rowNum) -> new GetProductSaleStatisticResponseDto.Product(
-            rs.getString("name"),
-            rs.getInt("price"),
-            rs.getInt("sale_count"),
-            rs.getInt("sale_amount")
-        );
 
 }

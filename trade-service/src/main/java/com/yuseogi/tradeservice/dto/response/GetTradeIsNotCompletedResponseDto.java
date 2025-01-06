@@ -8,18 +8,18 @@ import java.util.List;
 public record GetTradeIsNotCompletedResponseDto(
     Long id,
     Integer amount,
-    List<GetOrderResponseDto> orderList,
+    List<Order> orderList,
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     LocalDateTime createdAt
 ) {
-    public record GetOrderResponseDto (
+    public record Order(
         Long id,
         Integer amount,
-        List<GetOrderDetailResponseDto> orderDetailList,
+        List<OrderDetail> orderDetailList,
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
         LocalDateTime createdAt
     ) {
-        public record GetOrderDetailResponseDto (
+        public record OrderDetail(
             Long id,
             String productName,
             String productCategory,

@@ -33,7 +33,7 @@ public class GetTradeIsNotCompletedDtoMapper {
         Map<Long, List<GetTradeIsNotCompletedDto>> groupedByOrder = tradeDetails.stream()
             .collect(Collectors.groupingBy(GetTradeIsNotCompletedDto::orderId));
 
-        List<GetTradeIsNotCompletedResponseDto.GetOrderResponseDto> orderList = groupedByOrder.entrySet().stream()
+        List<GetTradeIsNotCompletedResponseDto.Order> orderList = groupedByOrder.entrySet().stream()
             .map(orderEntry -> {
                 Long orderId = orderEntry.getKey();
                 List<GetTradeIsNotCompletedDto> orderDetails = orderEntry.getValue();
@@ -43,8 +43,8 @@ public class GetTradeIsNotCompletedDtoMapper {
                 LocalDateTime orderCreatedAt = orderDetails.getFirst().orderCreatedAt().toLocalDateTime();
 
                 // Map order details
-                List<GetTradeIsNotCompletedResponseDto.GetOrderResponseDto.GetOrderDetailResponseDto> orderDetailList = orderDetails.stream()
-                    .map(orderDetail -> new GetTradeIsNotCompletedResponseDto.GetOrderResponseDto.GetOrderDetailResponseDto(
+                List<GetTradeIsNotCompletedResponseDto.Order.OrderDetail> orderDetailList = orderDetails.stream()
+                    .map(orderDetail -> new GetTradeIsNotCompletedResponseDto.Order.OrderDetail(
                         orderDetail.orderDetailId(),
                         orderDetail.orderDetailProductName(),
                         orderDetail.orderDetailProductCategory(),
@@ -54,7 +54,7 @@ public class GetTradeIsNotCompletedDtoMapper {
                     ))
                     .collect(Collectors.toList());
 
-                return new GetTradeIsNotCompletedResponseDto.GetOrderResponseDto(
+                return new GetTradeIsNotCompletedResponseDto.Order(
                     orderId,
                     orderAmount,
                     orderDetailList,
