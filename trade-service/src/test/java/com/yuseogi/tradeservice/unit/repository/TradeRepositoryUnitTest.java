@@ -5,7 +5,7 @@ import com.yuseogi.tradeservice.entity.TradeEntity;
 import com.yuseogi.tradeservice.entity.TradeEntityBuilder;
 import com.yuseogi.tradeservice.repository.TradeRepository;
 import com.yuseogi.tradeservice.repository.dto.GetTradeIsNotCompletedDto;
-import com.yuseogi.tradeservice.repository.dto.mapper.GetTradeIsNotCompletedDtoMapper;
+import com.yuseogi.tradeservice.repository.mapper.GetTradeIsNotCompletedDtoMapper;
 import com.yuseogi.tradeservice.dto.response.GetTradeIsNotCompletedResponseDtoBuilder;
 import com.yuseogi.tradeservice.unit.repository.dto.GetTradeIsNotCompletedDtoBuilder;
 import org.assertj.core.api.Assertions;

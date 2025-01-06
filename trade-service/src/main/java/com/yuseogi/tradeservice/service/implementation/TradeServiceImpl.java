@@ -11,7 +11,7 @@ import com.yuseogi.tradeservice.exception.TradeErrorCode;
 import com.yuseogi.tradeservice.infrastructure.client.StoreServiceClient;
 import com.yuseogi.tradeservice.repository.PaymentRepository;
 import com.yuseogi.tradeservice.repository.TradeRepository;
-import com.yuseogi.tradeservice.repository.dto.mapper.GetTradeIsNotCompletedDtoMapper;
+import com.yuseogi.tradeservice.repository.mapper.GetTradeIsNotCompletedDtoMapper;
 import com.yuseogi.tradeservice.service.TradeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

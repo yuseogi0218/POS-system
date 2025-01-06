@@ -1,4 +1,4 @@
-package com.yuseogi.tradeservice.repository.dto.mapper;
+package com.yuseogi.tradeservice.repository.mapper;
 
 
 import com.yuseogi.tradeservice.dto.response.GetTradeIsNotCompletedResponseDto;

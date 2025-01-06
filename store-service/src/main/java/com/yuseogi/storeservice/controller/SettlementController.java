@@ -39,4 +39,20 @@ public class SettlementController {
 
         return ResponseEntity.ok(settlementService.getSettlement(userId, dateTerm, startDate));
     }
+
+    @GetMapping("/detail")
+    public ResponseEntity<?> getSettlementDetail(
+        HttpServletRequest httpServletRequest,
+        @RequestParam("date-term")
+        @NotEmpty(message = "조회 기간은 필수 선택값입니다.")
+        @AllowedStringValues(allowedValues = {"DAY", "MONTH"}, message = "조회 기간은 DAY, MONTH 중 하나 이어야 합니다.")
+        String dateTerm,
+        @RequestParam(value = "start-date")
+        @DateTimeFormat(pattern = "yyyy-MM-dd")
+        LocalDate startDate
+    ) {
+        Long userId = ParseRequestUtil.extractUserIdFromRequest(httpServletRequest);
+
+        return ResponseEntity.ok(settlementService.getSettlementDetail(userId, dateTerm, startDate));
+    }
 }
