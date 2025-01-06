@@ -99,8 +99,8 @@ public class SettlementJobConfig {
                 JOIN store s ON s.id = t.store_id
         """);
         queryProvider.setWhereClause("""
-            :startDate <= DATE(p.created_at) AND DATE(p.created_at) < :endDate AND
-            (:dateTerm = 'DAY' OR s.settlement_date = DAY(:startDate))
+            :startDate <= DATE(p.created_at) AND DATE(p.created_at) < :endDate
+            AND (:dateTerm = 'DAY' OR s.settlement_date = DAY(:startDate))
         """);
         queryProvider.setGroupClause("store_id");
 

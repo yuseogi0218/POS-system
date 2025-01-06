@@ -46,7 +46,7 @@ public class ProductEntityUnitTest {
             .build();
 
         // stub
-        when(store.getId()).thenReturn(1L);
+        when(store.getId()).thenReturn(storeId);
 
         // when
         product.checkAuthority(storeId);

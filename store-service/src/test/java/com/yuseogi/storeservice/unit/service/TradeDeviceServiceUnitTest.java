@@ -27,39 +27,6 @@ public class TradeDeviceServiceUnitTest extends ServiceUnitTest {
     private TradeDeviceRepository tradeDeviceRepository;
 
     /**
-     * 주문용 태블릿 기기 DB Id 기준으로 주문용 태블릿 기기 존재 유무 확인 성공
-     */
-    @Test
-    void checkExistTradeDevice_성공() {
-        // given
-        Long tradeDeviceId = 1L;
-
-        // stub
-        when(tradeDeviceRepository.existsById(tradeDeviceId)).thenReturn(Boolean.TRUE);
-
-        // when
-        tradeDeviceService.checkExistTradeDevice(tradeDeviceId);
-
-        // then
-    }
-
-    /**
-     * 주문용 태블릿 기기 DB Id 기준으로 주문용 태블릿 기기 존재 유무 확인 실패
-     * - 실패 사유 : 존재하지 않는 주문용 태블릿 기기
-     */
-    @Test
-    void checkExistTradeDevice_실패() {
-        // given
-        Long unknownTradeDeviceId = 0L;
-
-        // when & then
-        Assertions.assertThatThrownBy(() -> tradeDeviceService.checkExistTradeDevice(unknownTradeDeviceId))
-            .isInstanceOf(CustomException.class)
-            .hasMessage(StoreErrorCode.NOT_FOUND_TRADE_DEVICE.getMessage());
-        verify(tradeDeviceRepository, times(1)).existsById(unknownTradeDeviceId);
-    }
-
-    /**
      * 주문용 태블릿 기기 DB Id 기준으로 주문용 태블릿 기기 조회 성공
      */
     @Test
@@ -92,6 +59,48 @@ public class TradeDeviceServiceUnitTest extends ServiceUnitTest {
 
         // when & then
         Assertions.assertThatThrownBy(() -> tradeDeviceService.getTradeDevice(unknownTradeDeviceId))
+            .isInstanceOf(CustomException.class)
+            .hasMessage(StoreErrorCode.NOT_FOUND_TRADE_DEVICE.getMessage());
+    }
+
+
+    /**
+     * 상점 엔티티의 주문용 태블릿 기기에 대한 권한 확인 성공
+     */
+    @Test
+    void checkAuthorityTradeDevice_성공() {
+        // given
+        Long storeId = 1L;
+        StoreEntity store = mock(StoreEntity.class);
+        Long tradeDeviceId = 1L;
+        TradeDeviceEntity tradeDevice = mock(TradeDeviceEntity.class);
+
+        // stub
+        when(tradeDeviceRepository.findFirstById(tradeDeviceId)).thenReturn(Optional.of(tradeDevice));
+        when(store.getId()).thenReturn(storeId);
+
+        // when
+        tradeDeviceService.checkAuthorityTradeDevice(store, tradeDeviceId);
+
+        // then
+        verify(tradeDevice, times(1)).checkAuthority(storeId);
+    }
+
+    /**
+     * 상점 엔티티의 주문용 태블릿 기기에 대한 권한 확인 실패
+     * - 실패 사유 : 존재하지 않는 주문용 태블릿 기기
+     */
+    @Test
+    void checkAuthorityTradeDevice_실패_NOT_FOUND_TRADE_DEVICE() {
+        // given
+        StoreEntity store = mock(StoreEntity.class);
+        Long unknownTradeDeviceId = 0L;
+
+        // stub
+        when(tradeDeviceRepository.findFirstById(unknownTradeDeviceId)).thenReturn(Optional.empty());
+
+        // when & then
+        Assertions.assertThatThrownBy(() -> tradeDeviceService.checkAuthorityTradeDevice(store, unknownTradeDeviceId))
             .isInstanceOf(CustomException.class)
             .hasMessage(StoreErrorCode.NOT_FOUND_TRADE_DEVICE.getMessage());
     }

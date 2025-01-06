@@ -30,10 +30,10 @@ public interface TradeRepository extends CrudRepository<TradeEntity, Long> {
     @Query(value = """
         SELECT t.id, t.trade_amount, o.id, o.order_amount, od.id, p.name, p.category, p.price, od.count, od.total_amount, o.created_at, t.created_at 
         FROM trade t
-        JOIN order_table o ON o.trade_id = t.id
-        JOIN order_detail od ON od.order_id = o.id
-        JOIN product p ON p.id = od.product_id
-        WHERE t.trade_device_id = :tradeDeviceId
+            JOIN order_table o ON o.trade_id = t.id
+            JOIN order_detail od ON od.order_id = o.id
+            JOIN product p ON p.id = od.product_id
+        WHERE t.trade_device_id = :tradeDeviceId 
             AND t.is_completed = 'N'
     """, nativeQuery = true)
     List<GetTradeIsNotCompletedDto> findByTradeDeviceAndIsNotCompleted(Long tradeDeviceId);

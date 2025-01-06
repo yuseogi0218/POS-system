@@ -48,6 +48,7 @@ public class TradeControllerUnitTest extends ControllerUnitTest {
     @Test
     void 상점_주인에_의한_주문용_태블릿_기기에서_진행_중인_거래의_주문_내역_조회_성공() throws Exception  {
         // given
+        String userId = "1";
         String tradeDeviceId = "1";
         GetTradeIsNotCompletedResponseDto expectedResponse = mock(GetTradeIsNotCompletedResponseDto.class);
 
@@ -55,7 +56,7 @@ public class TradeControllerUnitTest extends ControllerUnitTest {
         when(tradeService.getTradeInfoIsNotCompleted(Long.valueOf(tradeDeviceId))).thenReturn(expectedResponse);
 
         // when
-        ResultActions resultActions = requestGetTradeIsNotCompletedByStoreOwner(tradeDeviceId);
+        ResultActions resultActions = requestGetTradeIsNotCompletedByStoreOwner(userId, tradeDeviceId);
 
         // then
         String responseString = resultActions
@@ -64,7 +65,7 @@ public class TradeControllerUnitTest extends ControllerUnitTest {
 
         objectMapper.readValue(responseString, GetTradeIsNotCompletedResponseDto.class);
 
-        verify(storeServiceClient, times(1)).checkExistTradeDevice(Long.valueOf(tradeDeviceId));
+        verify(storeServiceClient, times(1)).checkAuthorityTradeDevice(Long.valueOf(tradeDeviceId), Long.valueOf(userId));
     }
 
     /**
@@ -74,10 +75,11 @@ public class TradeControllerUnitTest extends ControllerUnitTest {
     @Test
     void 상점_주인에_의한_주문용_태블릿_기기에서_진행_중인_거래의_주문_내역_조회_실패_PathVariable_trade_device_id_타입() throws Exception  {
         // given
+        String userId = "1";
         String invalidTradeDeviceId = "invalid-trade-device-id";
 
         // when
-        ResultActions resultActions = requestGetTradeIsNotCompletedByStoreOwner(invalidTradeDeviceId);
+        ResultActions resultActions = requestGetTradeIsNotCompletedByStoreOwner(userId, invalidTradeDeviceId);
 
         // then
         assertErrorWithMessage(CommonErrorCode.MISMATCH_PARAMETER_TYPE, resultActions, "trade-device-id");
@@ -104,8 +106,6 @@ public class TradeControllerUnitTest extends ControllerUnitTest {
             .andReturn().getResponse().getContentAsString(StandardCharsets.UTF_8);
 
         objectMapper.readValue(responseString, GetTradeIsNotCompletedResponseDto.class);
-
-        verify(storeServiceClient, times(1)).checkExistTradeDevice(Long.valueOf(tradeDeviceId));
     }
 
     /**
@@ -121,7 +121,6 @@ public class TradeControllerUnitTest extends ControllerUnitTest {
 
         // then
         assertErrorWithMessage(CommonErrorCode.REQUIRED_COOKIE, resultActions, "tradeDeviceId");
-        verify(storeServiceClient, never()).checkExistTradeDevice(anyLong());
     }
 
     /**
@@ -130,14 +129,15 @@ public class TradeControllerUnitTest extends ControllerUnitTest {
     @Test
     void 거래_주문_내역_일괄_현금_결제_성공() throws Exception {
         // given
+        String userId = "1";
         String tradeDeviceId = "1";
 
         // when
-        ResultActions resultActions = requestPayWithCash(tradeDeviceId);
+        ResultActions resultActions = requestPayWithCash(userId, tradeDeviceId);
 
         // then
         resultActions.andExpect(status().isOk());
-        verify(storeServiceClient, times(1)).checkExistTradeDevice(Long.valueOf(tradeDeviceId));
+        verify(storeServiceClient, times(1)).checkAuthorityTradeDevice(Long.valueOf(tradeDeviceId), Long.valueOf(userId));
         verify(tradeService, times(1)).payWithCash(Long.valueOf(tradeDeviceId));
     }
 
@@ -148,10 +148,11 @@ public class TradeControllerUnitTest extends ControllerUnitTest {
     @Test
     void 거래_주문_내역_일괄_현금_결제_실패_PathVariable_trade_device_id_타입() throws Exception {
         // given
+        String userId = "1";
         String invalidTradeDeviceId = "invalid-trade-device-id";
 
         // when
-        ResultActions resultActions = requestPayWithCash(invalidTradeDeviceId);
+        ResultActions resultActions = requestPayWithCash(userId, invalidTradeDeviceId);
 
         // then
         assertErrorWithMessage(CommonErrorCode.MISMATCH_PARAMETER_TYPE, resultActions, "trade-device-id");
@@ -163,15 +164,16 @@ public class TradeControllerUnitTest extends ControllerUnitTest {
     @Test
     void 거래_주문_내역_일괄_카드_결제_성공() throws Exception {
         // given
+        String userId = "1";
         String tradeDeviceId = "1";
         PayWithCardRequestDto request = PayWithCardRequestDtoBuilder.build();
 
         // when
-        ResultActions resultActions = requestPayWithCard(tradeDeviceId, request);
+        ResultActions resultActions = requestPayWithCard(userId, tradeDeviceId, request);
 
         // then
         resultActions.andExpect(status().isOk());
-        verify(storeServiceClient, times(1)).checkExistTradeDevice(Long.valueOf(tradeDeviceId));
+        verify(storeServiceClient, times(1)).checkAuthorityTradeDevice(Long.valueOf(tradeDeviceId), Long.valueOf(userId));
         verify(tradeService, times(1)).payWithCard(Long.valueOf(tradeDeviceId), request);
     }
 
@@ -182,11 +184,12 @@ public class TradeControllerUnitTest extends ControllerUnitTest {
     @Test
     void 거래_주문_내역_일괄_카드_결제_실패_PathVariable_trade_device_id_타입() throws Exception {
         // given
+        String userId = "1";
         String invalidTradeDeviceId = "invalid-trade-device-id";
         PayWithCardRequestDto request = PayWithCardRequestDtoBuilder.build();
 
         // when
-        ResultActions resultActions = requestPayWithCard(invalidTradeDeviceId, request);
+        ResultActions resultActions = requestPayWithCard(userId, invalidTradeDeviceId, request);
 
         // then
         assertErrorWithMessage(CommonErrorCode.MISMATCH_PARAMETER_TYPE, resultActions, "trade-device-id");
@@ -199,11 +202,12 @@ public class TradeControllerUnitTest extends ControllerUnitTest {
     @Test
     void 거래_주문_내역_일괄_카드_결제_실패_RequestBody_cardCompany_필드_null() throws Exception {
         // given
+        String userId = "1";
         String tradeDeviceId = "1";
         PayWithCardRequestDto nullCardCompanyRequest = PayWithCardRequestDtoBuilder.nullCardCompanyBuild();
 
         // when
-        ResultActions resultActions = requestPayWithCard(tradeDeviceId, nullCardCompanyRequest);
+        ResultActions resultActions = requestPayWithCard(userId, tradeDeviceId, nullCardCompanyRequest);
 
         // then
         assertErrorWithMessage(CommonErrorCode.INVALID_REQUEST_BODY_FIELDS, resultActions, "카드 회사는 K, H, S 중 하나 이어야 합니다.");
@@ -216,11 +220,12 @@ public class TradeControllerUnitTest extends ControllerUnitTest {
     @Test
     void 거래_주문_내역_일괄_카드_결제_실패_RequestBody_cardCompany_필드_empty() throws Exception {
         // given
+        String userId = "1";
         String tradeDeviceId = "1";
         PayWithCardRequestDto emptyCardCompanyRequest = PayWithCardRequestDtoBuilder.emptyCardCompanyBuild();
 
         // when
-        ResultActions resultActions = requestPayWithCard(tradeDeviceId, emptyCardCompanyRequest);
+        ResultActions resultActions = requestPayWithCard(userId, tradeDeviceId, emptyCardCompanyRequest);
 
         // then
         assertErrorWithMessage(CommonErrorCode.INVALID_REQUEST_BODY_FIELDS, resultActions, "카드 회사는 K, H, S 중 하나 이어야 합니다.");
@@ -233,18 +238,20 @@ public class TradeControllerUnitTest extends ControllerUnitTest {
     @Test
     void 거래_주문_내역_일괄_카드_결제_실패_RequestBody_cardCompany_필드_유효성() throws Exception {
         // given
+        String userId = "1";
         String tradeDeviceId = "1";
         PayWithCardRequestDto invalidCardCompanyRequest = PayWithCardRequestDtoBuilder.invalidCardCompanyBuild();
 
         // when
-        ResultActions resultActions = requestPayWithCard(tradeDeviceId, invalidCardCompanyRequest);
+        ResultActions resultActions = requestPayWithCard(userId, tradeDeviceId, invalidCardCompanyRequest);
 
         // then
         assertErrorWithMessage(CommonErrorCode.INVALID_REQUEST_BODY_FIELDS, resultActions, "카드 회사는 K, H, S 중 하나 이어야 합니다.");
     }
 
-    private ResultActions requestGetTradeIsNotCompletedByStoreOwner(String tradeDeviceId) throws Exception{
-        return mvc.perform(get("/trade/{trade-device-id}", tradeDeviceId))
+    private ResultActions requestGetTradeIsNotCompletedByStoreOwner(String userId, String tradeDeviceId) throws Exception{
+        return mvc.perform(get("/trade/{trade-device-id}", tradeDeviceId)
+                .header("X-Authorization-userId", userId))
             .andDo(print());
     }
 
@@ -259,13 +266,15 @@ public class TradeControllerUnitTest extends ControllerUnitTest {
             .andDo(print());
     }
 
-    private ResultActions requestPayWithCash(String tradeDeviceId) throws Exception {
-        return mvc.perform(post("/trade/pay/cash/{trade-device-id}", tradeDeviceId))
+    private ResultActions requestPayWithCash(String userId, String tradeDeviceId) throws Exception {
+        return mvc.perform(post("/trade/pay/cash/{trade-device-id}", tradeDeviceId)
+                .header("X-Authorization-userId", userId))
             .andDo(print());
     }
 
-    private ResultActions requestPayWithCard(String tradeDeviceId, PayWithCardRequestDto request) throws Exception {
+    private ResultActions requestPayWithCard(String userId, String tradeDeviceId, PayWithCardRequestDto request) throws Exception {
         return mvc.perform(post("/trade/pay/card/{trade-device-id}", tradeDeviceId)
+                .header("X-Authorization-userId", userId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
             .andDo(print());

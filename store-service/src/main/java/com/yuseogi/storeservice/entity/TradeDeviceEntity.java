@@ -1,5 +1,7 @@
 package com.yuseogi.storeservice.entity;
 
+import com.yuseogi.common.exception.CustomException;
+import com.yuseogi.storeservice.exception.StoreErrorCode;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -24,5 +26,11 @@ public class TradeDeviceEntity {
     @Builder
     public TradeDeviceEntity(StoreEntity store) {
         this.store = store;
+    }
+
+    public void checkAuthority(Long storeId) {
+        if (!this.store.getId().equals(storeId)) {
+            throw new CustomException(StoreErrorCode.DENIED_ACCESS_TO_TRADE_DEVICE);
+        }
     }
 }

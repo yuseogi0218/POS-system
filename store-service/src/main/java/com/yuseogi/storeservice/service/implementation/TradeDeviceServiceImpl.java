@@ -25,10 +25,10 @@ public class TradeDeviceServiceImpl implements TradeDeviceService {
     }
 
     @Override
-    public void checkExistTradeDevice(Long tradeDeviceId) {
-        if (!tradeDeviceRepository.existsById(tradeDeviceId)) {
-            throw new CustomException(StoreErrorCode.NOT_FOUND_TRADE_DEVICE);
-        }
+    public void checkAuthorityTradeDevice(StoreEntity store, Long tradeDeviceId) {
+        TradeDeviceEntity tradeDevice = getTradeDevice(tradeDeviceId);
+
+        tradeDevice.checkAuthority(store.getId());
     }
 
     @Override

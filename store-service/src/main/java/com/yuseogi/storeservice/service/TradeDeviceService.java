@@ -1,7 +1,6 @@
 package com.yuseogi.storeservice.service;
 
 
-import com.yuseogi.storeservice.dto.TradeDeviceInfoDto;
 import com.yuseogi.storeservice.entity.StoreEntity;
 import com.yuseogi.storeservice.entity.TradeDeviceEntity;
 
@@ -11,7 +10,7 @@ public interface TradeDeviceService {
 
     TradeDeviceEntity getTradeDevice(Long tradeDeviceId);
 
-    void checkExistTradeDevice(Long tradeDeviceId);
+    void checkAuthorityTradeDevice(StoreEntity store, Long tradeDeviceId);
 
     void createTradeDevice(StoreEntity store);
 

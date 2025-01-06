@@ -106,19 +106,25 @@ public class StoreServiceInfraControllerUnitTest extends ControllerUnitTest{
     }
 
     /**
-     * 주문용 태블릿 기기 DB Id 기준으로 주문용 태블릿 기기 존재 유무 확인 성공
+     * 상점 엔티티의 주문용 태블릿 기기에 대한 권한 확인 성공
      */
     @Test
-    void 주문용_태블릿_기기_DB_Id_기준으로_주문용_태블릿_기기_존재_유무_확인_성공() throws Exception {
+    void 상점_엔티티의_주문용_태블릿_기기에_대한_권한_확인_성공() throws Exception {
         // given
         String tradeDeviceId = "1";
+        String userId = "1";
+
+        StoreEntity store = mock(StoreEntity.class);
+
+        // stub
+        when(storeService.getStoreByOwnerUser(Long.valueOf(userId))).thenReturn(store);
 
         // when
-        ResultActions resultActions = requestCheckExistTradeDevice(tradeDeviceId);
+        ResultActions resultActions = requestCheckAuthorityTradeDevice(tradeDeviceId, userId);
 
         // then
         resultActions.andExpect(status().isOk());
-        verify(tradeDeviceService, times(1)).checkExistTradeDevice(Long.valueOf(tradeDeviceId));
+        verify(tradeDeviceService, times(1)).checkAuthorityTradeDevice(store, Long.valueOf(tradeDeviceId));
     }
 
     /**
@@ -126,15 +132,50 @@ public class StoreServiceInfraControllerUnitTest extends ControllerUnitTest{
      * - 실패 사유 : PathVariable - trade-device-id 타입
      */
     @Test
-    void 주문용_태블릿_기기_DB_Id_기준으로_주문용_태블릿_기기_존재_유무_확인_실패_PathVariable_trade_device_id_타입() throws Exception {
+    void 상점_엔티티의_주문용_태블릿_기기에_대한_권한_확인_실패_PathVariable_trade_device_id_타입() throws Exception {
         // given
         String invalidTradeDeviceId = "invalid-trade-device-id";
+        String userId = "1";
 
         // when
-        ResultActions resultActions = requestCheckExistTradeDevice(invalidTradeDeviceId);
+        ResultActions resultActions = requestCheckAuthorityTradeDevice(invalidTradeDeviceId, userId);
 
         // then
         assertErrorWithMessage(CommonErrorCode.MISMATCH_PARAMETER_TYPE, resultActions, "trade-device-id");
+    }
+
+    /**
+     * 주문용 태블릿 기기 DB Id 기준으로 주문용 태블릿 기기 존재 유무 확인 실패
+     * - 실패 사유 : userId 파라미터 null
+     */
+    @Test
+    void 상점_엔티티의_주문용_태블릿_기기에_대한_권한_확인_실패_userId_파라미터_null() throws Exception {
+        // given
+        String tradeDeviceId = "1";
+        String nullUserId = null;
+
+        // when
+        ResultActions resultActions = requestCheckAuthorityTradeDevice(tradeDeviceId, nullUserId);
+
+        // then
+        assertErrorWithMessage(CommonErrorCode.REQUIRED_PARAMETER, resultActions, "user-id");
+    }
+
+    /**
+     * 주문용 태블릿 기기 DB Id 기준으로 주문용 태블릿 기기 존재 유무 확인 실패
+     * - 실패 사유 : userId 파라미터 타입
+     */
+    @Test
+    void 상점_엔티티의_주문용_태블릿_기기에_대한_권한_확인_실패_userId_파라미터_타입() throws Exception {
+        // given
+        String tradeDeviceId = "1";
+        String invalidUserId = "invalid-user-id";
+
+        // when
+        ResultActions resultActions = requestCheckAuthorityTradeDevice(tradeDeviceId, invalidUserId);
+
+        // then
+        assertErrorWithMessage(CommonErrorCode.MISMATCH_PARAMETER_TYPE, resultActions, "user-id");
     }
 
     /**
@@ -195,8 +236,9 @@ public class StoreServiceInfraControllerUnitTest extends ControllerUnitTest{
             .andDo(print());
     }
 
-    public ResultActions requestCheckExistTradeDevice(String tradeDeviceId) throws Exception {
-        return mvc.perform(get("/store/trade-device/check-exist/{trade-device-id}", tradeDeviceId))
+    public ResultActions requestCheckAuthorityTradeDevice(String tradeDeviceId, String userId) throws Exception {
+        return mvc.perform(get("/store/trade-device/check-authority/{trade-device-id}", tradeDeviceId)
+                .param("user-id", userId))
             .andDo(print());
     }
 

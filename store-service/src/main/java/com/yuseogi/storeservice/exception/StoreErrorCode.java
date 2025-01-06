@@ -15,7 +15,8 @@ public enum StoreErrorCode implements ErrorCode {
     OUT_OF_STOCK("STORE_400_03", HttpStatus.BAD_REQUEST, "상품의 재고가 부족합니다."),
 
     // 403 FORBIDDEN 인증 필요
-    DENIED_ACCESS_TO_PRODUCT("STORE_404_01", HttpStatus.FORBIDDEN, "상품에 대한 접근 권한이 없습니다."),
+    DENIED_ACCESS_TO_TRADE_DEVICE("STORE_404_01", HttpStatus.FORBIDDEN, "주문용 태블릿 기기에 대한 접근 권한이 없습니다."),
+    DENIED_ACCESS_TO_PRODUCT("STORE_404_02", HttpStatus.FORBIDDEN, "상품에 대한 접근 권한이 없습니다."),
 
     // 404 NOT_FOUND 리소스가 존재하지 않음
     NOT_FOUND_STORE("STORE_404_01", HttpStatus.NOT_FOUND, "존재하지 않는 상점 입니다."),
