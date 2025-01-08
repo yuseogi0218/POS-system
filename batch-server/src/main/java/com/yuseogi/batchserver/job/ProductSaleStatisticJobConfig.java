@@ -1,5 +1,6 @@
 package com.yuseogi.batchserver.job;
 
+import com.yuseogi.batchserver.ItemReader.RedisItemReader;
 import com.yuseogi.batchserver.dao.ProductSaleStatisticDao;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
@@ -8,6 +9,7 @@ import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
+import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.database.JdbcPagingItemReader;
 import org.springframework.batch.item.database.PagingQueryProvider;
@@ -17,6 +19,11 @@ import org.springframework.batch.item.database.support.SqlPagingQueryProviderFac
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.redis.core.HashOperations;
+import org.springframework.data.redis.core.RedisOperations;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.SessionCallback;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
@@ -28,17 +35,21 @@ import java.util.Map;
 @Configuration
 public class ProductSaleStatisticJobConfig {
 
-    private static final int chunkSize = 200;
+    private static final int chunkSize = 1000;
 
     private final DataSource dataSource;
+
+    private final RedisTemplate<String, Object> redisTemplate;
 
     @Bean
     public Job productSaleStatisticJob(
         JobRepository jobRepository,
-        Step createProductSaleStatisticStep
+        Step createProductSaleStatisticStep,
+        Step transferProductSaleStatisticFromRedisToDatabaseStep
     ) {
-        return new JobBuilder("productSaleCountStatisticJob", jobRepository)
+        return new JobBuilder("productSaleStatisticJob", jobRepository)
             .start(createProductSaleStatisticStep)
+            .next(transferProductSaleStatisticFromRedisToDatabaseStep)
             .build();
     }
 
@@ -49,14 +60,14 @@ public class ProductSaleStatisticJobConfig {
     ) throws Exception {
         return new StepBuilder("createProductSaleStatisticStep", jobRepository)
             .<ProductSaleStatisticDao, ProductSaleStatisticDao>chunk(chunkSize, transactionManager)
-            .reader(productSaleStatisticReader(null, null, null))
-            .writer(productSaleStatisticWriter())
+            .reader(productSaleItemReader(null, null, null))
+            .writer(productSaleItemWriter())
             .build();
     }
 
     @Bean
     @StepScope
-    public JdbcPagingItemReader<ProductSaleStatisticDao> productSaleStatisticReader(
+    public JdbcPagingItemReader<ProductSaleStatisticDao> productSaleItemReader(
         @Value("#{jobParameters[dateTerm]}") String dateTerm,
         @Value("#{jobParameters[startDate]}") LocalDate startDate,
         @Value("#{jobParameters[endDate]}") LocalDate endDate
@@ -76,36 +87,92 @@ public class ProductSaleStatisticJobConfig {
                 rs.getInt("sale_count"),
                 rs.getInt("sale_amount")
             ))
-            .queryProvider(productSaleStatisticQueryProvider())
+            .queryProvider(productSaleItemQueryProvider())
             .parameterValues(parameterValues)
-            .name("productSaleStatisticReader")
+            .name("productSaleItemReader")
             .build();
     }
 
     @Bean
-    public PagingQueryProvider productSaleStatisticQueryProvider() throws Exception {
+    public PagingQueryProvider productSaleItemQueryProvider() throws Exception {
         SqlPagingQueryProviderFactoryBean queryProvider = new SqlPagingQueryProviderFactoryBean();
         queryProvider.setDataSource(dataSource);
-        queryProvider.setSelectClause("product_id, sale_count, sale_amount");
-        queryProvider.setFromClause("""
-            FROM (
-                SELECT
-                    p.id                                                                                   AS product_id,
-                    ROW_NUMBER() OVER (PARTITION BY p.store_id ORDER BY SUM(od.count) DESC, p.name)        AS count_ranking,
-                    ROW_NUMBER() OVER (PARTITION BY p.store_id ORDER BY SUM(od.total_amount) DESC, p.name) AS amount_ranking,
-                    SUM(od.count)                                                                          AS sale_count,
-                    SUM(od.total_amount)                                                                   AS sale_amount
-                FROM product p
-                    JOIN order_detail od ON od.product_id = p.id
-                WHERE :startDate <= DATE(od.created_at) AND DATE(od.created_at) < :endDate
-                GROUP BY p.store_id, p.id
-            ) AS ranked_products
+        queryProvider.setSelectClause("""
+            od.id,
+            p.id AS product_id,
+            od.count AS sale_count,
+            od.total_amount AS sale_amount
         """);
-        queryProvider.setWhereClause("count_ranking <= 5 OR amount_ranking <= 5");
-
-        queryProvider.setSortKey("product_id");
+        queryProvider.setFromClause("""
+            From product p
+                JOIN order_detail od ON od.product_id = p.id
+        """);
+        queryProvider.setWhereClause("""
+            :startDate <= DATE(od.created_at) AND DATE(od.created_at) < :endDate
+        """);
+        queryProvider.setSortKey("od.id");
 
         return queryProvider.getObject();
+    }
+
+    @Bean
+    public ItemWriter<ProductSaleStatisticDao> productSaleItemWriter() {
+        return items -> redisTemplate.executePipelined(new SessionCallback<>() {
+            @Override
+            public <K, V> Object execute(RedisOperations<K, V> operations) throws DataAccessException {
+                HashOperations<K, String, Object> hashOperations = operations.opsForHash();
+
+                for (ProductSaleStatisticDao item : items) {
+                    Long productId = item.productId();
+                    String key = "product_sale_statistic" + "-" + item.dateTerm() + "-" + productId;
+
+                    hashOperations.put((K) key, "product_id", productId);
+                    hashOperations.increment((K) key, "sale_count", item.saleCount());
+                    hashOperations.increment((K) key, "sale_amount", item.saleAmount());
+                }
+                return null;
+            }
+        });
+    }
+
+    @Bean
+    public Step transferProductSaleStatisticFromRedisToDatabaseStep(
+        JobRepository jobRepository,
+        PlatformTransactionManager transactionManager
+    ) {
+        return new StepBuilder("transferProductSaleStatisticFromRedisToDatabaseStep", jobRepository)
+            .<Map<String, Object>, ProductSaleStatisticDao>chunk(chunkSize, transactionManager)
+            .reader(productSaleStatisticReader(null))
+            .processor(productSaleStatisticProcessor(null, null))
+            .writer(productSaleStatisticWriter())
+            .build();
+    }
+
+    @Bean
+    @StepScope
+    public RedisItemReader productSaleStatisticReader(
+        @Value("#{jobParameters[dateTerm]}") String dateTerm
+    ) {
+        return new RedisItemReader(redisTemplate, "product_sale_statistic" + "-" + dateTerm + "-*");
+    }
+
+    @Bean
+    @StepScope
+    public ItemProcessor<Map<String, Object>, ProductSaleStatisticDao> productSaleStatisticProcessor(
+        @Value("#{jobParameters[dateTerm]}") String dateTerm,
+        @Value("#{jobParameters[startDate]}") LocalDate startDate
+    ) {
+        return item -> {
+            Map<String, Object> values = item;
+
+            return new ProductSaleStatisticDao(
+                Long.valueOf(values.get("product_id").toString()),
+                dateTerm,
+                startDate,
+                Integer.valueOf(values.get("sale_count").toString()),
+                Integer.valueOf(values.get("sale_amount").toString())
+            );
+        };
     }
 
     @Bean

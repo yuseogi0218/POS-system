@@ -3,8 +3,25 @@ spring:
     activate:
       on-profile: prod
   application:
-    name: ${SPRING_APPLICATION_NAME}
+    name: batch-server
 
-server:
-  port:
-    ${SERVER_PORT}
+  datasource:
+    url: jdbc:mysql://pos-mysql.c94cagmg4v8f.ap-northeast-2.rds.amazonaws.com:3306/pos
+    username: root
+    password: admin_password
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:database/schema.sql
+
+  data:
+    redis:
+      host: redis
+      port: 6379
+
+  batch:
+    jdbc:
+      initialize-schema: always
+    job:
+      enabled: false

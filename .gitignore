@@ -13,6 +13,7 @@ application-dev.yml
 
 # sql
 query.sql
+TestScheduler.java
 
 ### MAC ###
 .DS_Store

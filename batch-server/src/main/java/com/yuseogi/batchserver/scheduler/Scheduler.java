@@ -35,7 +35,7 @@ public class Scheduler {
             .addLocalDate("endDate", endDate)
             .toJobParameters();
         try {
-            jobLauncher.run(jobRegistry.getJob("productSaleCountStatisticJob"), jobParameters);
+            jobLauncher.run(jobRegistry.getJob("productSaleStatisticJob"), jobParameters);
             jobLauncher.run(jobRegistry.getJob("settlementJob"), jobParameters);
         } catch (Exception e) {
             log.error(e.getMessage());
@@ -55,7 +55,7 @@ public class Scheduler {
             .addLocalDate("endDate", endDate)
             .toJobParameters();
         try {
-            jobLauncher.run(jobRegistry.getJob("productSaleCountStatisticJob"), jobParameters);
+            jobLauncher.run(jobRegistry.getJob("productSaleStatisticJob"), jobParameters);
         } catch (Exception e) {
             log.error(e.getMessage());
         }
@@ -73,7 +73,7 @@ public class Scheduler {
             .addLocalDate("endDate", endDate)
             .toJobParameters();
         try {
-            jobLauncher.run(jobRegistry.getJob("productSaleCountStatisticJob"), jobParameters);
+            jobLauncher.run(jobRegistry.getJob("productSaleStatisticJob"), jobParameters);
         } catch (Exception e) {
             log.error(e.getMessage());
         }

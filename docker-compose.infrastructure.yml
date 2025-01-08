@@ -23,6 +23,14 @@ services:
     networks:
       - my-network
 
+  batch-redis:
+    container_name: batch-redis
+    image: redis
+    ports:
+      - "6380:6379"
+    networks:
+      - my-network
+
   zookeeper:
     image: zookeeper:3.9.1
     ports:
