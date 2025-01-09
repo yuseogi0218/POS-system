@@ -1,8 +1,8 @@
 package com.yuseogi.batchserver.job;
 
 import com.yuseogi.batchserver.ItemReader.RedisItemReader;
+import com.yuseogi.batchserver.config.DataSourceConfig;
 import com.yuseogi.batchserver.dao.SettlementDao;
-import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.StepScope;
@@ -16,6 +16,7 @@ import org.springframework.batch.item.database.PagingQueryProvider;
 import org.springframework.batch.item.database.builder.JdbcBatchItemWriterBuilder;
 import org.springframework.batch.item.database.builder.JdbcPagingItemReaderBuilder;
 import org.springframework.batch.item.database.support.SqlPagingQueryProviderFactoryBean;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -31,7 +32,6 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
-@RequiredArgsConstructor
 @Configuration
 public class SettlementJobConfig {
 
@@ -40,6 +40,13 @@ public class SettlementJobConfig {
     private final DataSource dataSource;
 
     private final RedisTemplate<String, Object> redisTemplate;
+
+    public SettlementJobConfig(
+        @Qualifier(DataSourceConfig.SERVICE_DATASOURCE) DataSource dataSource,
+        RedisTemplate<String, Object> redisTemplate) {
+        this.dataSource = dataSource;
+        this.redisTemplate = redisTemplate;
+    }
 
     @Bean
     public Job settlementJob(

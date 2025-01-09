@@ -12,12 +12,15 @@ out
 application-dev.yml
 
 # sql
+meta-schema.sql
 query.sql
 TestScheduler.java
 
 ### MAC ###
 .DS_Store
 db
+meta-db
+service-db
 ### Eclipse ###
 .metadata
 bin/

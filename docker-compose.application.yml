@@ -48,7 +48,7 @@ services:
         condition: service_healthy
     environment:
       SPRING_APPLICATION_NAME: user-service
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/pos?allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_URL: jdbc:mysql://service-db:3306/pos?allowPublicKeyRetrieval=true
       SPRING_DATASOURCE_USERNAME: ${MYSQL_ROOT_USERNAME}
       SPRING_DATASOURCE_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       SPRING_DATASOURCE_DRIVER: com.mysql.cj.jdbc.Driver
@@ -75,7 +75,7 @@ services:
         condition: service_healthy
     environment:
       SPRING_APPLICATION_NAME: store-service
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/pos?allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_URL: jdbc:mysql://service-db:3306/pos?allowPublicKeyRetrieval=true
       SPRING_DATASOURCE_USERNAME: ${MYSQL_ROOT_USERNAME}
       SPRING_DATASOURCE_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       SPRING_DATASOURCE_DRIVER: com.mysql.cj.jdbc.Driver
@@ -97,7 +97,7 @@ services:
         condition: service_healthy
     environment:
       SPRING_APPLICATION_NAME: trade-service
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/pos?allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_URL: jdbc:mysql://service-db:3306/pos?allowPublicKeyRetrieval=true
       SPRING_DATASOURCE_USERNAME: ${MYSQL_ROOT_USERNAME}
       SPRING_DATASOURCE_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       SPRING_DATASOURCE_DRIVER: com.mysql.cj.jdbc.Driver
