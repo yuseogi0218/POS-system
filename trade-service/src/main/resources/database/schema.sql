@@ -33,6 +33,8 @@ CREATE TABLE `order_detail` (
                              FOREIGN KEY (`order_id`) REFERENCES order_table(`id`),
                              FOREIGN KEY (`product_id`) REFERENCES product(`id`)
 );
+-- Index 추가
+CREATE INDEX idx_order_detail_created_at ON order_detail (created_at);
 
 CREATE TABLE `payment` (
                         `id`             BIGINT(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -45,3 +47,5 @@ CREATE TABLE `payment` (
                         CHECK ( `card_company` IN ('H', 'K', 'S') ),
                         FOREIGN KEY (`trade_id`) REFERENCES trade(`id`)
 );
+-- Index 추가
+CREATE INDEX idx_payment_created_at ON payment (created_at);

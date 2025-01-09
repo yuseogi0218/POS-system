@@ -13,6 +13,8 @@ CREATE TABLE `store` (
                       CHECK ( `settlement_date` IN (1, 5, 10, 15, 20, 25)),
                       UNIQUE (`owner_user_id`)
 );
+-- Index 추가
+CREATE INDEX idx_store_settlement_date ON store (settlement_date);
 
 CREATE TABLE `trade_device` (
                              `id`       BIGINT(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,

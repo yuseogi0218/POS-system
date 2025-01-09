@@ -76,6 +76,7 @@ public class SettlementJobConfig {
         parameterValues.put("dateTerm", dateTerm);
         parameterValues.put("startDate", startDate);
         parameterValues.put("endDate", endDate);
+        parameterValues.put("dayOfEndDate", endDate.getDayOfMonth());
 
         return new JdbcPagingItemReaderBuilder<SettlementDao>()
             .pageSize(chunkSize)
@@ -106,13 +107,13 @@ public class SettlementJobConfig {
             p.card_fee     AS fee
         """);
         queryProvider.setFromClause("""
-            FROM payment p
-                JOIN trade t ON p.trade_id = t.id
-                JOIN store s ON s.id = t.store_id
+            FROM store s
+                 JOIN trade t ON s.id = t.store_id
+                 JOIN payment p ON t.id = p.trade_id
         """);
         queryProvider.setWhereClause("""
-            :startDate <= DATE(p.created_at) AND DATE(p.created_at) < :endDate
-            AND (:dateTerm = 'DAY' OR s.settlement_date = DAY(:startDate))
+            :startDate <= p.created_at AND p.created_at < :endDate
+            AND (:dateTerm = 'DAY' OR s.settlement_date = :dayOfEndDate)
         """);
 
         queryProvider.setSortKey("p.id");

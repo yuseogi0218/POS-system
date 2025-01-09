@@ -108,7 +108,7 @@ public class ProductSaleStatisticJobConfig {
                 JOIN order_detail od ON od.product_id = p.id
         """);
         queryProvider.setWhereClause("""
-            :startDate <= DATE(od.created_at) AND DATE(od.created_at) < :endDate
+            :startDate <= od.created_at AND od.created_at < :endDate
         """);
         queryProvider.setSortKey("od.id");
 
