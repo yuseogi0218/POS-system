@@ -28,7 +28,7 @@ services:
         condition: service_healthy
     environment:
       SPRING_APPLICATION_NAME: gateway-service
-      SPRING_DATA_REDIS_HOST: redisdb
+      SPRING_DATA_REDIS_HOST: service-redis
       SPRING_DATA_REDIS_PORT: 6379
       SERVER_PORT: 8000
       JWT_SECRET_KEY: ${JWT_SECRET_KEY}
@@ -52,7 +52,7 @@ services:
       SPRING_DATASOURCE_USERNAME: ${MYSQL_ROOT_USERNAME}
       SPRING_DATASOURCE_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       SPRING_DATASOURCE_DRIVER: com.mysql.cj.jdbc.Driver
-      SPRING_DATA_REDIS_HOST: redisdb
+      SPRING_DATA_REDIS_HOST: service-redis
       SPRING_DATA_REDIS_PORT: 6379
       SERVER_PORT: 9001
       EUREKA_CLIENT_REGISTER_WITH_EUREKA: true
@@ -114,11 +114,18 @@ services:
     container_name: batch-server
     ports:
       - "9004:9004"
-    networks:
-      - my-network
     environment:
       SPRING_APPLICATION_NAME: batch-server
+      SPRING_DATASOURCE_URL: jdbc:mysql://service-db:3306/pos?allowPublicKeyRetrieval=true
+      SPRING_META_DATASOURCE_URL: jdbc:mysql://meta-db:3306/meta?allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: ${MYSQL_ROOT_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      SPRING_DATASOURCE_DRIVER: com.mysql.cj.jdbc.Driver
+      SPRING_DATA_REDIS_HOST: batch-redis
+      SPRING_DATA_REDIS_PORT: 6379
       SERVER_PORT: 9004
+    networks:
+      - my-network
 
 networks:
   my-network:

@@ -37,3 +37,10 @@ eureka:
     non-secure-port-enabled: true
     metadata-map:
       instanceId: ${spring.application.name}:${random.value}
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus

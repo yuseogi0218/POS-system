@@ -3,25 +3,37 @@ spring:
     activate:
       on-profile: prod
   application:
-    name: batch-server
+    name: ${SPRING_APPLICATION_NAME}
 
   datasource:
-    url: jdbc:mysql://pos-mysql.c94cagmg4v8f.ap-northeast-2.rds.amazonaws.com:3306/pos
-    username: root
-    password: admin_password
-    driver-class-name: com.mysql.cj.jdbc.Driver
-  sql:
-    init:
-      mode: always
-      schema-locations: classpath:database/schema.sql
-
-  data:
-    redis:
-      host: redis
-      port: 6379
+    service:
+      jdbc-url: ${SPRING_DATASOURCE_URL}
+      username: ${SPRING_DATASOURCE_USERNAME}
+      password: ${SPRING_DATASOURCE_PASSWORD}
+      driver-class-name: ${SPRING_DATASOURCE_DRIVER}
+    meta:
+      jdbc-url: ${SPRING_META_DATASOURCE_URL}
+      username: ${SPRING_DATASOURCE_USERNAME}
+      password: ${SPRING_DATASOURCE_PASSWORD}
+      driver-class-name: ${SPRING_DATASOURCE_DRIVER}
 
   batch:
     jdbc:
       initialize-schema: always
     job:
       enabled: false
+
+  data:
+    redis:
+      host: ${SPRING_DATA_REDIS_HOST}
+      port: ${SPRING_DATA_REDIS_PORT}
+
+server:
+  port:
+    ${SERVER_PORT}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus

@@ -19,6 +19,7 @@ TestScheduler.java
 ### MAC ###
 .DS_Store
 db
+grafana-data
 meta-db
 service-db
 ### Eclipse ###

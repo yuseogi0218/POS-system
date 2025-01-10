@@ -58,3 +58,10 @@ resilience4j:
     instances:
       pos-circuit-breaker:
         base-config: default
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus

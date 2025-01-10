@@ -32,7 +32,7 @@ services:
       - my-network
 
   redisdb:
-    container_name: redisdb
+    container_name: service-redis
     image: redis
     ports:
       - "6379:6379"

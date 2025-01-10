@@ -19,6 +19,7 @@ COPY --from=builder /app/eureka-server/build/libs/*.jar app.jar
 
 # Spring Boot 설정 파일 복사
 COPY --from=builder /app/eureka-server/src/main/resources/application.yml /app/application.yml
+COPY --from=builder /app/eureka-server/src/main/resources/application-prod.yml /app/application-prod.yml
 
 # 컨테이너 실행 시 Spring Boot 애플리케이션 실행
 ENTRYPOINT ["java", "-jar", "app.jar", "--spring.config.location=file:/app/application.yml"]
