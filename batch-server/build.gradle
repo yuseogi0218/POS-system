@@ -23,12 +23,20 @@ dependencies {
 
 	// redis
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+	// prometheus
+	implementation 'io.micrometer:micrometer-registry-prometheus-simpleclient'
+	implementation 'io.prometheus:simpleclient_pushgateway'
 }
 
 configurations {
+	all*.exclude group: 'org.springframework.boot', module: 'spring-boot-starter-web'
 	all*.exclude group: 'org.springframework.boot', module: 'spring-boot-starter-data-jpa'
 	all*.exclude group: 'org.springframework.cloud', module: 'spring-cloud-starter-openfeign'
 	all*.exclude group: 'org.springframework.boot', module: 'spring-boot-starter-validation'
+
+	all*.exclude group: 'org.springframework.boot', module: 'spring-boot-starter-actuator'
+	all*.exclude group: 'io.micrometer', module: 'micrometer-registry-prometheus'
 
 	all*.exclude group: 'org.springframework.boot', module: 'spring-boot-starter-test'
 	all*.exclude group: 'com.h2database', module: 'h2'
