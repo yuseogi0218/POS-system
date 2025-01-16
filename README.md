@@ -85,7 +85,7 @@ Ver 1 : GROUP BY + SUM 쿼리를 활용한 집계 수행, Ver 2 : Redis 를 통�
 ## 프로젝트 실행 방법
 1. Github Repository Clone
 2. Kakao 개발자 센터 App 등록 및 설정 For OAuth Login 
-3. env 파일 생성 및 아래 항목 설정
+3. .env 파일 생성 및 아래 항목 설정
     ```properties
     MYSQL_ROOT_USERNAME={username}
     MYSQL_ROOT_PASSWORD={password}
@@ -103,8 +103,13 @@ Ver 1 : GROUP BY + SUM 쿼리를 활용한 집계 수행, Ver 2 : Redis 를 통�
     docker compose -f docker-compose.monitoring.yml -p pos up -d
     ```
 5. database 접속 및 schema.sql 의 DDL 실행
-- schema-service.sql -> service-db (:3307)
-- schema-meta.sql -> meta-db (:3308)
+- service-db (:3307)
+  - [user-domain](user-service/src/main/resources/database/schema.sql)
+  - [store-domain](store-service/src/main/resources/database/schema.sql)
+  - [trade-domain](trade-service/src/main/resources/database/schema.sql)
+  - [batch-server](batch-server/src/main/resources/database/schema.sql)
+- meta-db (:3308)
+  - [batch-server](batch-server/src/main/resources/database/meta-schema.sql)
 ---
 
 **프로젝트 참고**

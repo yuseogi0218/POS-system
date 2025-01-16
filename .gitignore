@@ -12,7 +12,6 @@ out
 application-dev.yml
 
 # sql
-meta-schema.sql
 query.sql
 TestScheduler.java
 
