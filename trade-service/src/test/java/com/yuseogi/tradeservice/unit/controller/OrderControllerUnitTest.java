@@ -124,7 +124,7 @@ public class OrderControllerUnitTest extends ControllerUnitTest {
     }
 
     private ResultActions requestCreateOrder(String tradeDeviceId, CreateOrderRequestDto request) throws Exception {
-        return mvc.perform(post("/trade/order")
+        return mvc.perform(post("/order")
                 .cookie(new MockCookie("tradeDeviceId", tradeDeviceId))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
@@ -132,7 +132,7 @@ public class OrderControllerUnitTest extends ControllerUnitTest {
     }
 
     private ResultActions requestCreateOrderWithOutCookie(CreateOrderRequestDto request) throws Exception {
-        return mvc.perform(post("/trade/order")
+        return mvc.perform(post("/order")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
             .andDo(print());

@@ -355,13 +355,13 @@ public class UserControllerUnitTest extends ControllerUnitTest {
     }
 
     private ResultActions requestLoginKakao(String token) throws Exception {
-        return mvc.perform(post("/user/login/kakao")
+        return mvc.perform(post("/login/kakao")
                 .param("token", token))
             .andDo(print());
     }
 
     private ResultActions requestSignUpKakao(String token, SignUpKakaoRequestDto request) throws Exception {
-        return mvc.perform(post("/user/kakao")
+        return mvc.perform(post("/kakao")
                 .contentType(MediaType.APPLICATION_JSON)
                 .param("token", token)
                 .content(objectMapper.writeValueAsString(request)))
@@ -369,18 +369,18 @@ public class UserControllerUnitTest extends ControllerUnitTest {
     }
 
     private ResultActions requestReIssue(String refreshToken) throws Exception {
-        return mvc.perform(post("/user/re-issue")
+        return mvc.perform(post("/re-issue")
                 .cookie(new MockCookie("refreshToken", refreshToken)))
             .andDo(print());
     }
 
     private ResultActions requestReIssueWithOutCookie() throws Exception {
-        return mvc.perform(post("/user/re-issue"))
+        return mvc.perform(post("/re-issue"))
             .andDo(print());
     }
 
     private ResultActions requestLogout(String accessToken) throws Exception {
-        return mvc.perform(post("/user/logout")
+        return mvc.perform(post("/logout")
                 .header("X-Authorization-accessToken", accessToken))
             .andDo(print());
     }

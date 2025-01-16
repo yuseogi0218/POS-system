@@ -69,7 +69,7 @@ public class TradeDeviceControllerUnitTest extends ControllerUnitTest {
     }
 
     private ResultActions requestGetTradeDeviceList(String userId) throws Exception {
-        return mvc.perform(get("/store/trade-device")
+        return mvc.perform(get("/trade-device")
                 .header("X-Authorization-userId", userId))
             .andDo(print());
     }

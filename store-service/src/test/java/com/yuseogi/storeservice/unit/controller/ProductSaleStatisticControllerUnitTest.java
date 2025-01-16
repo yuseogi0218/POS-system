@@ -130,7 +130,7 @@ public class ProductSaleStatisticControllerUnitTest extends ControllerUnitTest {
     }
 
     private ResultActions requestGetProductSaleStatistic(String userId, String category, String dateTerm, String startDate, String criteria) throws Exception {
-        return mvc.perform(get("/store/product/sale/statistic")
+        return mvc.perform(get("/product/sale/statistic")
                 .header("X-Authorization-userId", userId)
                 .queryParam("category", category)
                 .queryParam("date-term", dateTerm)

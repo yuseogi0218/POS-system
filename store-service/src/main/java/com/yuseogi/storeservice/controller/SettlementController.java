@@ -18,7 +18,7 @@ import java.time.LocalDate;
 
 @Validated
 @RequiredArgsConstructor
-@RequestMapping("/store/settlement")
+@RequestMapping("/settlement")
 @RestController
 public class SettlementController {
 

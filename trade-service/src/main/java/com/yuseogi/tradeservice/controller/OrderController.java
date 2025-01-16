@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
-@RequestMapping("/trade/order")
+@RequestMapping("/order")
 @RestController
 public class OrderController {
 

@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.*;
 @FeignClient(name = "store-service")
 public interface StoreServiceClient {
 
-    @GetMapping("/infra/store/product/{product-id}")
+    @GetMapping("/infra/product/{product-id}")
     ProductInfoDto getProductInfo(@PathVariable("product-id") Long productId);
 
-    @GetMapping("/infra/store/trade-device/check-authority/{trade-device-id}")
+    @GetMapping("/infra/trade-device/check-authority/{trade-device-id}")
     void checkAuthorityTradeDevice(@PathVariable("trade-device-id") Long tradeDeviceId, @RequestParam("user-id") Long userId);
 
-    @GetMapping("/infra/store/trade-device/{trade-device-id}")
+    @GetMapping("/infra/trade-device/{trade-device-id}")
     TradeDeviceInfoDto getTradeDevice(@PathVariable("trade-device-id") Long tradeDeviceId);
 
 }

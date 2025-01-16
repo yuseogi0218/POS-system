@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
-@RequestMapping("/store/trade-device")
+@RequestMapping("/trade-device")
 @RestController
 public class TradeDeviceController {
 

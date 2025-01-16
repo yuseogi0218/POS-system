@@ -28,7 +28,7 @@
                     // kakaoAccessToken 을 이용한 서비스 로그인 시도
                     var kakaoAccessToken = response.access_token;
                     $.ajax({
-                        url: 'http://localhost:8000/user-service/user/login/kakao?token=' + kakaoAccessToken,
+                        url: 'http://localhost:8000/user/login/kakao?token=' + kakaoAccessToken,
                         type: 'POST',
                         contentType: 'application/json; charset=UTF-8',
                         dataType: 'json',

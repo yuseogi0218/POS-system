@@ -16,35 +16,35 @@ spring:
         - id: user-service
           uri: lb://user-service
           predicates:
-            - Path=/user-service/image/**
+            - Path=/user/image/**
             - Method=GET
           filters:
             - StripPrefix=1
         - id: user-service
           uri: lb://user-service
           predicates:
-            - Path=/user-service/page/**
+            - Path=/user/page/**
             - Method=GET
           filters:
             - StripPrefix=1
         - id: user-service
           uri: lb://user-service
           predicates:
-            - Path=/user-service/user/login/kakao
+            - Path=/user/login/kakao
             - Method=POST
           filters:
             - StripPrefix=1
         - id: user-service
           uri: lb://user-service
           predicates:
-            - Path=/user-service/user/kakao
+            - Path=/user/kakao
             - Method=POST
           filters:
             - StripPrefix=1
         - id: user-service
           uri: lb://user-service
           predicates:
-            - Path=/user-service/user/re-issue
+            - Path=/user/re-issue
             - Method=POST
           filters:
             - StripPrefix=1
@@ -52,7 +52,7 @@ spring:
         - id: user-service
           uri: lb://user-service
           predicates:
-            - Path=/user-service/**
+            - Path=/user/**
           filters:
             - StripPrefix=1
             - name: JwtAuthFilter
@@ -60,7 +60,7 @@ spring:
         - id: store-service
           uri: lb://store-service
           predicates:
-            - Path=/store-service/**
+            - Path=/store/**
           filters:
             - StripPrefix=1
             - name: JwtAuthFilter
@@ -68,14 +68,14 @@ spring:
         - id: trade-service
           uri: lb://trade-service
           predicates:
-            - Path=/trade-service/trade/order
+            - Path=/trade/order
             - Method=POST
           filters:
             - StripPrefix=1
         - id: trade-service
           uri: lb://trade-service
           predicates:
-            - Path=/trade-service/trade
+            - Path=/trade
             - Method=GET
           filters:
             - StripPrefix=1
@@ -83,7 +83,7 @@ spring:
         - id: trade-service
           uri: lb://trade-service
           predicates:
-            - Path=/trade-service/**
+            - Path=/trade/**
           filters:
             - StripPrefix=1
             - name: JwtAuthFilter

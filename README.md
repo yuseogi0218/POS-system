@@ -100,7 +100,7 @@ Ver 1 : GROUP BY + SUM 쿼리를 활용한 집계 수행, Ver 2 : Redis 를 통�
     
     KAKAO_CLIENT_ID={kakao_client_id}
     KAKAO_ACCOUNT_URI="https://kapi.kakao.com/v2/user/me"
-    KAKAO_REDIRECT_URI="http://localhost:8000/user-service/page/signup?oauth=kakao"
+    KAKAO_REDIRECT_URI="http://localhost:8000/user/page/signup?oauth=kakao"
     ``` 
 4. docker compose file 실행
     ```shell

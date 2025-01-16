@@ -469,7 +469,7 @@ public class ProductControllerUnitTest extends ControllerUnitTest {
     }
 
     private ResultActions requestCreateProduct(String userId, CreateProductRequestDto request) throws Exception {
-        return mvc.perform(post("/store/product")
+        return mvc.perform(post("/product")
                 .header("X-Authorization-userId", userId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
@@ -477,24 +477,24 @@ public class ProductControllerUnitTest extends ControllerUnitTest {
     }
 
     private ResultActions requestGetProductListWithTradeDeviceId(String tradeDeviceId) throws Exception {
-        return mvc.perform(get("/store/product")
+        return mvc.perform(get("/product")
                 .cookie(new MockCookie("tradeDeviceId", tradeDeviceId)))
             .andDo(print());
     }
 
     private ResultActions requestGetProductListWithAuthorization(String userId) throws Exception {
-        return mvc.perform(get("/store/product")
+        return mvc.perform(get("/product")
                 .header("X-Authorization-userId", userId))
             .andDo(print());
     }
 
     private ResultActions requestGetProductListWithOutAuthentication() throws Exception {
-        return mvc.perform(get("/store/product"))
+        return mvc.perform(get("/product"))
             .andDo(print());
     }
 
     private ResultActions requestUpdateProduct(String userId, String productId, UpdateProductRequestDto request) throws Exception {
-        return mvc.perform(patch("/store/product/{product-id}", productId)
+        return mvc.perform(patch("/product/{product-id}", productId)
                 .header("X-Authorization-userId", userId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
@@ -502,13 +502,13 @@ public class ProductControllerUnitTest extends ControllerUnitTest {
     }
 
     private ResultActions requestDeleteProduct(String userId, String productId) throws Exception {
-        return mvc.perform(delete("/store/product/{product-id}", productId)
+        return mvc.perform(delete("/product/{product-id}", productId)
                 .header("X-Authorization-userId", userId))
             .andDo(print());
     }
 
     private ResultActions requestReStock(String userId) throws Exception {
-        return mvc.perform(patch("/store/product/re-stock")
+        return mvc.perform(patch("/product/re-stock")
                 .header("X-Authorization-userId", userId))
             .andDo(print());
     }

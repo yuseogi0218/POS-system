@@ -18,7 +18,7 @@ import java.time.LocalDate;
 
 @Validated
 @RequiredArgsConstructor
-@RequestMapping("/store/product")
+@RequestMapping("/product")
 @RestController
 public class ProductSaleStatisticController {
 

@@ -10,6 +10,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 @FeignClient(name="store-service")
 public interface StoreServiceClient {
 
-    @PostMapping("/infra/store")
+    @PostMapping("/infra")
     void createStore(@RequestBody CreateStoreRequestDto request);
 }

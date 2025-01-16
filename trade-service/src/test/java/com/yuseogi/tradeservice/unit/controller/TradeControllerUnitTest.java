@@ -250,30 +250,30 @@ public class TradeControllerUnitTest extends ControllerUnitTest {
     }
 
     private ResultActions requestGetTradeIsNotCompletedByStoreOwner(String userId, String tradeDeviceId) throws Exception{
-        return mvc.perform(get("/trade/{trade-device-id}", tradeDeviceId)
+        return mvc.perform(get("/{trade-device-id}", tradeDeviceId)
                 .header("X-Authorization-userId", userId))
             .andDo(print());
     }
 
     private ResultActions requestGetTradeIsNotCompletedByTradeDevice(String tradeDeviceId) throws Exception {
-        return mvc.perform(get("/trade")
+        return mvc.perform(get("")
                 .cookie(new MockCookie("tradeDeviceId", tradeDeviceId)))
             .andDo(print());
     }
 
     private ResultActions requestGetTradeIsNotCompletedByTradeDeviceWithOutCookie() throws Exception {
-        return mvc.perform(get("/trade"))
+        return mvc.perform(get(""))
             .andDo(print());
     }
 
     private ResultActions requestPayWithCash(String userId, String tradeDeviceId) throws Exception {
-        return mvc.perform(post("/trade/pay/cash/{trade-device-id}", tradeDeviceId)
+        return mvc.perform(post("/pay/cash/{trade-device-id}", tradeDeviceId)
                 .header("X-Authorization-userId", userId))
             .andDo(print());
     }
 
     private ResultActions requestPayWithCard(String userId, String tradeDeviceId, PayWithCardRequestDto request) throws Exception {
-        return mvc.perform(post("/trade/pay/card/{trade-device-id}", tradeDeviceId)
+        return mvc.perform(post("/pay/card/{trade-device-id}", tradeDeviceId)
                 .header("X-Authorization-userId", userId)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))

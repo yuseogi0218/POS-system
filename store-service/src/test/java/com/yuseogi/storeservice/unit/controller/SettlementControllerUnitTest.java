@@ -148,7 +148,7 @@ public class SettlementControllerUnitTest extends ControllerUnitTest {
     }
 
     private ResultActions requestGetSettlement(String userId, String dateTerm, String startDate) throws Exception {
-        return mvc.perform(get("/store/settlement")
+        return mvc.perform(get("/settlement")
                 .header("X-Authorization-userId", userId)
                 .queryParam("date-term", dateTerm)
                 .queryParam("start-date", startDate))
@@ -156,7 +156,7 @@ public class SettlementControllerUnitTest extends ControllerUnitTest {
     }
 
     private ResultActions requestGetSettlementDetail(String userId, String dateTerm, String startDate) throws Exception {
-        return mvc.perform(get("/store/settlement/detail")
+        return mvc.perform(get("/settlement/detail")
                 .header("X-Authorization-userId", userId)
                 .queryParam("date-term", dateTerm)
                 .queryParam("start-date", startDate))
