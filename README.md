@@ -83,8 +83,28 @@ Ver 1 : GROUP BY + SUM 쿼리를 활용한 집계 수행, Ver 2 : Redis 를 통�
 ### 기술적 의사 결정 ⚒️ → [링크](https://yuseogi0218.notion.site/17b5a0fb76958069a9fde8646ebeb35b)
 
 ## 프로젝트 실행 방법
-
-
+1. Github Repository Clone
+2. Kakao 개발자 센터 App 등록 및 설정 For OAuth Login 
+3. env 파일 생성 및 아래 항목 설정
+    ```properties
+    MYSQL_ROOT_USERNAME={username}
+    MYSQL_ROOT_PASSWORD={password}
+    
+    JWT_SECRET_KEY={secret key}
+    
+    KAKAO_CLIENT_ID={kakao_client_id}
+    KAKAO_ACCOUNT_URI="https://kapi.kakao.com/v2/user/me"
+    KAKAO_REDIRECT_URI="http://localhost:8000/user-service/page/signup?oauth=kakao"
+    ``` 
+4. docker compose file 실행
+    ```shell
+    docker compose -f docker-compose.infrastructure.yml -p pos up -d
+    docker compose -f docker-compose.application.yml -p pos up -d
+    docker compose -f docker-compose.monitoring.yml -p pos up -d
+    ```
+5. database 접속 및 schema.sql 의 DDL 실행
+- schema-service.sql -> service-db (:3307)
+- schema-meta.sql -> meta-db (:3308)
 ---
 
 **프로젝트 참고**
