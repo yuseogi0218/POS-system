@@ -3,8 +3,34 @@
 <img width="711" alt="image" src="https://github.com/user-attachments/assets/1bb8ade1-0c61-473b-9ce9-91119aaa6044" />
 
 ### 음식점을 대상으로 한 POS(Point Of Sale) 시스템 및 정산 시스템
-- 상점 주인과 고객을 위한 상품 주문 및 거래 결제 기능 제공 
-- 상점 주인을 위한 상품 판매 통계 및 거래 정산을 위한 배치 프로그램 및 확장성을 고려한 설계 적용 
+- 상점 주인과 고객을 위한 상품 주문 및 거래 완료(가상 결제) 기능 제공 
+- 상점 주인을 위한 상품 판매 통계 및 거래 정산을 위한 **배치 프로그램 및 확장성을 고려한 설계 적용**
+---
+
+**👨‍💻1인 프로젝트**
+
+**프로젝트 수행 기간** : 2024.12.18 ~ 2025.01.18
+
+**Backend**
+
+![Java](https://img.shields.io/badge/-Java-333333?style=flat&logo=Java&logoColor=007396)
+![springboot](https://img.shields.io/badge/-springboot-333333?style=flat&logo=springboot)
+![springbatch](https://img.shields.io/badge/-springbatch-333333?style=flat&logo=Buffer)
+![springsecurity](https://img.shields.io/badge/-springsecurity-333333?style=flat&logo=springsecurity)
+![MySQL](https://img.shields.io/badge/-MySQL-333333?style=flat&logo=mysql)
+![Redis](https://img.shields.io/badge/-Redis-333333?style=flat&logo=Redis)
+![Kafka](https://img.shields.io/badge/-Kafka-333333?style=flat&logo=apachekafka)
+
+**DevOps & Testing**
+
+![Git](https://img.shields.io/badge/-Git-333333?style=flat&logo=git)
+![GitHub](https://img.shields.io/badge/-GitHub-333333?style=flat&logo=github)
+![Docker](https://img.shields.io/badge/-Docker-333333?style=flat&logo=docker)
+![Prometheus](https://img.shields.io/badge/-Prometheus-333333?style=flat&logo=prometheus)
+![Grafana](https://img.shields.io/badge/-Grafana-333333?style=flat&logo=grafana)
+![Postman](https://img.shields.io/badge/-Postman-333333?style=flat&logo=postman)
+![AWS-EC2](https://img.shields.io/badge/-AmazonEC2-333333?style=flat&logo=AmazonEC2)
+![AWS-EC2](https://img.shields.io/badge/-AmazonRDS-333333?style=flat&logo=AmazonRDS)
 
 ---
 ## 프로젝트 기술적 경험
