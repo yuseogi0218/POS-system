@@ -13,10 +13,13 @@
 
 **Backend**
 
-![Java](https://img.shields.io/badge/-Java-333333?style=flat&logo=Java&logoColor=007396)
+![Java](https://img.shields.io/badge/-Java-333333?style=flat&logo=Java)
 ![springboot](https://img.shields.io/badge/-springboot-333333?style=flat&logo=springboot)
-![springbatch](https://img.shields.io/badge/-springbatch-333333?style=flat&logo=Buffer)
+![springdatajpa](https://img.shields.io/badge/-springdataJPA-333333?style=flat&logo=spring)
+![springcloud](https://img.shields.io/badge/-springcloud-333333?style=flat&logo=iCloud&logoColor=6DB33F)
+![springbatch](https://img.shields.io/badge/-springbatch-333333?style=flat&logo=Buffer&logoColor=6DB33F)
 ![springsecurity](https://img.shields.io/badge/-springsecurity-333333?style=flat&logo=springsecurity)
+![JWT](https://img.shields.io/badge/-JWT-333333?style=flat&logo=jsonwebtokens)
 ![MySQL](https://img.shields.io/badge/-MySQL-333333?style=flat&logo=mysql)
 ![Redis](https://img.shields.io/badge/-Redis-333333?style=flat&logo=Redis)
 ![Kafka](https://img.shields.io/badge/-Kafka-333333?style=flat&logo=apachekafka)
@@ -26,6 +29,7 @@
 ![Git](https://img.shields.io/badge/-Git-333333?style=flat&logo=git)
 ![GitHub](https://img.shields.io/badge/-GitHub-333333?style=flat&logo=github)
 ![Docker](https://img.shields.io/badge/-Docker-333333?style=flat&logo=docker)
+![Pushgateway](https://img.shields.io/badge/-Pushgateway-333333?style=flat&logo=prometheus&logoColor=2480E6)
 ![Prometheus](https://img.shields.io/badge/-Prometheus-333333?style=flat&logo=prometheus)
 ![Grafana](https://img.shields.io/badge/-Grafana-333333?style=flat&logo=grafana)
 ![Postman](https://img.shields.io/badge/-Postman-333333?style=flat&logo=postman)
