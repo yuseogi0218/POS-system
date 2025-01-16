@@ -73,14 +73,18 @@ Ver 1 : GROUP BY + SUM 쿼리를 활용한 집계 수행, Ver 2 : Redis 를 통�
 ---
 
 ## ERD 🪣
+> 이미지 클릭 시, 확대하여 자세히 보실 수 있습니다.
+
 ![ERD](https://github.com/user-attachments/assets/db3acfb8-2c9c-432f-81a1-5614ab57b4d2)
 
 ---
 
-### 기능 명세서 📋 → [링크](https://yuseogi0218.notion.site/1605a0fb7695810c8b2cc0581a52eef4)
-### API 문서 🛰️ → [링크](https://yuseogi0218.notion.site/API-1605a0fb769581be8a15d55ab6dd59a4)
-### Error Code 🚫 → [링크](https://yuseogi0218.notion.site/Error-Code-1605a0fb7695813bb382d3e1ba8b20e8)
-### 기술적 의사 결정 ⚒️ → [링크](https://yuseogi0218.notion.site/17b5a0fb76958069a9fde8646ebeb35b)
+- ### 기능 명세서 📋 → [링크](https://yuseogi0218.notion.site/1605a0fb7695810c8b2cc0581a52eef4)
+- ### API 문서 🛰️ → [링크](https://yuseogi0218.notion.site/API-1605a0fb769581be8a15d55ab6dd59a4)
+- ### Error Code 🚫 → [링크](https://yuseogi0218.notion.site/Error-Code-1605a0fb7695813bb382d3e1ba8b20e8)
+- ### 기술적 의사 결정 ⚒️ → [링크](https://yuseogi0218.notion.site/17b5a0fb76958069a9fde8646ebeb35b)
+
+---
 
 ## 프로젝트 실행 방법
 1. Github Repository Clone
@@ -103,13 +107,13 @@ Ver 1 : GROUP BY + SUM 쿼리를 활용한 집계 수행, Ver 2 : Redis 를 통�
     docker compose -f docker-compose.monitoring.yml -p pos up -d
     ```
 5. database 접속 및 schema.sql 의 DDL 실행
-- service-db (:3307)
-  - [user-domain](user-service/src/main/resources/database/schema.sql)
-  - [store-domain](store-service/src/main/resources/database/schema.sql)
-  - [trade-domain](trade-service/src/main/resources/database/schema.sql)
-  - [batch-server](batch-server/src/main/resources/database/schema.sql)
-- meta-db (:3308)
-  - [batch-server](batch-server/src/main/resources/database/meta-schema.sql)
+    - service-db (:3307)
+      - [user-domain](user-service/src/main/resources/database/schema.sql)
+      - [store-domain](store-service/src/main/resources/database/schema.sql)
+      - [trade-domain](trade-service/src/main/resources/database/schema.sql)
+      - [batch-server](batch-server/src/main/resources/database/schema.sql)
+    - meta-db (:3308)
+      - [batch-server](batch-server/src/main/resources/database/meta-schema.sql)
 ---
 
 **프로젝트 참고**
