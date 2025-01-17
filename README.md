@@ -1,5 +1,5 @@
 # POS 정산 시스템 
-### 프로젝트 기획 문서 🗂️ → [링크](https://yuseogi0218.notion.site/POS-1615a0fb769580e39a1efa20872be862)
+### 프로젝트 기획 문서 🗂️ → [링크](https://yuseogi0218.notion.site/POS-17e5a0fb7695816fa036d16d9dc9f609)
 <img width="711" alt="image" src="https://github.com/user-attachments/assets/1bb8ade1-0c61-473b-9ce9-91119aaa6044" />
 
 ### 음식점을 대상으로 한 POS(Point Of Sale) 시스템 및 정산 시스템
@@ -34,7 +34,8 @@
 ![Grafana](https://img.shields.io/badge/-Grafana-333333?style=flat&logo=grafana)
 ![Postman](https://img.shields.io/badge/-Postman-333333?style=flat&logo=postman)
 ![AWS-EC2](https://img.shields.io/badge/-AmazonEC2-333333?style=flat&logo=AmazonEC2)
-![AWS-EC2](https://img.shields.io/badge/-AmazonRDS-333333?style=flat&logo=AmazonRDS)
+![AWS-RDS](https://img.shields.io/badge/-AmazonRDS-333333?style=flat&logo=AmazonRDS)
+![JUnit](https://img.shields.io/badge/-JUnit5-333333?style=flat&logo=JUnit5)
 
 ---
 
@@ -69,7 +70,7 @@
 ![Architecture](https://github.com/user-attachments/assets/5eb9c3fd-7e20-44e0-9930-fba6973f36be)
 
 
-### 2. 서비스 규모 증가 및 확장성을 고려한 배치 프로그램 설계 적용 → [자세히 보기](https://yuseogi0218.notion.site/Batch-Server-17a5a0fb769580e8b291c483422351d9)
+### 2. 서비스 규모 증가 및 확장성을 고려한 배치 프로그램 설계 적용 → [자세히 보기](https://yuseogi0218.notion.site/Batch-Server-17e5a0fb7695815dba38f77c84460b1f)
 ![New Architecture](https://github.com/user-attachments/assets/e75c6491-e747-4258-aadf-9a7c8d9e30d4)
 
 - Database에서 GROUP BY + SUM 쿼리를 통해서 수행하던 집계 역할을, Redis 가 대신 수행하는 설계
@@ -109,7 +110,7 @@ Ver 1 : GROUP BY + SUM 쿼리를 활용한 집계 수행, Ver 2 : Redis 를 통�
 
 ![trade-service](https://github.com/user-attachments/assets/28d3ddfe-b1dc-4a45-be14-396b2e6de775)
 
-### 4. 프로젝트 문서화 진행 → [링크](https://yuseogi0218.notion.site/hanghae99-project)
+### 4. 프로젝트 문서화 진행 → [링크](https://yuseogi0218.notion.site/pos-settlement-system)
 - 프로젝트 진행 시, 내용 정리 및 진행사항 트래킹을 위해 문서화 작업 수행
 - 항해99 취업 리부트 코스 6기 - 우수 프로젝트 기록 선정
 
@@ -129,10 +130,10 @@ Ver 1 : GROUP BY + SUM 쿼리를 활용한 집계 수행, Ver 2 : Redis 를 통�
 
 ---
 
-- ### 기능 명세서 📋 → [링크](https://yuseogi0218.notion.site/1605a0fb7695810c8b2cc0581a52eef4)
-- ### API 문서 🛰️ → [링크](https://yuseogi0218.notion.site/API-1605a0fb769581be8a15d55ab6dd59a4)
-- ### Error Code 🚫 → [링크](https://yuseogi0218.notion.site/Error-Code-1605a0fb7695813bb382d3e1ba8b20e8)
-- ### 기술적 의사 결정 ⚒️ → [링크](https://yuseogi0218.notion.site/17b5a0fb76958069a9fde8646ebeb35b)
+- ### 기능 명세서 📋 → [링크](https://yuseogi0218.notion.site/17e5a0fb769581f099eef1587bab2d7b)
+- ### API 문서 🛰️ → [링크](https://yuseogi0218.notion.site/API-17e5a0fb76958142b2c2f62329f4eb8d)
+- ### Error Code 🚫 → [링크](https://yuseogi0218.notion.site/Error-Code-17e5a0fb769581abbf2afbe4da2bf628)
+- ### 기술적 의사 결정 ⚒️ → [링크](https://yuseogi0218.notion.site/17e5a0fb769581f39c33c981122bc2e0)
 
 ---
 
