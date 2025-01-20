@@ -75,7 +75,7 @@
 - **JUnit**을 활용한 통합 및 단위 테스트 코드 작성 - xx% Line Coverage 달성
 
 ---
-## Spring Batch 를 활용한 배치 프로그램 및 서비스 확장을 고려한 설계 적용 → 🔗 [자세히 보기](https://yuseogi0218.notion.site/Batch-Server-17e5a0fb7695815dba38f77c84460b1f)
+## Spring Batch 를 활용한 배치 프로그램 및 서비스 확장을 고려한 설계 적용<br>→ 🔗 [자세히 보기](https://yuseogi0218.notion.site/Batch-Server-17e5a0fb7695815dba38f77c84460b1f)
 - 대용량 데이터 처리에 적합한 Chunk 기반 설계 적용
 - JdbcPagingItemReader 와 JdbcBatchItemWriter 를 활용한 배치 프로그램 구성
 
