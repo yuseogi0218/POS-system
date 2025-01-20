@@ -6,8 +6,6 @@ build
 .idea
 out
 
-.env
-
 # yml
 application-dev.yml
 
