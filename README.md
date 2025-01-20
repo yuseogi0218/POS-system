@@ -11,6 +11,7 @@
 
 **프로젝트 수행 기간** : 2024.12.18 ~ 2025.01.18
 
+### 사용 기술 스택
 **Backend**
 
 ![Java](https://img.shields.io/badge/-Java-333333?style=flat&logo=Java)
