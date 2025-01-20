@@ -75,7 +75,7 @@
 - **JUnit**을 활용한 통합 및 단위 테스트 코드 작성 - xx% Line Coverage 달성
 
 ---
-## Spring Batch 를 활용한 배치 프로그램 및 서비스 확장을 고려한 설계 적용
+## Spring Batch 를 활용한 배치 프로그램 및 서비스 확장을 고려한 설계 적용 → 🔗 [자세히 보기](https://yuseogi0218.notion.site/Batch-Server-17e5a0fb7695815dba38f77c84460b1f)
 - 대용량 데이터 처리에 적합한 Chunk 기반 설계 적용
 - JdbcPagingItemReader 와 JdbcBatchItemWriter 를 활용한 배치 프로그램 구성
 
@@ -106,7 +106,7 @@
 - 또한 서비스의 도메인(데이터베이스 스키마) 증가 및 데이터 누적으로 인해 서비스의 규모가 커지면,<br>집계 쿼리 작성 및 유지보수에 더 많은 리소스가 필요함 
 
 
-### Ver 2. 서비스 규모 증가 및 확장성을 고려한 배치 프로그램 설계 적용 → 🔗 [자세히 보기](https://yuseogi0218.notion.site/Batch-Server-17e5a0fb7695815dba38f77c84460b1f)
+### Ver 2. 서비스 규모 증가 및 확장성을 고려한 배치 프로그램 설계 적용 → 🔗 [자세히 보기](https://yuseogi0218.notion.site/ItemReader-Group-by-Redis-Aggregation-17e5a0fb76958132bac6c59f1bbd1cfe)
 ![New Architecture](https://github.com/user-attachments/assets/e75c6491-e747-4258-aadf-9a7c8d9e30d4)
 - Database에서 GROUP BY + SUM 쿼리를 통해서 수행하던 집계 역할을, Redis 가 대신 수행하는 설계
   - 쿼리 작성 및 유지보수에 대한 리소스 절약과 쿼리 실행 계획의 단순화를 통해 대규모 데이터 처리 시, 성능 향상 기대
@@ -130,19 +130,22 @@ Ver 1 : GROUP BY + SUM 쿼리를 활용한 집계 수행, Ver 2 : Redis 를 활�
   - 또한, 쿼리가 단순해져서 코드 작성 및 유지보수도 더욱 간결해질 수 있음
 <br><br>
 - 결론적으로, 집계 연산을 어디에서 수행할지는 유지보수성과 성능의 균형이 중요한 요소
-  <br>성능 기준점을 충족하는 범위 내에서, 서비스 특성과 향후 확장성을 고려하여 유지보수에 적합한 설계를 선택하는 것이 최선의 선택
+  <br>성능 기준점을 충족하는 범위 내에서, 서비스 특성과 확장성을 고려하여 유지보수에 적합한 설계를 선택하는 것이 최선의 선택
 
 ---
 
 ## 프로젝트 문서화 진행 🗒️ → [링크](https://yuseogi0218.notion.site/pos-settlement-system)
 - 프로젝트 진행 시, 내용 정리 및 진행사항 트래킹을 위해 문서화 작업 수행
 - 항해99 취업 리부트 코스 6기 - 우수 프로젝트 기록 선정
-
-
+  <br><br>
 - **기능 명세서 📋** → [링크](https://yuseogi0218.notion.site/17e5a0fb769581f099eef1587bab2d7b)
+  - 서비스의 비즈니스 기능에 대한 상세 내용을 정리한 문서
 - **API 문서 🛰️**️ → [링크](https://yuseogi0218.notion.site/API-17e5a0fb76958142b2c2f62329f4eb8d)
+  - 서비스의 비즈니스 기능에 대한 API 명세를 정리한 문서
 - **Error Code 🚫** → [링크](https://yuseogi0218.notion.site/Error-Code-17e5a0fb769581abbf2afbe4da2bf628)
+  - API 호출 시, 발생할 수 있는 예외 코드를 정리한 문서
 - **기술적 의사 결정️ ⚒️** → [링크](https://yuseogi0218.notion.site/17e5a0fb769581f39c33c981122bc2e0)
+  - 프로젝트 진행 시, 요구 사항을 구현하기 위한 기술 선택의 이유 및 근거를 정리한 문서
 
 ---
 
