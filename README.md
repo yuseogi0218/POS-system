@@ -142,7 +142,7 @@ Ver 1 : GROUP BY + SUM 쿼리를 활용한 집계 수행, Ver 2 : Redis 를 활�
   <br><br>
 - **기능 명세서 📋** → [링크](https://yuseogi0218.notion.site/17e5a0fb769581f099eef1587bab2d7b)
   - 서비스의 비즈니스 기능에 대한 상세 내용을 정리한 문서
-- **API 문서 🛰️**️ → [링크](https://yuseogi0218.notion.site/API-17e5a0fb76958142b2c2f62329f4eb8d)
+- **API 명세서 🛰️**️ → [링크](https://yuseogi0218.notion.site/API-17e5a0fb76958142b2c2f62329f4eb8d)
   - 서비스의 비즈니스 기능에 대한 API 명세를 정리한 문서
 - **Error Code 🚫** → [링크](https://yuseogi0218.notion.site/Error-Code-17e5a0fb769581abbf2afbe4da2bf628)
   - API 호출 시, 발생할 수 있는 예외 코드를 정리한 문서
