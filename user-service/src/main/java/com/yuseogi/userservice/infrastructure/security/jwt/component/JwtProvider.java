@@ -40,7 +40,7 @@ public class JwtProvider {
     }
 
     /**
-     * email, authorityList 을 가지고 AccessToken, RefreshToken 을 생성
+     * userId, authorityList 을 가지고 AccessToken, RefreshToken 을 생성
      */
     public TokenInfoResponseDto generateToken(Long userId, List<String> authorityList) {
 

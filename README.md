@@ -73,7 +73,7 @@
 - **Choreography Saga 패턴** 적용을 통한 분산 환경에서의 트랜잭션 제어 (With Kafka)
 - **Prometheus With Pushgateway & Grafana** 를 통한 애플리케이션 및 배치 프로그램 모니터링 구성
 - **Docker Compose** 로 컨테이너 기반의 통합 개발/배포 환경 구성
-- **JUnit**을 활용한 통합 및 단위 테스트 코드 작성 - xx% Line Coverage 달성
+- **JUnit**을 활용한 통합 및 단위 테스트 코드 작성 - 비즈니스 코드 98% Line Coverage 달성
 
 ---
 ## Spring Batch 를 활용한 배치 프로그램 및 서비스 확장을 고려한 설계 적용<br>→ 🔗 [자세히 보기](https://yuseogi0218.notion.site/Batch-Server-17e5a0fb7695815dba38f77c84460b1f)
